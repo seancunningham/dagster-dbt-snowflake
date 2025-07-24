@@ -42,7 +42,7 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
 
         return super().get_asset_key(dbt_resource_props)
 
-    def get_group_name(self, dbt_resource_props: Mapping[str, Any]) -> str:
+    def get_group_name(self, dbt_resource_props: Mapping[str, Any]) -> str | None:
         prop_key = "name"
         if dbt_resource_props.get("version"):
             prop_key = "alias"
@@ -54,11 +54,11 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
         return super().get_group_name(dbt_resource_props)
 
     def get_partitions_def(self, dbt_resource_props: Mapping[str, Any]) -> Optional[dg.PartitionsDefinition]:
-        meta = dbt_resource_props.get("config").get("meta", {}).get("dagster", {})
+        meta = dbt_resource_props.get("config", {}).get("meta", {}).get("dagster", {})
         return get_partitions_def_from_meta(meta)
 
     def get_automation_condition(self, dbt_resource_props: Mapping[str, Any]) -> Optional[dg.AutomationCondition]:
-        meta = dbt_resource_props.get("config").get("meta", {}).get("dagster", {})
+        meta = dbt_resource_props.get("config", {}).get("meta", {}).get("dagster", {})
         automation_condition = get_automation_condition_from_meta(meta)
         if automation_condition:
              return automation_condition

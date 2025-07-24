@@ -11,7 +11,7 @@ from .factory import sling_factory
 config_dir = Path(__file__).joinpath(*[".."], "configs").resolve()
 
 @definitions
-def defs():
+def defs() -> dg.Definitions:
     connections, assets, freshness_checks = sling_factory(config_dir)
     freshness_sensor = dg.build_sensor_for_freshness_checks(
         freshness_checks=freshness_checks,

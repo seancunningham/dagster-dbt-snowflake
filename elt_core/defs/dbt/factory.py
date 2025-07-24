@@ -15,10 +15,10 @@ from elt_core.defs.dbt.resources import dbt
 
 @cache
 def dbt_assets_factory(
-    name: str = None,
+    name: str | None = None,
     partitioned: bool = False,
-    select: None | str = DBT_DEFAULT_SELECT,
-    exclude: None | str = None
+    select: str = DBT_DEFAULT_SELECT,
+    exclude: str | None = None
     ) -> dg.AssetsDefinition:
     
     dbt_project = dbt()
