@@ -1,0 +1,24 @@
+models:
+  - name: stg_accounts_db__accounts_pii
+    description: Plain text version of PII columns
+    columns:
+      - name: account_id
+        description: the unique identifier of the account
+        data_type: varchar
+        data_tests:
+          - not_null
+          - unique
+      - name: account_first_name
+        description: first name of the account holder
+        data_type: varchar
+      - name: account_last_name
+        description: last name of the account holder
+        data_type: varchar
+      - name: account_email
+        description: email of the account holder
+        data_type: varchar
+      - name: _loaded_at
+        description: date loaded from source utc
+        data_type: timestamp_ntz
+        data_tests:
+          - not_null

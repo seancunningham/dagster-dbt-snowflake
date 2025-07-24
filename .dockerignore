@@ -1,0 +1,16 @@
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+*.duckdb
+*.wal
+**/conda.yml
+**/logs/
+.env
+.*
+!.gitignore
+values.yaml
+Dockerfile
+**/target/*
+!**/*manifest.json
+*.ps1
+Dockerfile

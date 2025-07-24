@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: entity_resolution
+    database: raw 
+    schema: entity_resolution
+    tables:
+      - name: individual_party_keys

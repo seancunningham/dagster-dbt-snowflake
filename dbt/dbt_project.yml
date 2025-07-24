@@ -1,0 +1,50 @@
+name: 'dbt_core'
+version: '1.0.0'
+
+query-comment:
+  comment: "snowflake_dagster_dbt_v1_opaque_id[[[{{ node.unique_id }}:{{ invocation_id }}]]]"
+  append: true
+
+profile: 'dbt'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+ 
+models:
+  dbt:
+    +group: common
+
+    staging:
+      +group: staging
+    
+    intermediate:
+      +group: common
+      int_marketing: 
+        +group: marketing
+
+    marts:
+      mrt_marketing:
+        +group: marketing
+      
+
+tests:
+  dbt:
+    +group: common
+
+seeds:
+  dbt:
+    +group: common
+    mrt_marketing:
+      +group: marketing
+
+snapshots:
+  dbt:
+    +group: snapshot

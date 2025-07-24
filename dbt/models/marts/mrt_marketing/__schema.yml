@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: dim_marketing__dim_campaigns
+    meta:
+      dagster:
+        freshness_check:
+          lower_bound_delta_seconds: 4200 # 70 mins
+
+    columns:
+      - name: campaign_sid
+        description: Unique identifier for the campaign
+        data_type: varchar
+        data_tests:
+          - not_null
+          - unique
+      - name: campaign_source
+        description: The marketing platform that served the campaign
+        data_type: varchar
+        data_tests:
+          - not_null
+      - name: campaign_id
+        description: The id of the campaign
+        data_type: number
+        data_tests:
+          - not_null
+      - name: campaign_name
+        description: The name of the campaign set by the marketing team
+        data_type: varchar
+      - name: campaign_start_date
+        description: When the campaign started
+        data_type: date
+      - name: _loaded_at
+        description: When the record was loaded from source
+        data_type: timestamp_ntz
+    description: Dimension containing all campaigns running across the marketing platforms
