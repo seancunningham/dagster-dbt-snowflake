@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Callable
 from datetime import datetime
 from inspect import signature
 
@@ -8,18 +8,19 @@ from elt_core.defs.automation_conditions import CustomAutomationCondition
 
 
 
-def get_automation_condition_from_meta(meta: dict[str: Any]) -> dg.AutomationCondition | None:
+def get_automation_condition_from_meta(meta: dict[str, Any]) -> dg.AutomationCondition | None:
 
     condition_name = meta.get("automation_condition")
     if condition_name:
         condition = CustomAutomationCondition.get_automation_condition(condition_name)
         condition_config = meta.get("automation_condition_config") or {}
         if condition_config and isinstance(condition_config, dict):
-            condition_config = sanitize_input_signature(condition, condition_config)
-        return condition(**condition_config)
+            if isinstance(condition, Callable):
+                condition_config = sanitize_input_signature(condition, condition_config)
+                return condition(**condition_config)
     return None
 
-def get_partitions_def_from_meta(meta: dict[str: Any]) -> dg.TimeWindowPartitionsDefinition:
+def get_partitions_def_from_meta(meta: dict[str, Any]) -> dg.TimeWindowPartitionsDefinition | None:
     try:
         partition = meta.get("partition")
         partition_start_date = meta.get("partition_start_date")
@@ -38,7 +39,7 @@ def get_partitions_def_from_meta(meta: dict[str: Any]) -> dg.TimeWindowPartition
     except Exception: ...
     return None
 
-def sanitize_input_signature(func: callable, kwargs: dict) -> dict:
+def sanitize_input_signature(func: Callable, kwargs: dict) -> dict:
     """Remove any arguments that are not expected by the recieving function"""
     sig = signature(func)
     key_words = list(kwargs.keys())
