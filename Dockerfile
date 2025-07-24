@@ -17,9 +17,6 @@ FROM python:3.12-slim-bullseye AS builder
         cd -- "$(dirname "$(find /root/.sling/ -type f -name sling | head -1)")" && \
         strip sling && upx sling
 
-    COPY key_vault/dist/key_vault-0.1.0-py3-none-any.whl /key_vault-0.1.0-py3-none-any.whl
-    RUN uv pip install --system key_vault-0.1.0-py3-none-any.whl
-
 
 FROM python:3.12-slim-bullseye AS dagster_elt_core
 

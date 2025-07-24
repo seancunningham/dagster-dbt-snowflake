@@ -22,7 +22,7 @@ dbt:
       warehouse: compute_wh
     dev:
       account: "{{ env_var('DESTINATION__SNOWFLAKE__HOST', '') }}"
-      user: "{{ env_var('DESTINATION__SNOWFLAKE__USER', '') }}"
+      user: "{{ env_var('DESTINATION__SNOWFLAKE__USER', 'astaus') }}"
       password: "{{ env_var('DESTINATION__SNOWFLAKE__PASSWORD', '') }}"
       role: "{{ env_var('DESTINATION__SNOWFLAKE__ROLE', '') }}"
       database: _dev_analytics

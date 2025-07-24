@@ -4,7 +4,7 @@ import dagster as dg
 from dagster.components import definitions
 from dagster_dlt import DagsterDltResource
 
-from elt_core.utils.secrets import SecretClient
+from elt_core.key_vault import SecretClient
 
 
 @definitions

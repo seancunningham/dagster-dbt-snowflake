@@ -15,6 +15,9 @@ dependencies = [
         "psutil",
 ]
 
+[tool.setuptools.package-dir]
+mypkg = "elt_core"
+
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"

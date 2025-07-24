@@ -5,6 +5,7 @@ secrets.toml
 **/*.py[cod]
 **/*$py.class
 logs/
+*.egg-info
 
 key_vault/
 
