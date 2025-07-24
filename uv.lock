@@ -7,12 +7,6 @@ resolution-markers = [
     "sys_platform == 'emscripten'",
 ]
 
-[manifest]
-members = [
-    "elt-core",
-    "key-vault",
-]
-
 [[package]]
 name = "agate"
 version = "1.9.1"
@@ -791,7 +785,6 @@ dependencies = [
     { name = "dagster-sling" },
     { name = "dagster-snowflake" },
     { name = "dbt-snowflake" },
-    { name = "key-vault" },
     { name = "psutil" },
 ]
 
@@ -811,7 +804,6 @@ requires-dist = [
     { name = "dagster-sling", specifier = "==0.27.2" },
     { name = "dagster-snowflake", specifier = "==0.27.2" },
     { name = "dbt-snowflake", specifier = "==1.10.0" },
-    { name = "key-vault", editable = "key_vault" },
     { name = "psutil" },
 ]
 
@@ -1206,11 +1198,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/bf/ce/46fbd9c8119cfc358
 wheels = [
     { url = "https://files.pythonhosted.org/packages/01/0e/b27cdbaccf30b890c40ed1da9fd4a3593a5cf94dae54fb34f8a4b74fcd3f/jsonschema_specifications-2025.4.1-py3-none-any.whl", hash = "sha256:4653bffbd6584f7de83a67e0d620ef16900b390ddc7939d56684d6c81e33f1af", size = 18437, upload-time = "2025-04-23T12:34:05.422Z" },
 ]
-
-[[package]]
-name = "key-vault"
-version = "0.1.0"
-source = { editable = "key_vault" }
 
 [[package]]
 name = "keyring"
