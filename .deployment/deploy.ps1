@@ -4,9 +4,9 @@ Write-Host("`BUILDING DBT")
 
 $dbt_path = ".\dbt"
 echo "cleaning target"
-# %log = dbt clean --project-dir $dbt_path --no-clean-project-files-only
+$log = dbt clean --project-dir $dbt_path --no-clean-project-files-only
 echo "installing dependancies"
-# $log = dbt deps --project-dir $dbt_path
+$log = dbt deps --project-dir $dbt_path
 echo "parsing manifest"
 $log = dbt parse --project-dir $dbt_path --profiles-dir $dbt_path --target prod
 
@@ -25,7 +25,7 @@ if (!(Test-Path -Path $defer_path -PathType Container)) {
 Copy-Item -Path $dbt_path"\target\manifest.json" -Destination $defer_path -Force
 
 echo "creating docs"
-# $log = dbt docs generate --project-dir $dbt_path
+$log = dbt docs generate --project-dir $dbt_path --target prod
 
 
 
