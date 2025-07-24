@@ -1,0 +1,16 @@
+{
+    "dbt_sources":{
+        "prefix": "scaffold_dbt_sources",
+        "scope": "yaml,yml",
+        "body": [
+            "version: 2",
+            "",
+            "sources:",
+            "- name: ${1:source_name}",
+            "    database: ${2:raw} ",
+            "    schema: ${3:$1}",
+            "    tables:",
+            "    - name: ${4:table_name}",
+        ]
+    }
+}

@@ -13,9 +13,8 @@ project_dir = Path(__file__).joinpath(*[".."]*4, "dbt/").resolve()
 def dbt() -> DbtProject:
     project = DbtProject(
         project_dir=project_dir
-        # target=
     )
-    # project.prepare_if_dev()
+    project.prepare_if_dev()
     return project
 
 

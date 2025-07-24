@@ -10,6 +10,7 @@ from dagster_sling import SlingResource, sling_assets, SlingConnectionResource
 
 from elt_core.utils.secrets import get_secret
 from elt_core.defs.sling.translator import CustomDagsterSlingTranslator
+from elt_core.utils.transaltor_helpers import sanitize_input_signature
 
 
 
@@ -166,10 +167,19 @@ def _get_freshness_checks(replication_config: dict) -> list[dg.AssetSpec]:
 
             try:
                 if partition in ["hourly", "daily", "weekly", "monthly"]:
-                        time_partition_update_freshness_checks = dg.build_time_partition_freshness_checks(
-                            **freshness_check_config)
-                        freshness_checks.extend(time_partition_update_freshness_checks)
+                    freshness_check_config = sanitize_input_signature(
+                        dg.build_time_partition_freshness_checks,
+                        freshness_check_config)
+                    
+                    time_partition_update_freshness_checks = dg.build_time_partition_freshness_checks(
+                        **freshness_check_config)
+                    freshness_checks.extend(time_partition_update_freshness_checks)
+
                 else:
+                    freshness_check_config = sanitize_input_signature(
+                        dg.build_last_update_freshness_checks,
+                        freshness_check_config)
+                    
                     last_update_freshness_checks = dg.build_last_update_freshness_checks(
                         **freshness_check_config)
                     freshness_checks.extend(last_update_freshness_checks)

@@ -1,0 +1,73 @@
+{
+    "connection_sling": {
+        "scope": "yaml,yml",
+        "prefix": "connection_sling",
+        "body": [
+            "  - name: ${1:source_name}",
+            "    type: ${2:source_type}",
+            "    database: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__DATABASE: show}",
+            "    host: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__HOST: show}",
+            "    port: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__PORT: mask}",
+            "    user: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__USER: mask}",
+            "    password: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__PASSWORD: mask}",
+            "",
+            
+        ]
+    },
+    "replication_sling": {
+        "scope": "yaml,yml",
+        "prefix": "replication_sling",
+        "body": [
+            "    - name: ${1:source_name}->${3:snowflake}",
+            "      env: {SLING_LOADED_AT_COLUMN: timestamp}",
+            "      source: ${1:source_name}",
+            "      target: ${2:snowflake}",
+            "      defaults:",
+            "        mode: incremental",
+            "        object: '{stream_schema_upper}.{stream_table_upper}'",
+            "        primary_key: [${3:id}]",
+            "        update_key: ${4:update_at}",
+            "      target_options:",
+            "        column_casing: snake",
+            "        add_new_columns: true",
+            "        adjust_column_type: true",
+            "      streams:",
+            "        ${5:$1}.${6:table}:",
+            ""
+        ]
+    },
+    "sling_config_scaffold": {
+        "scope": "yaml,yml",
+        "prefix": "scaffold_sling",
+        "body": [
+            "connections:",
+            "  - name: ${1:source_name}",
+            "    type: ${2:source_type}",
+            "    database: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__DATABASE: show}",
+            "    host: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__HOST: show}",
+            "    port: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__PORT: mask}",
+            "    user: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__USER: mask}",
+            "    password: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__PASSWORD: mask}",
+            "",
+            "replications:",
+            "    - name: ${1:source_name}->${3:snowflake}",
+            "      env: {SLING_LOADED_AT_COLUMN: timestamp}",
+            "      source: ${1:source_name}",
+            "      target: ${3:snowflake}",
+            "      defaults:",
+            "        mode: incremental",
+            "        object: '{stream_schema_upper}.{stream_table_upper}'",
+            "        primary_key: [${4:id}]",
+            "        update_key: ${5:update_at}",
+            "        target_options:",
+            "          column_casing: snake",
+            "          add_new_columns: true",
+            "          adjust_column_type: true",
+            "      streams:",
+            "        ${6:$1}.${7:table}:",
+            ""
+            ]
+    }
+    
+}
+
