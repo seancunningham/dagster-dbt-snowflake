@@ -2,10 +2,6 @@ version: 2
 
 models:
   - name: dim_marketing__dim_campaigns
-    meta:
-      dagster:
-        freshness_check:
-          lower_bound_delta_seconds: 4200 # 70 mins
 
     columns:
       - name: campaign_sid

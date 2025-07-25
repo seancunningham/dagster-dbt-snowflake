@@ -1,6 +1,6 @@
 {
     "dagster_automation_yaml":{
-        "scope": "yaml,yml",
+        "scope": "jinja-yaml,yaml",
         "prefix": "automation_condition_config",
         "body":[
             "meta:",
@@ -11,7 +11,7 @@
         ]
     },
     "dagster_automation_jinja":{
-        "scope": "sql, jinja-sql, jinja",
+        "scope": "jinja-sql",
         "prefix": "automation_condition_config",
         "body":[
             "meta = {",
@@ -24,7 +24,7 @@
         ]
     },
     "dagster_partitioned_yaml":{
-        "scope": "yaml,yml",
+        "scope": "jinja-yaml,yaml",
         "prefix": "partition_config",
         "body": [
             "meta:",

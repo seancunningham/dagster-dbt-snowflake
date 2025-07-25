@@ -1,6 +1,6 @@
 {
     "connection_sling": {
-        "scope": "yaml,yml",
+        "scope": "yaml",
         "prefix": "connection_sling",
         "body": [
             "  - name: ${1:source_name}",
@@ -15,7 +15,7 @@
         ]
     },
     "replication_sling": {
-        "scope": "yaml,yml",
+        "scope": "yaml",
         "prefix": "replication_sling",
         "body": [
             "    - name: ${1:source_name}->${3:snowflake}",
@@ -37,7 +37,7 @@
         ]
     },
     "sling_config_scaffold": {
-        "scope": "yaml,yml",
+        "scope": "yaml",
         "prefix": "scaffold_sling",
         "body": [
             "connections:",

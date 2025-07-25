@@ -1,10 +1,9 @@
 version: 2
 
 sources:
-  - name: adobe_experience
-    database: raw
-    schema: adobe_experience
-    tables:
-      - name: web_hits
-      - name: app_hits
-      
+- name: adobe_experience
+  database: "{{ '_'~target.name~'_' if target.name != 'prod'-}} raw"
+  schema: "adobe_experience {{- '__'~target.schema if not target.name in ['prod', 'qa']}}"
+  tables:
+  - name: web_hits
+  - name: app_hits

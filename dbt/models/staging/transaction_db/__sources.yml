@@ -1,8 +1,8 @@
 version: 2
 
 sources:
-  - name: transaction_db
-    database: raw
-    schema: transaction_db
-    tables:
-      - name: transactions
+- name: transaction_db
+  database: "{{ '_'~target.name~'_' if target.name != 'prod'-}} raw"
+  schema: "transaction_db {{- '__'~target.schema if not target.name in ['prod', 'qa']}}"
+  tables:
+  - name: transactions

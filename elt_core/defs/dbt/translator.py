@@ -19,7 +19,8 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
         meta = dbt_resource_props.get("config", {}).get("meta", {}) or dbt_resource_props.get(
             "meta", {}
         )
-        asset_key_config = meta.get("asset_key", [])
+        meta_dagster = meta.get("dagster") or {}
+        asset_key_config = meta_dagster.get("asset_key")
         if asset_key_config:
             return dg.AssetKey(asset_key_config)
 
@@ -76,9 +77,5 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
         
 
     def get_tags(self, dbt_resource_props: Mapping[str, Any]):
-        # meta = dbt_resource_props.get("config").get("meta", {}).get("dagster", {})
         tags = super().get_tags(dbt_resource_props)
-        # freshness_lower_bound_delta = meta.get("freshness_lower_bound_delta")
-        # if freshness_lower_bound_delta:
-        #     tags["freshness_lower_bound_delta"] = str(freshness_lower_bound_delta)
         return tags

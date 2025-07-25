@@ -1,8 +1,8 @@
 version: 2
 
 sources:
-  - name: inventory_db
-    database: raw 
-    schema: inventory_db
-    tables:
-      - name: products
+- name: inventory_db
+  database: "{{ '_'~target.name~'_' if target.name != 'prod'-}} raw"
+  schema: "inventory_db {{- '__'~target.schema if not target.name in ['prod', 'qa']}}"
+  tables:
+  - name: products

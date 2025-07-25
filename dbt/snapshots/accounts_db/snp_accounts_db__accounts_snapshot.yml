@@ -1,17 +1,19 @@
+version: 2
+
 snapshots:
-  - name: snp_accounts_db__accounts_snapshot
-    relation: source('accounts_db', 'accounts')
-    config:
-      database: snapshot
-      schema: accounts_db
-      alias: accounts_snapshot
-      unique_key: id
-      strategy: timestamp
-      updated_at: updated_at
-      dbt_valid_to_current: "to_date('9999-12-31')"
-      snapshot_meta_column_names:
-        dbt_valid_from: _scd_start
-        dbt_valid_to: _scd_end
-        dbt_scd_id: _scd_id
-        dbt_updated_at: _scd_updated_at
-        dbt_is_deleted: _scd_is_deleted
+- name: snp_accounts_db__accounts_snapshot
+  relation: source('accounts_db', 'accounts')
+  config:
+    database: "{{ '_'~target.name~'_' if target.name != 'prod'-}} snapshot"
+    schema: "accounts_db {{- '__'~target.schema if not target.name in ['prod', 'qa']}}"
+    alias: accounts_snapshot
+    unique_key: [id]
+    strategy: timestamp
+    updated_at: updated_at
+    dbt_valid_to_current: "to_date('9999-12-31')"
+    snapshot_meta_column_names:
+      dbt_valid_from: _scd_start
+      dbt_valid_to: _scd_end
+      dbt_scd_id: _scd_id
+      dbt_updated_at: _scd_updated_at
+      dbt_is_deleted: _scd_is_deleted
