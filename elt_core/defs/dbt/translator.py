@@ -72,7 +72,7 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
         if resource_type == "seed":
              return CustomAutomationCondition.code_version_changed()
 
-        if resource_type == "model":
+        else:
              return CustomAutomationCondition.lazy()
         
 
