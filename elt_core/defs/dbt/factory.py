@@ -13,6 +13,10 @@ from elt_core.defs.dbt.translator import CustomDagsterDbtTranslator
 from elt_core.defs.dbt.resources import dbt
 
 
+
+class DbtConfig(dg.Config):
+    full_refresh: bool = False
+
 @cache
 def dbt_assets_factory(
     name: str | None = None,
@@ -37,7 +41,13 @@ def dbt_assets_factory(
         backfill_policy=dg.BackfillPolicy.single_run(),
         project=dbt_project,
     )
-    def assets(context: dg.AssetExecutionContext, dbt: DbtCliResource):
+    def assets(context: dg.AssetExecutionContext, dbt: DbtCliResource, config: DbtConfig):
+
+        args = ["build"]
+
+        if config.full_refresh:
+            args.append("--full-refresh")
+
         if partitioned:
             time_window = context.partition_time_window
             format = "%Y-%m-%d %H:%M:%S"
@@ -45,8 +55,11 @@ def dbt_assets_factory(
                 "min_date": time_window.start.strftime(format),
                 "max_date": time_window.end.strftime(format)
             }
-            yield from dbt.cli(["build", "--vars", json.dumps(dbt_vars)], context=context).stream().with_insights()
+
+            args.extend(("--vars", json.dumps(dbt_vars)))
+            
+            yield from dbt.cli(args, context=context).stream().with_insights()
         else:
-            yield from dbt.cli(["build"], context=context).stream().with_insights()
+            yield from dbt.cli(args, context=context).stream().with_insights()
     
     return assets
