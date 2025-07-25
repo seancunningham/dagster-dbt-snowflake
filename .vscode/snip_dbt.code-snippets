@@ -1,0 +1,43 @@
+{
+    "dbt_sources_scaffold":{
+        "prefix": "dbt_sources_scaffold",
+        "scope": "jinja-yaml, yaml",
+        "body": [
+            "version: 2",
+            "",
+            "sources:",
+            "- name: ${1:source_name}",
+            "  database: \"{{ '_'~target.name~'_' if target.name != 'prod'-}} raw\"",
+            "  schema: \"${2:$1} {{- '__'~target.schema if not target.name in ['prod', 'qa']}}\"",
+            "  tables:",
+            "  - name: ${3:table_name}",
+            ""
+        ]
+    },
+    "dbt_snapshot_scaffold":{
+        "prefix": "dbt_snapshot_scaffold",
+        "scope": "jinja-yaml, yaml",
+        "body": [
+            "version: 2",
+            "",
+            "snapshots:",
+            "- name: snp_${1:schema_name}__${2:table_name}_snapshot",
+            "  relation: source('$1', '$2')",
+            "  config:",
+            "    database: \"{{ '_'~target.name~'_' if target.name != 'prod'-}} snapshot\"",
+            "    schema: \"$1 {{- '__'~target.schema if not target.name in ['prod', 'qa']}}\"",
+            "    alias: $2_snapshot",
+            "    unique_key: [${3:id}]",
+            "    strategy: timestamp",
+            "    updated_at: ${4:updated_at}",
+            "    dbt_valid_to_current: \"to_date('9999-12-31')\"",
+            "    snapshot_meta_column_names:",
+            "      dbt_valid_from: _scd_start",
+            "      dbt_valid_to: _scd_end",
+            "      dbt_scd_id: _scd_id",
+            "      dbt_updated_at: _scd_updated_at",
+            "      dbt_is_deleted: _scd_is_deleted",
+            ""
+        ]
+    }
+}

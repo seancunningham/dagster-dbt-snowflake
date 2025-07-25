@@ -82,7 +82,7 @@ DBT utilizes jinja macros to programmatically inject values into your sql at run
 A meta key has been introduced to extend the functionality of dbt in dagster.  It is used to define automation's, checks, and partitions for finer control on how and when assets are materialized.
 
 *Example config block:* 
-``` json
+``` jinja
 {{-
   config(
     materialized = "incremental",

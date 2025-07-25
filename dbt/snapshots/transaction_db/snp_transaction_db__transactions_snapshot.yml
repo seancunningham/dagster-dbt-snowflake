@@ -2,8 +2,8 @@ snapshots:
   - name: snp_transaction_db__transactions_snapshot
     relation: source('transaction_db', 'transactions')
     config:
-      database: snapshot
-      schema: transaction_db
+      database: "{{ '_'~target.name~'_' if target.name != 'prod'-}} snapshot"
+      schema: "transaction_db {{- '__'~target.schema if not target.name in ['prod', 'qa']}}"
       alias: transactions_snapshot
       unique_key: order_id
       strategy: timestamp

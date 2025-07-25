@@ -10,11 +10,12 @@ from dagster_sling import SlingResource, sling_assets, SlingConnectionResource
 
 from elt_core.utils.secrets import get_secret
 from elt_core.defs.sling.translator import CustomDagsterSlingTranslator
+from elt_core.utils.transaltor_helpers import sanitize_input_signature
 
 
 
 @cache
-def sling_factory(config_dir: Path) -> tuple[list[SlingConnectionResource], list[dg.AssetsDefinition], list[dg.AssetSpec]]:
+def sling_factory(config_dir: Path) -> tuple[list[SlingConnectionResource], list[dg.AssetsDefinition], list[dg.AssetChecksDefinition]]:
     connections = []
     assets = []
     asset_checks = []
@@ -72,7 +73,7 @@ def _get_connection(connection_config: dict) -> SlingConnectionResource | None:
     return connection
 
 
-def _get_sling_assets(config: dict) -> Callable[[Callable[..., Any]], dg.AssetsDefinition]:
+def _get_sling_assets(config: dict) -> dg.AssetsDefinition:
     """Parse assets including dependancies from the replication config"""
 
     @sling_assets(
@@ -81,7 +82,7 @@ def _get_sling_assets(config: dict) -> Callable[[Callable[..., Any]], dg.AssetsD
             backfill_policy=dg.BackfillPolicy.single_run(),
             dagster_sling_translator=CustomDagsterSlingTranslator()
     )
-    def assets(context: dg.AssetExecutionContext, sling: SlingResource):
+    def assets(context: dg.AssetExecutionContext, sling: SlingResource):# -> Generator[SlingEventType, Any, None]:
         if "defaults" not in config:
             config["defaults"] = {}
             
@@ -122,8 +123,11 @@ def _set_dev_scheama(replication_config: dict) -> dict:
 
     return replication_config
 
-def _get_sling_deps(replication_config: dict, kind) -> list[dg.AssetSpec]:
-    kinds = [kind]
+def _get_sling_deps(replication_config: dict, kind: str | None) -> list[dg.AssetSpec] | None:
+    if kind:
+        kinds = {kind}
+    else:
+        kinds = None
 
     deps = []
     for k in replication_config["streams"].keys():
@@ -140,7 +144,7 @@ def _get_nested(config: dict, path: list) -> Any:
     except Exception: ...
     return None
 
-def _get_freshness_checks(replication_config: dict) -> list[dg.AssetSpec]:
+def _get_freshness_checks(replication_config: dict) -> list[dg.AssetChecksDefinition]:
     
     freshness_checks = []
 
@@ -166,10 +170,19 @@ def _get_freshness_checks(replication_config: dict) -> list[dg.AssetSpec]:
 
             try:
                 if partition in ["hourly", "daily", "weekly", "monthly"]:
-                        time_partition_update_freshness_checks = dg.build_time_partition_freshness_checks(
-                            **freshness_check_config)
-                        freshness_checks.extend(time_partition_update_freshness_checks)
+                    freshness_check_config = sanitize_input_signature(
+                        dg.build_time_partition_freshness_checks,
+                        freshness_check_config)
+                    
+                    time_partition_update_freshness_checks = dg.build_time_partition_freshness_checks(
+                        **freshness_check_config)
+                    freshness_checks.extend(time_partition_update_freshness_checks)
+
                 else:
+                    freshness_check_config = sanitize_input_signature(
+                        dg.build_last_update_freshness_checks,
+                        freshness_check_config)
+                    
                     last_update_freshness_checks = dg.build_last_update_freshness_checks(
                         **freshness_check_config)
                     freshness_checks.extend(last_update_freshness_checks)

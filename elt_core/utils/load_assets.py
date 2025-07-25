@@ -1,10 +1,13 @@
-from typing import Sequence
-from importlib import import_module
 import os
+from typing import Sequence, TypeVar
+from importlib import import_module
 
 from dagster_sling import SlingConnectionResource
 
-def load_objects(path: str, object_types: Sequence[type]) -> Sequence[object]:
+
+
+T = TypeVar('T')
+def load_objects(path: str, object_types: Sequence[T]) -> Sequence[T]:
     paths = []
     objects = []
     for child in os.listdir(path):
@@ -23,6 +26,7 @@ def load_objects(path: str, object_types: Sequence[type]) -> Sequence[object]:
                 paths.append(f"{path}/{child}")
     
     return objects
+
 
 def load_sling_connection_resources(path: str) -> Sequence[SlingConnectionResource]:
     return load_objects(path, [SlingConnectionResource])

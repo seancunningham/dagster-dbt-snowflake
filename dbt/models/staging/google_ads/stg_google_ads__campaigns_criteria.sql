@@ -22,8 +22,6 @@ campaigns as (
 
 select
     b.id                  ::int       campaign_criteria_id,
-    a._scd_start          ::timestamp _scd_start,
-    a._scd_end            ::timestamp _scd_end,
     {{ dlt_loaded_at() }} ::timestamp _loaded_at,
     b._dlt_id             ::text      _scd_id
 from campaigns a

@@ -3,6 +3,6 @@ connections:
     type: snowflake
     host: {DESTINATION__SNOWFLAKE__HOST: show}
     database: {DESTINATION__SNOWFLAKE__DATABASE: show}
-    user: {DESTINATION__SNOWFLAKE__USERNAME: mask}
+    user: {DESTINATION__SNOWFLAKE__USER: mask}
     password: {DESTINATION__SNOWFLAKE__PASSWORD: mask}
     role: {DESTINATION__SNOWFLAKE__ROLE: mask}

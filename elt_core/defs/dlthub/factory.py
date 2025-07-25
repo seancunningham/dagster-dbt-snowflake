@@ -50,7 +50,7 @@ def dlt_freshness_checks_factory(assets: list[dg.AssetsDefinition]) -> list[dg.A
     for assets_definition in assets:
         for asset_spec in assets_definition.specs:
             try: # to get freshness check from tags, injected from meta in the custom translator
-                if delta:= asset_spec.meta["dagster"]["freshness_lower_bound_delta"]:
+                if delta:= asset_spec.meta["dagster"]["freshness_lower_bound_delta"]: # type: ignore
                     last_update_freshness_check = dg.build_last_update_freshness_checks(
                                 assets=[asset_spec.key],
                                 lower_bound_delta=timedelta(minutes=float(delta))
@@ -60,8 +60,7 @@ def dlt_freshness_checks_factory(assets: list[dg.AssetsDefinition]) -> list[dg.A
 
     return freshness_checks
 
-def add_configs(resource: DltResource, meta:dict = None, tags:list = None) -> DltResource:
-    resource.meta = meta
-    resource.tags = tags
+def add_configs(resource: DltResource, meta:dict = None, tags:list = None) -> DltResource: # type: ignore
+    resource.meta = meta # type: ignore
+    resource.tags = tags # type: ignore
     return resource
-

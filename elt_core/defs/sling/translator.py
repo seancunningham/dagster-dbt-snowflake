@@ -110,7 +110,7 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
             tags = stream_definition["config"]["meta"]["dagster"]["tags"]
             return {tag: "" for tag in tags if is_valid_tag_key(tag)}
         except Exception: ...
-        return None
+        return {}
 
 
     # not implemented in base class

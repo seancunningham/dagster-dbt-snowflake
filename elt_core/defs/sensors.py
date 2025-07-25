@@ -3,7 +3,7 @@ from dagster.components import definitions
 
 
 @definitions
-def defs():
+def defs() -> dg.Definitions:
     return dg.Definitions(
         sensors=[
             dg.AutomationConditionSensorDefinition(

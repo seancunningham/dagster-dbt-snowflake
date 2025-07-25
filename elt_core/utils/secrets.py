@@ -1,7 +1,7 @@
 import os
 
 import dagster as dg
-from key_vault import SecretClient
+from elt_core.key_vault import SecretClient
 
 
 azure_keyvault = SecretClient(

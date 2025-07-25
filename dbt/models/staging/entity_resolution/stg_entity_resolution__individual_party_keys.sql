@@ -12,6 +12,7 @@
   )
 -}}
 
+
 with individual_party_keys as (
     SELECT * FROM {{ source("entity_resolution", "individual_party_keys") }}
 )

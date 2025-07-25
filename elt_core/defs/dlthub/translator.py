@@ -62,11 +62,11 @@ class CustomDagsterDltTranslator(dg_dlt.DagsterDltTranslator):
             pipe = resource._pipe
             while pipe.has_parent:
                 pipe = pipe.parent
-                asset_key = pipe.schema.name.split(".")
+                asset_key = pipe.schema.name.split(".") # type: ignore
         else:
             asset_key = resource.name.split(".")
             asset_key[1] = "src"
-        return [dg.AssetKey(asset_key)]
+        return [dg.AssetKey(asset_key)] # type: ignore
 
     def get_asset_key(self, resource: DltResource) -> dg.AssetKey:
         asset_key = resource.name.split(".")
@@ -79,14 +79,14 @@ class CustomDagsterDltTranslator(dg_dlt.DagsterDltTranslator):
     # not implemented in base class
     def get_partitions_def(self, resource: DltResource) -> dg.PartitionsDefinition | None:
         try:
-            meta = resource.meta.get("dagster")
+            meta = resource.meta.get("dagster") # type: ignore
             return get_partitions_def_from_meta(meta)
         except Exception: ...
         return None
 
     def get_automation_condition(self, resource: DltResource):
         try:
-            meta = resource.meta.get("dagster")
+            meta = resource.meta.get("dagster") # type: ignore
             automation_condition = get_automation_condition_from_meta(meta)
             if automation_condition:
                 return automation_condition
@@ -96,7 +96,7 @@ class CustomDagsterDltTranslator(dg_dlt.DagsterDltTranslator):
 
     def get_tags(self, resource: DltResource) -> Mapping[str, Any]:
         try:
-            tags = resource.tags
+            tags = resource.tags # type: ignore
             return {tag: "" for tag in tags if is_valid_tag_key(tag)}
         except Exception: ...
-        return None
+        return {}

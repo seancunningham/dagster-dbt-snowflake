@@ -3,6 +3,8 @@ from typing import Optional
 from dagster import AutomationCondition
 from typing import override
 
+from dagster._core.definitions.declarative_automation.operators import AndAutomationCondition
+
 _AUTOMATION_IGNORE_SELECTION = None
 
 
@@ -35,7 +37,7 @@ class CustomAutomationCondition(AutomationCondition):
 
     @override
     @staticmethod
-    def eager() -> AutomationCondition:
+    def eager() -> AndAutomationCondition:
             return (
                 AutomationCondition.in_latest_time_window()
                 & (
@@ -74,9 +76,7 @@ class CustomAutomationCondition(AutomationCondition):
               & AutomationCondition.cron_tick_passed(
                    cron_schedule, cron_timezone
               ).since_last_handled()
-              & AutomationCondition.all_deps_updated_since_cron(cron_schedule, cron_timezone).ignore(
-                   _AUTOMATION_IGNORE_SELECTION
-              )
+              & AutomationCondition.all_deps_updated_since_cron(cron_schedule, cron_timezone)
               & ~ AutomationCondition.in_progress()
          ).with_label(f"lazy_on_cron({cron_schedule}, {cron_timezone})")
     

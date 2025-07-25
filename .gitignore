@@ -1,31 +1,36 @@
-# ignore secrets, virtual environments and typical python compilation artifacts
-secrets.toml
-key_vault/
-# ignore basic python artifacts
+.*
 .env
+secrets.toml
 **/__pycache__/
 **/*.py[cod]
 **/*$py.class
-# ignore duckdb
-*.duckdb
-*.wal
+logs/
+*.egg-info
+
+key_vault/
+
 */conda.yml
 
-logs/
-.*
 !.gitignore
 !.dockerignore
-helm_values.yaml
+
+!.vscode/
+.vscode/*
+!.vscode/*.code-snippets
+
 !.deployment/
+
+
+helm_values.yaml
 package-lock.yml
 **/dagster_home/*
+
 
 # dbt targets and deps
 **/target/*
 **/defer/*
-!**/dbt/defer/manifest.json
 !**/dbt/target/index.html
-!**/dbt/target/manifest.json
+!**/dbt/manifest.json
 !**/dbt/target/catalog.json
 
 **/dbt_packages/*

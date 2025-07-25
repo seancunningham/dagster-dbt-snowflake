@@ -15,12 +15,12 @@ def model(dbt, session):
             }
         }
     )
-
     from snowflake.snowpark import functions as F
     from faker import Faker
 
     fake = Faker()
 
+    # define udfs for synthetic data generation
     @F.udf
     def syn_first_name(col: str) -> str:
         fake.seed_locale('en_US', col)
@@ -31,14 +31,16 @@ def model(dbt, session):
         fake.seed_locale('en_US', col)
         return fake.last_name()
 
-
+    # load upstream table to dateframe
     df = dbt.ref("stg_accounts_db__accounts")
     cols = df.columns
 
+    # incremental settings
     if dbt.is_incremental:
             max_from_this = f"select max(_loaded_at) from {dbt.this}"
             df = df.filter(df["_loaded_at"] >= session.sql(max_from_this).collect()[0][0])
 
+    # apply synthetic function to first name column
     df_fn = (
         df
         .select("account_first_name")
@@ -47,6 +49,7 @@ def model(dbt, session):
                      F.lower(syn_first_name(F.col("account_first_name"))))
     )
     
+    # apply synthetic function to last name column
     df_ln = (
         df
         .select("account_last_name")
@@ -55,6 +58,7 @@ def model(dbt, session):
                      F.lower(syn_last_name(F.col("account_last_name"))))
     )
 
+    # apply synthetic data over hashed columns
     df = (
         df
         .join(df_fn, "account_first_name")

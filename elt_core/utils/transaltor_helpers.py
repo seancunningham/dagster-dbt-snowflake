@@ -1,28 +1,26 @@
-from typing import Any
+from typing import Any, Callable
 from datetime import datetime
+from inspect import signature
 
 import dagster as dg
 
 from elt_core.defs.automation_conditions import CustomAutomationCondition
 
 
-def get_automation_condition_from_meta(meta: dict[str: Any]) -> dg.AutomationCondition | None:
-    try:
-        condition_name = meta.get("automation_condition")
+
+def get_automation_condition_from_meta(meta: dict[str, Any]) -> dg.AutomationCondition | None:
+
+    condition_name = meta.get("automation_condition")
+    if condition_name:
         condition = CustomAutomationCondition.get_automation_condition(condition_name)
-        if condition:
-            condition_config = meta.get("automation_condition_config")
-            args, kwargs = [], {}
-            if condition_config:
-                if isinstance(condition_config, list):
-                    args = condition_config
-                if isinstance(condition_config, dict):
-                    kwargs = condition_config
-            return condition(*args, **kwargs)
-    except Exception: ...
+        condition_config = meta.get("automation_condition_config") or {}
+        if condition_config and isinstance(condition_config, dict):
+            if isinstance(condition, Callable):
+                condition_config = sanitize_input_signature(condition, condition_config)
+                return condition(**condition_config)
     return None
 
-def get_partitions_def_from_meta(meta: dict[str: Any]) -> dg.TimeWindowPartitionsDefinition:
+def get_partitions_def_from_meta(meta: dict[str, Any]) -> dg.TimeWindowPartitionsDefinition | None:
     try:
         partition = meta.get("partition")
         partition_start_date = meta.get("partition_start_date")
@@ -40,3 +38,15 @@ def get_partitions_def_from_meta(meta: dict[str: Any]) -> dg.TimeWindowPartition
                         return dg.MonthlyPartitionsDefinition(start_date=start_date.strftime("%Y-%m-%d"))
     except Exception: ...
     return None
+
+def sanitize_input_signature(func: Callable, kwargs: dict) -> dict:
+    """Remove any arguments that are not expected by the recieving function"""
+    sig = signature(func)
+    key_words = list(kwargs.keys())
+    expected_arguments = {argument for argument, _ in sig.parameters.items()}
+
+    for argument in key_words:
+        if argument not in expected_arguments:
+            kwargs.pop(argument)
+    
+    return kwargs

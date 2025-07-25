@@ -19,7 +19,8 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
         meta = dbt_resource_props.get("config", {}).get("meta", {}) or dbt_resource_props.get(
             "meta", {}
         )
-        asset_key_config = meta.get("asset_key", [])
+        meta_dagster = meta.get("dagster") or {}
+        asset_key_config = meta_dagster.get("asset_key")
         if asset_key_config:
             return dg.AssetKey(asset_key_config)
 
@@ -42,7 +43,7 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
 
         return super().get_asset_key(dbt_resource_props)
 
-    def get_group_name(self, dbt_resource_props: Mapping[str, Any]) -> str:
+    def get_group_name(self, dbt_resource_props: Mapping[str, Any]) -> str | None:
         prop_key = "name"
         if dbt_resource_props.get("version"):
             prop_key = "alias"
@@ -54,11 +55,11 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
         return super().get_group_name(dbt_resource_props)
 
     def get_partitions_def(self, dbt_resource_props: Mapping[str, Any]) -> Optional[dg.PartitionsDefinition]:
-        meta = dbt_resource_props.get("config").get("meta", {}).get("dagster", {})
+        meta = dbt_resource_props.get("config", {}).get("meta", {}).get("dagster", {})
         return get_partitions_def_from_meta(meta)
 
     def get_automation_condition(self, dbt_resource_props: Mapping[str, Any]) -> Optional[dg.AutomationCondition]:
-        meta = dbt_resource_props.get("config").get("meta", {}).get("dagster", {})
+        meta = dbt_resource_props.get("config", {}).get("meta", {}).get("dagster", {})
         automation_condition = get_automation_condition_from_meta(meta)
         if automation_condition:
              return automation_condition
@@ -76,9 +77,5 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
         
 
     def get_tags(self, dbt_resource_props: Mapping[str, Any]):
-        # meta = dbt_resource_props.get("config").get("meta", {}).get("dagster", {})
         tags = super().get_tags(dbt_resource_props)
-        # freshness_lower_bound_delta = meta.get("freshness_lower_bound_delta")
-        # if freshness_lower_bound_delta:
-        #     tags["freshness_lower_bound_delta"] = str(freshness_lower_bound_delta)
         return tags
