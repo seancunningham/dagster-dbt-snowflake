@@ -14,32 +14,82 @@
 		"version": "2.0.0",
 		"tasks": [
 			{
-				"label": "Pod Status",
-				"type": "shell",
-				"command": "./.scripts/pod_status.ps1"
-			},
-			{
-				"label": "Forward Ports K8s",
-				"type": "shell",
-				"command": "./.scripts/forward_ports.ps1",
-				"problemMatcher": []
-			},
-			{
-				"label": "Prod Deployment",
+				"label": "build and deploy",
 				"type": "shell",
 				"command": "./.scripts/deploy.ps1",
 				"problemMatcher": [],
 				"group": {
 					"kind": "build",
 					"isDefault": true
+				},
+				"icon": {"id":"package"},
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"focus": true,
+					"panel": "shared",
+					"showReuseMessage": true,
+					"clear": true
 				}
 			},
 			{
-				"label": "Dagster Dev",
+				"label": "start app",
+				"dependsOn": ["dagster dev", "k8s port forward", "k8s pod status"],
+				"icon": {"id":"chip"},
+				"presentation": {
+					"echo": true,
+					"reveal": "never",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				},
+				"runOptions": {
+					"runOn": "folderOpen",
+				}
+			},
+			{
+				"label": "k8s pod status",
+				"type": "shell",
+				"command": "./.scripts/pod_status.ps1",
+				"icon": {"id":"server"},
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			},
+			{
+				"label": "k8s port forward",
+				"type": "shell",
+				"command": "./.scripts/forward_ports.ps1",
+				"icon": {"id":"server"},
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			},
+			{
+				"label": "dagster dev",
 				"type": "shell",
 				"command": "uv run --env-file .env  dagster dev",
-				"problemMatcher": []
-			}
+				"icon": {"id":"server"},
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": false,
+					"clear": true
+				}
+			},
 		]
 	}
 }
