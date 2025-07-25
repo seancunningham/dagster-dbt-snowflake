@@ -1,0 +1,45 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.sql": "jinja-sql",
+			"*.yml": "jinja-yaml"
+		}
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "Pod Status",
+				"type": "shell",
+				"command": "./.scripts/pod_status.ps1"
+			},
+			{
+				"label": "Forward Ports K8s",
+				"type": "shell",
+				"command": "./.scripts/forward_ports.ps1",
+				"problemMatcher": []
+			},
+			{
+				"label": "Prod Deployment",
+				"type": "shell",
+				"command": "./.scripts/deploy.ps1",
+				"problemMatcher": [],
+				"group": {
+					"kind": "build",
+					"isDefault": true
+				}
+			},
+			{
+				"label": "Dagster Dev",
+				"type": "shell",
+				"command": "uv run --env-file .env  dagster dev",
+				"problemMatcher": []
+			}
+		]
+	}
+}
