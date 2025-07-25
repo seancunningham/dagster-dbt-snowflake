@@ -2,7 +2,7 @@ import os
 import yaml
 from pathlib import Path
 from functools import cache
-from typing import Callable, Any
+from typing import Any
 from datetime import timedelta
 
 import dagster as dg
@@ -25,6 +25,8 @@ def sling_factory(config_dir: Path) -> tuple[list[SlingConnectionResource], list
             config_path = config_dir.joinpath(config_path).resolve()
             with open(config_path, "r") as file:
                 config = yaml.load(file, Loader=yaml.FullLoader)
+            if not config:
+                continue
             
 
             kind_map = {}
