@@ -1,0 +1,30 @@
+models:
+  - name: stg_adobe_experience__hits
+    columns:
+      - name: hit_source
+        description: the platform that captured the hit, web or app
+        data_type: varchar
+        data_tests:
+          - accepted_values:
+              values:
+                - web
+                - app
+      - name: hit_at
+        description: the time the hit was registerd
+        data_type: timestamp_ntz
+      - name: marketing_cloud_visitor_id
+        data_type: varchar
+      - name: visit_id
+        data_type: varchar
+      - name: hit_id
+        data_type: varchar
+      - name: hit_sid
+        data_type: varchar
+      - name: hit_url
+        data_type: varchar
+      - name: individual_party_key
+        data_type: varchar
+      - name: order_id
+        data_type: number
+      - name: _loaded_at
+        data_type: timestamp_tz

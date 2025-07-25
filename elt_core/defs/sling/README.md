@@ -31,8 +31,8 @@ The resources will pass all the translated assets to the dagster runtime.
 ## Configs
 
 ### Connection Config
+https://docs.slingdata.io/sling-cli/environment#sling-env-file-env.yaml
 https://docs.dagster.io/api/libraries/dagster-sling#dagster_sling.SlingResource
-
 ``` yaml
 connection:
   name: accounts_db

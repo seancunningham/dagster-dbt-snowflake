@@ -2,6 +2,15 @@
 	"folders": [
 		{
 			"path": ".."
+		},
+		{
+			"path": "../dbt"
+		},
+		{
+			"path": "../elt_core/defs/dlthub/dlthub"
+		},
+		{
+			"path": "../elt_core/defs/sling/sling"
 		}
 	],
 	"settings": {
@@ -13,6 +22,12 @@
 	"tasks": {
 		"version": "2.0.0",
 		"tasks": [
+			{
+				"label": "test",
+				"command": "${command:simpleBrowser.show}",
+				"problemMatcher": [],
+				"args": ["http://127.0.0.1:3000"]
+			},
 			{
 				"label": "build and deploy",
 				"type": "shell",
