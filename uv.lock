@@ -222,6 +222,15 @@ wheels = [
 ]
 
 [[package]]
+name = "cloudpickle"
+version = "3.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/c8/72/42a6570fc61b1f8913529728ad314c7cf5961540728dcad22c33fb2db6b6/cloudpickle-3.0.0.tar.gz", hash = "sha256:996d9a482c6fb4f33c1a35335cf8afd065d2a56e973270364840712d9131a882", size = 21231, upload-time = "2023-10-16T12:51:26.352Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/96/43/dae06432d0c4b1dc9e9149ad37b4ca8384cf6eb7700cd9215b177b914f0a/cloudpickle-3.0.0-py3-none-any.whl", hash = "sha256:246ee7d0c295602a036e86369c77fecda4ab17b506496730f2f576d9016fd9c7", size = 20088, upload-time = "2023-10-16T12:51:24.415Z" },
+]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -785,7 +794,10 @@ dependencies = [
     { name = "dagster-sling" },
     { name = "dagster-snowflake" },
     { name = "dbt-snowflake" },
+    { name = "faker" },
     { name = "psutil" },
+    { name = "snowflake" },
+    { name = "snowflake-snowpark-python" },
 ]
 
 [package.dev-dependencies]
@@ -804,13 +816,28 @@ requires-dist = [
     { name = "dagster-sling", specifier = "==0.27.2" },
     { name = "dagster-snowflake", specifier = "==0.27.2" },
     { name = "dbt-snowflake", specifier = "==1.10.0" },
+    { name = "faker", specifier = ">=37.4.2" },
     { name = "psutil" },
+    { name = "snowflake", specifier = ">=1.6.0" },
+    { name = "snowflake-snowpark-python", specifier = ">=1.35.0" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "dagster-dg-cli", specifier = ">=1.11.2" },
     { name = "dagster-webserver", specifier = ">=1.11.2" },
+]
+
+[[package]]
+name = "faker"
+version = "37.4.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "tzdata" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/65/95/da573e055608e180086e2ac3208f8c15d8b44220912f565a9821b9bff33a/faker-37.4.2.tar.gz", hash = "sha256:8e281bbaea30e5658895b8bea21cc50d27aaf3a43db3f2694409ca5701c56b0a", size = 1902890, upload-time = "2025-07-15T16:38:24.803Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/26/1c/b909a055be556c11f13cf058cfa0e152f9754d803ff3694a937efe300709/faker-37.4.2-py3-none-any.whl", hash = "sha256:b70ed1af57bfe988cbcd0afd95f4768c51eaf4e1ce8a30962e127ac5c139c93f", size = 1943179, upload-time = "2025-07-15T16:38:23.053Z" },
 ]
 
 [[package]]
@@ -2168,6 +2195,19 @@ wheels = [
 ]
 
 [[package]]
+name = "snowflake"
+version = "1.6.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "snowflake-core" },
+    { name = "snowflake-legacy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e4/8f/fbc9e91d48157bb3781df36bc7904b7a46e5e17836d5be367270f7032df6/snowflake-1.6.0.tar.gz", hash = "sha256:d38d8010f0cf8102659aee41903e60235b96e22f428ec9170b1606c905a68ce7", size = 6039, upload-time = "2025-06-26T10:37:45.909Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/27/a1/3e614c7ff540d66404bd1027cc705be5dc07850e6201f1d5a9753fdc5ab7/snowflake-1.6.0-py3-none-any.whl", hash = "sha256:e4d61f891fb63e154e0dd6e4086fc268d45f605940421290288df37448954d86", size = 5634, upload-time = "2025-06-26T10:37:45.148Z" },
+]
+
+[[package]]
 name = "snowflake-connector-python"
 version = "3.16.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2203,6 +2243,52 @@ wheels = [
 [package.optional-dependencies]
 secure-local-storage = [
     { name = "keyring" },
+]
+
+[[package]]
+name = "snowflake-core"
+version = "1.6.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pydantic" },
+    { name = "python-dateutil" },
+    { name = "pyyaml" },
+    { name = "requests" },
+    { name = "snowflake-connector-python" },
+    { name = "urllib3" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b2/24/c90e26e92a51a87e97ac8f7550802bcdb0299aadff13f39c26779607e1b3/snowflake_core-1.6.0.tar.gz", hash = "sha256:5ba8ad99cc8945d4809532f18f66ac623aea1888e686975c461f86a7c3970229", size = 1347093, upload-time = "2025-06-26T10:37:46.838Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ca/28/e5e2335ec585c3eeb8665d309bfd6aba9d8b60b74b33508ec96792894960/snowflake_core-1.6.0-py3-none-any.whl", hash = "sha256:f52d0be654860ffa647ff654f15dc7bfc2d3a9dbaa8f9adf70a06e4487a68058", size = 1986771, upload-time = "2025-06-26T10:37:48.684Z" },
+]
+
+[[package]]
+name = "snowflake-legacy"
+version = "1.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ad/08/1c22d84aacfce90a13ce23b6bc7ca0ab6d85146e559558d05ff24b5df89a/snowflake_legacy-1.0.1.tar.gz", hash = "sha256:98f7d2b19128c53a20eb25731ba62849bbb2747c33a0ea54f340d0feac9d4bb0", size = 4059, upload-time = "2025-06-10T10:22:48.465Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a1/37/5ab1b50a62b9063f1e00322ea1982848a01638e4efd32c9f03bb387ee170/snowflake_legacy-1.0.1-py3-none-any.whl", hash = "sha256:36135aef966231d291c10ceddb27c7021e9b8d960f73bdc4eccdf02ffc5b90c7", size = 3059, upload-time = "2025-06-10T10:22:47.49Z" },
+]
+
+[[package]]
+name = "snowflake-snowpark-python"
+version = "1.35.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cloudpickle" },
+    { name = "protobuf" },
+    { name = "python-dateutil" },
+    { name = "pyyaml" },
+    { name = "setuptools" },
+    { name = "snowflake-connector-python" },
+    { name = "typing-extensions" },
+    { name = "tzlocal" },
+    { name = "wheel" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/18/31/33bb8596e1b3c15d29963a73f9e9466d2ddf5fb2b3783d2d0864222f35ee/snowflake_snowpark_python-1.35.0.tar.gz", hash = "sha256:07602731ffeb7654095ce1a4fb43f99d8b7f9709cc26485f33de8cf6b1495a33", size = 1633383, upload-time = "2025-07-24T21:24:53.506Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1e/8c/4c451886cd5b779e25791d2965ef94bfd0613312793933bbdc57d273e6f7/snowflake_snowpark_python-1.35.0-py3-none-any.whl", hash = "sha256:c2c058bd2443835c64adad441e406a33071d55fd62f6eea6b07ff2d9ec27c437", size = 1685804, upload-time = "2025-07-24T21:24:51.752Z" },
 ]
 
 [[package]]
@@ -2442,6 +2528,18 @@ wheels = [
 ]
 
 [[package]]
+name = "tzlocal"
+version = "5.3.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "tzdata", marker = "sys_platform == 'win32'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/8b/2e/c14812d3d4d9cd1773c6be938f89e5735a1f11a9f184ac3639b93cef35d5/tzlocal-5.3.1.tar.gz", hash = "sha256:cceffc7edecefea1f595541dbd6e990cb1ea3d19bf01b2809f362a03dd7921fd", size = 30761, upload-time = "2025-03-05T21:17:41.549Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c2/14/e2a54fabd4f08cd7af1c07030603c3356b74da07f7cc056e600436edfa17/tzlocal-5.3.1-py3-none-any.whl", hash = "sha256:eb1a66c3ef5847adf7a834f1be0800581b683b5608e74f86ecbcef8ab91bb85d", size = 18026, upload-time = "2025-03-05T21:17:39.857Z" },
+]
+
+[[package]]
 name = "universal-pathlib"
 version = "0.2.6"
 source = { registry = "https://pypi.org/simple" }
@@ -2590,6 +2688,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/ff/83/de1f7709376dc3ca9b7eeb4b9a07b4526b14876b6d372a4dc62312bebee0/websockets-15.0.1-cp312-cp312-win32.whl", hash = "sha256:c338ffa0520bdb12fbc527265235639fb76e7bc7faafbb93f6ba80d9c06578a9", size = 176395, upload-time = "2025-03-05T20:02:33.017Z" },
     { url = "https://files.pythonhosted.org/packages/7d/71/abf2ebc3bbfa40f391ce1428c7168fb20582d0ff57019b69ea20fa698043/websockets-15.0.1-cp312-cp312-win_amd64.whl", hash = "sha256:fcd5cf9e305d7b8338754470cf69cf81f420459dbae8a3b40cee57417f4614a7", size = 176841, upload-time = "2025-03-05T20:02:34.498Z" },
     { url = "https://files.pythonhosted.org/packages/fa/a8/5b41e0da817d64113292ab1f8247140aac61cbf6cfd085d6a0fa77f4984f/websockets-15.0.1-py3-none-any.whl", hash = "sha256:f7a866fbc1e97b5c617ee4116daaa09b722101d4a3c170c787450ba409f9736f", size = 169743, upload-time = "2025-03-05T20:03:39.41Z" },
+]
+
+[[package]]
+name = "wheel"
+version = "0.45.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/8a/98/2d9906746cdc6a6ef809ae6338005b3f21bb568bea3165cfc6a243fdc25c/wheel-0.45.1.tar.gz", hash = "sha256:661e1abd9198507b1409a20c02106d9670b2576e916d58f520316666abca6729", size = 107545, upload-time = "2024-11-23T00:18:23.513Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0b/2c/87f3254fd8ffd29e4c02732eee68a83a1d3c346ae39bc6822dcbcb697f2b/wheel-0.45.1-py3-none-any.whl", hash = "sha256:708e7481cc80179af0e556bbf0cc00b8444c7321e2700b8d8580231d13017248", size = 72494, upload-time = "2024-11-23T00:18:21.207Z" },
 ]
 
 [[package]]
