@@ -24,7 +24,10 @@
 		},
 		"dbt.perspectiveTheme": "Pro Light",
 		"dbt.prefixGenerateModel": "stg",
-		"dbt.fileNameTemplateGenerateModel": "{prefix}_{sourceName}__{tableName}"
+		"dbt.fileNameTemplateGenerateModel": "{prefix}_{sourceName}__{tableName}",
+		"dbt.lineage.defaultExpansion": 2,
+		"dbt.enableNewLineagePanel": true,
+		"dbt.enableMcpDataSourceQueryTools": true
 	},
 	"tasks": {
 		"version": "2.0.0",

@@ -55,5 +55,116 @@
             "    }",
             "  }"
         ]
+    },
+    "dbt_with_source_cte":{
+        "scope": "jinja-sql, sql",
+        "prefix": "dbt_with_source_cte",
+        "description": "description",
+        "body": [
+            "with ${1:table} as (",
+            "    select * from {{ source(\"${2:schema}\", \"$1\") }}",
+            ")"
+        ]
+    },
+    "dbt_source_cte":{
+        "scope": "jinja-sql, sql",
+        "prefix": "dbt_source_cte",
+        "description": "description",
+        "body": [
+            "${1:table} as (",
+            "    select * from {{ source(\"${2:schema}\", \"$1\") }}",
+            ")"
+        ]
+    },
+    "dbt_with_ref_cte":{
+        "scope": "jinja-sql, sql",
+        "prefix": "dbt_with_ref_cte",
+        "description": "description",
+        "body": [
+            "with ${1:alias} as (",
+            "    select * from {{ ref(${2:model}) }}",
+            ")"
+        ]
+    },
+    "dbt_ref_cte":{
+        "scope": "jinja-sql, sql",
+        "prefix": "dbt_ref_cte",
+        "description": "description",
+        "body": [
+            "${1:alias} as (",
+            "    select * from {{ ref(${2:model}) }}",
+            ")"
+        ]
+    },
+    "dbt_stg_scaffold": {
+        "scope": "jinja-sql, sql",
+        "prefix": "dbt_stg_scaffold",
+        "description": "description",
+        "body": [
+            "{{",
+            "  config(",
+            "    materialized = \"view\",",
+            "    )",
+            "-}}",
+            "",
+            "with ${1:table_name} as (",
+            "    select * from {{ source(\"${2:table_name}\", \"$1\") }}",
+            "),",
+            "",
+            "renamed as (",
+            "    select",
+            "        ${3:* # rename column names here}",
+            "    from $1",
+            ")",
+            "",
+            "select * from renamed",
+            ""
+        ]
+    },
+    "dbt_incremental": {
+        "scope": "jinja-sql, sql",
+        "prefix": "dbt_incremental",
+        "description": "description",
+        "body": [
+            "{{-",
+            "  config(",
+            "    materialized = \"incremental\",",
+            "    unique_key = \"${1:unique_key}\",",
+            "    incremental_strategy = \"delete+insert\"",
+            "    )",
+            "-}}",
+        ]
+    },
+    "dbt_is_incremental": {
+        "scope": "jinja-sql, sql",
+        "prefix": "dbt_is_incremental",
+        "description": "description",
+        "body": [
+            "{% if is_incremental() -%}",
+            "    where ${1:_loaded_at} >= coalesce((select max(${2:$1}) from {{ this }}), \"1900-01-01\")",
+            "{%- endif %}"
+        ]
+    },
+    "dbt_partition_is_incremental": {
+        "scope": "jinja-sql, sql",
+        "prefix": "dbt_partition_is_incremental",
+        "description": "description",
+        "body": [
+            "{% if is_incremental() -%}",
+            "     where 1=1",
+            "        and ${1:date_time} >= '{{ var(\"min_date\", \"1900-01-01\") }}'",
+            "        and $1 <= '{{ var(\"max_date\", \"9999-12-31\") }}'",
+            "{%- endif %}"
+        ]
+    },
+    "dbt_partition": {
+        "scope": "jinja-sql, sql",
+        "prefix": "dbt_partition",
+        "description": "description",
+        "body": [
+            "\"partition\": \"${1|hourly,daily,weekly,monthly|}\",",
+            "\"partition_start_date\": \"${2:$CURRENT_YEAR}-${3:$CURRENT_MONTH}-${4:$CURRENT_DATE}\",",
+            "\"freshness_check\": {\"deadline_cron\": \"${5|0,*,0,1,2,3,4,5,6,7,8,9|} ${6|2,*,0,1,2,3,4,5,6,7,8,9|} ${7|*,0,1,2,3,4,5,6,7,8,9|} ${8|*,0,1,2,3,4,5,6,7,8,9|} ${9|*,0,1,2,3,4,5,6,7,8,9|}\"}",
+        ]
     }
 }
