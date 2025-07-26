@@ -15,6 +15,32 @@
             ""
         ]
     },
+    "dbt_staged_scaffold": {
+        "scope": "jinja-sql, sql",
+        "prefix": "dbt_staged_scaffold",
+        "description": "description",
+        "body": [
+            "{{",
+            "  config(",
+            "    materialized = \"view\",",
+            "    )",
+            "-}}",
+            "",
+            "with ${1:${TM_FILENAME_BASE/(?:.*__)(.*)/${1:/lcase}/g}} as (",
+            "    select * from {{ source(\"${2:${TM_FILENAME_BASE/(?:[^_]*_)(.*)(?:__.*)/${1:/lcase}/g}}\", \"$1\") }}",
+            "),",
+            "",
+            "renamed as (",
+            "    select",
+            "        {# rename columns here #}",
+            "        ${3:*}",
+            "    from $1",
+            ")",
+            "",
+            "select * from renamed",
+            ""
+        ]
+    },
     "dbt_snapshot_scaffold":{
         "prefix": "dbt_snapshot_scaffold",
         "scope": "jinja-yaml, yaml",
@@ -96,34 +122,9 @@
             ")"
         ]
     },
-    "dbt_stg_scaffold": {
+    "dbt_incremental_config": {
         "scope": "jinja-sql, sql",
-        "prefix": "dbt_stg_scaffold",
-        "description": "description",
-        "body": [
-            "{{",
-            "  config(",
-            "    materialized = \"view\",",
-            "    )",
-            "-}}",
-            "",
-            "with ${1:table_name} as (",
-            "    select * from {{ source(\"${2:table_name}\", \"$1\") }}",
-            "),",
-            "",
-            "renamed as (",
-            "    select",
-            "        ${3:* # rename column names here}",
-            "    from $1",
-            ")",
-            "",
-            "select * from renamed",
-            ""
-        ]
-    },
-    "dbt_incremental": {
-        "scope": "jinja-sql, sql",
-        "prefix": "dbt_incremental",
+        "prefix": "dbt_incremental_config",
         "description": "description",
         "body": [
             "{{-",
@@ -145,6 +146,16 @@
             "{%- endif %}"
         ]
     },
+    "dbt_partition_config": {
+        "scope": "jinja-sql, sql",
+        "prefix": "dbt_partition",
+        "description": "description",
+        "body": [
+            "\"partition\": \"${1|hourly,daily,weekly,monthly|}\",",
+            "\"partition_start_date\": \"${2:$CURRENT_YEAR}-${3:$CURRENT_MONTH}-${4:$CURRENT_DATE}\",",
+            "\"freshness_check\": {\"deadline_cron\": \"${5|0,*,0,1,2,3,4,5,6,7,8,9|} ${6|2,*,0,1,2,3,4,5,6,7,8,9|} ${7|*,0,1,2,3,4,5,6,7,8,9|} ${8|*,0,1,2,3,4,5,6,7,8,9|} ${9|*,0,1,2,3,4,5,6,7,8,9|}\"}",
+        ]
+    },
     "dbt_partition_is_incremental": {
         "scope": "jinja-sql, sql",
         "prefix": "dbt_partition_is_incremental",
@@ -157,14 +168,5 @@
             "{%- endif %}"
         ]
     },
-    "dbt_partition": {
-        "scope": "jinja-sql, sql",
-        "prefix": "dbt_partition",
-        "description": "description",
-        "body": [
-            "\"partition\": \"${1|hourly,daily,weekly,monthly|}\",",
-            "\"partition_start_date\": \"${2:$CURRENT_YEAR}-${3:$CURRENT_MONTH}-${4:$CURRENT_DATE}\",",
-            "\"freshness_check\": {\"deadline_cron\": \"${5|0,*,0,1,2,3,4,5,6,7,8,9|} ${6|2,*,0,1,2,3,4,5,6,7,8,9|} ${7|*,0,1,2,3,4,5,6,7,8,9|} ${8|*,0,1,2,3,4,5,6,7,8,9|} ${9|*,0,1,2,3,4,5,6,7,8,9|}\"}",
-        ]
-    }
 }
+    

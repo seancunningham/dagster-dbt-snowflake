@@ -1,5 +1,7 @@
+import os
 import json
 from functools import cache
+from pathlib import Path
 
 import dagster as dg
 from dagster_dbt.asset_utils import DBT_DEFAULT_SELECT
@@ -14,8 +16,12 @@ from elt_core.defs.dbt.resources import dbt
 
 
 
+defer_to_prod = os.getenv("TARGET", "").lower() != "prod"
 class DbtConfig(dg.Config):
     full_refresh: bool = False
+    defer_to_prod: bool = defer_to_prod
+    favor_state: bool = False
+
 
 @cache
 def dbt_assets_factory(
@@ -47,6 +53,15 @@ def dbt_assets_factory(
 
         if config.full_refresh:
             args.append("--full-refresh")
+        if config.defer_to_prod:
+            defer_dir = str(Path(__file__).joinpath(*[".."]*4, "dbt/artifacts_prod").resolve())
+            args.extend((
+                "--defer",
+                "--state",
+                defer_dir
+            ))
+            if config.favor_state:
+                args.append("--favor-state")
 
         if partitioned:
             time_window = context.partition_time_window

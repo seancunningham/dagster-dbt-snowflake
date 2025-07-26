@@ -25,7 +25,7 @@
             "        meta={",
             "            \"dagster\": {",
             "                \"automation_condition\": \"${5|on_cron_no_deps,lazy,on_cron,eager|}\",",
-            "                \"automation_condition_config\": {\"cron_schedule\":\"@${6|daily,hourly,weekly,monthly,0 2 * * *|}\", \"cron_timezone\":\"${7|utc,pst|}\"},",
+            "                \"automation_condition_config\": {\"cron_schedule\":\"${6|@daily,@hourly,@weekly,@monthly,0 2 * * *|}\", \"cron_timezone\":\"${7|utc,pst|}\"},",
             "                \"freshness_lower_bound_delta_seconds\": ${8:108000}",
             "            }",
             "        }",
@@ -38,5 +38,20 @@
             "asset_checks = dlt_freshness_checks_factory([assets])"
         ]
     },
+    
+    "dlthub_automation_conditions": {
+        "prefix": "dlthub_automation_conditions",
+        "scope": "python",
+        "description": "",
+        "body": [
+            "meta={",
+            "    \"dagster\": {",
+            "        \"automation_condition\": \"${1|on_cron_no_deps,lazy,on_cron,eager|}\",",
+            "        \"automation_condition_config\": {\"cron_schedule\":\"${2|@daily,@hourly,@weekly,@monthly,0 2 * * *|}\", \"cron_timezone\":\"${3|utc,pst|}\"},",
+            "        \"freshness_lower_bound_delta_seconds\": ${4:108000}",
+            "    }",
+            "}"
+        ]
+    }
 }
 
