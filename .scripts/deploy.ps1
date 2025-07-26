@@ -16,7 +16,7 @@ foreach($line in $log){
     }
 }
 
-$defer_path = $dbt_path+"\artifacts_prod\"
+$defer_path = $dbt_path+"\state\"
 if (!(Test-Path -Path $defer_path -PathType Container)) {
     New-Item -Path $defer_path -ItemType Directory
 }

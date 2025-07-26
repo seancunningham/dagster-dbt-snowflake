@@ -14,7 +14,6 @@ from dagster_dbt import (
 )
 
 from elt_core.defs.dbt.translator import CustomDagsterDbtTranslator
-# from elt_core.defs.dbt.resources import dbt
 
 
 
@@ -57,12 +56,7 @@ def dbt_assets_factory(
         if config.full_refresh:
             args.append("--full-refresh")
         if config.defer_to_prod:
-            defer_dir = str(Path(__file__).joinpath(*[".."]*4, "dbt/artifacts_prod").resolve())
-            args.extend((
-                "--defer",
-                "--state",
-                defer_dir
-            ))
+            args.extend(dbt.get_defer_args())
             if config.favor_state:
                 args.append("--favor-state")
 

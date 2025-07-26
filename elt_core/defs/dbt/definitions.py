@@ -3,9 +3,12 @@ from functools import cache
 from pathlib import Path
 
 import dagster as dg
-from dagster import Definitions
 from dagster.components import definitions
-from dagster_dbt import DbtCliResource, DbtProject, build_freshness_checks_from_dbt_assets
+from dagster_dbt import (
+    DbtCliResource,
+    DbtProject,
+    build_freshness_checks_from_dbt_assets
+)
 
 from elt_core.defs.dbt.factory import dbt_assets_factory
 from elt_core.defs.dbt.constants import (
@@ -16,16 +19,17 @@ from elt_core.defs.dbt.constants import (
 
 
 @definitions
-def defs() -> Definitions:
+def defs() -> dg.Definitions:
     project_dir = Path(__file__).joinpath(*[".."]*4, "dbt/").resolve()
-    state_path = Path(project_dir).joinpath("artifacts_prod").resolve()
+    state_path = "state/"
 
     @cache
     def dbt() -> DbtProject:
         project = DbtProject(
             project_dir=project_dir,
             target=os.getenv("TARGET", "prod"),
-            state_path=state_path
+            state_path=state_path,
+            profile="dbt"
         )
         project.prepare_if_dev()
         return project
@@ -47,7 +51,7 @@ def defs() -> Definitions:
         name="dbt_freshness_checks_sensor"
     )
 
-    return Definitions(
+    return dg.Definitions(
         resources={"dbt": DbtCliResource(project_dir=dbt())},
         assets=assets,
         asset_checks=freshness_checks,
