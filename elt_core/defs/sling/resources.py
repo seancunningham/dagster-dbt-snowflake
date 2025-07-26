@@ -8,7 +8,7 @@ from .factory import sling_factory
 
 
 
-config_dir = Path(__file__).joinpath(*[".."], "configs").resolve()
+config_dir = Path(__file__).joinpath(*[".."], "sling").resolve()
 
 @definitions
 def defs() -> dg.Definitions:

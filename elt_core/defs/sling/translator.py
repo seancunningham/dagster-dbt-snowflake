@@ -13,13 +13,9 @@ from elt_core.utils.transaltor_helpers import (
 class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
 
     def get_asset_spec(self, stream_definition: Mapping[str, Any]) -> dg.AssetSpec:
-        """A function that takes a stream definition from a Sling replication config and returns a
-        Dagster AssetSpec.
-
-        The stream definition is a dictionary key/value pair where the key is the stream name and
-        the value is a dictionary representing the Sling Replication Stream Config.
-        """
         return dg.AssetSpec(
+            automation_condition=self.get_automation_condition(stream_definition),
+            partitions_def=self.get_partitions_def(stream_definition),
             key=self._resolve_back_compat_method(
                 "get_asset_key", self._default_asset_key_fn, stream_definition
             ),
@@ -47,10 +43,8 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
             auto_materialize_policy=self._resolve_back_compat_method(
                 "get_auto_materialize_policy",
                 self._default_auto_materialize_policy_fn,
-                stream_definition,
-            ),
-            automation_condition=self.get_automation_condition(stream_definition),
-            partitions_def=self.get_partitions_def(stream_definition)
+                stream_definition
+            )
         )
     
     def get_asset_key(self, stream_definition: Mapping[str, Any]) -> dg.AssetKey:

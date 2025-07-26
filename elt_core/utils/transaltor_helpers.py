@@ -11,14 +11,24 @@ from elt_core.defs.automation_conditions import CustomAutomationCondition
 def get_automation_condition_from_meta(meta: dict[str, Any]) -> dg.AutomationCondition | None:
 
     condition_name = meta.get("automation_condition")
-    if condition_name:
-        condition = CustomAutomationCondition.get_automation_condition(condition_name)
-        condition_config = meta.get("automation_condition_config") or {}
-        if condition_config and isinstance(condition_config, dict):
-            if isinstance(condition, Callable):
-                condition_config = sanitize_input_signature(condition, condition_config)
-                return condition(**condition_config)
-    return None
+    if not condition_name:
+         return None
+    
+    condition = CustomAutomationCondition.get_automation_condition(condition_name)
+    if not isinstance(condition, Callable):
+        raise KeyError(f"Automation condition not found for key '{condition_name}'")
+    
+    condition_config = meta.get("automation_condition_config", {}) or {}
+    if not isinstance(condition_config, dict):
+            raise ValueError(f"Invalid condition config: '{condition_config}'")
+
+    condition_config = sanitize_input_signature(condition, condition_config)
+    try:
+        return condition(**condition_config)
+    except Exception as e:
+         e.add_note(f"'condition_config' is missing required keys for condition '{condition_name}'")
+         raise
+    
 
 def get_partitions_def_from_meta(meta: dict[str, Any]) -> dg.TimeWindowPartitionsDefinition | None:
     try:

@@ -17,8 +17,9 @@ key_vault/
 !.vscode/
 .vscode/*
 !.vscode/*.code-snippets
+!.vscode/*.code-workspace
 
-!.deployment/
+!.scripts/
 
 
 helm_values.yaml

@@ -1,9 +1,10 @@
 {
     "connection_sling": {
         "scope": "yaml",
-        "prefix": "connection_sling",
+        "prefix": "sling_connection",
+        "description": "description",
         "body": [
-            "  - name: ${1:source_name}",
+            "  - name: ${1:$TM_FILENAME_BASE}",
             "    type: ${2:source_type}",
             "    database: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__DATABASE: show}",
             "    host: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__HOST: show}",
@@ -16,32 +17,39 @@
     },
     "replication_sling": {
         "scope": "yaml",
-        "prefix": "replication_sling",
+        "prefix": "sling_replication",
+        "description": "description",
         "body": [
-            "    - name: ${1:source_name}->${3:snowflake}",
+            "    - name: ${1:$TM_FILENAME_BASE}->${3:snowflake}",
             "      env: {SLING_LOADED_AT_COLUMN: timestamp}",
-            "      source: ${1:source_name}",
+            "      source: $1",
             "      target: ${2:snowflake}",
             "      defaults:",
             "        mode: incremental",
             "        object: '{stream_schema_upper}.{stream_table_upper}'",
             "        primary_key: [${3:id}]",
             "        update_key: ${4:update_at}",
-            "      target_options:",
-            "        column_casing: snake",
-            "        add_new_columns: true",
-            "        adjust_column_type: true",
+            "        target_options:",
+            "          column_casing: snake",
+            "          add_new_columns: true",
+            "          adjust_column_type: true",
+            "        meta:",
+            "          dagster:",
+            "            automation_condition: \"${5|on_cron_no_deps,lazy,on_cron,eager|}\"",
+            "            automation_condition_config: {\"cron_schedule\":\"${6|@daily,@hourly,@weekly,@monthly, 0 2 * * *|}\", \"cron_timezone\":\"${7|utc,pst|}\"}",
+            "            freshness_check: {\"lower_bound_delta_seconds\": 129600}",
             "      streams:",
-            "        ${5:$1}.${6:table}:",
+            "        ${17:$1}.${18:table}:",
             ""
         ]
     },
-    "sling_config_scaffold": {
+    "sling_scaffold": {
         "scope": "yaml",
-        "prefix": "scaffold_sling",
+        "prefix": "sling_scaffold",
+        "description": "description",
         "body": [
             "connections:",
-            "  - name: ${1:source_name}",
+            "  - name: ${1:$TM_FILENAME_BASE}",
             "    type: ${2:source_type}",
             "    database: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__DATABASE: show}",
             "    host: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__HOST: show}",
@@ -50,9 +58,9 @@
             "    password: {SOURCE__${1/(.*)/${1:/upcase}/}__CREDENTIALS__PASSWORD: mask}",
             "",
             "replications:",
-            "    - name: ${1:source_name}->${3:snowflake}",
+            "    - name: $1->${3:snowflake}",
             "      env: {SLING_LOADED_AT_COLUMN: timestamp}",
-            "      source: ${1:source_name}",
+            "      source: $1",
             "      target: ${3:snowflake}",
             "      defaults:",
             "        mode: incremental",
@@ -63,11 +71,15 @@
             "          column_casing: snake",
             "          add_new_columns: true",
             "          adjust_column_type: true",
+            "        meta:",
+            "            dagster:",
+            "              automation_condition: \"${6|on_cron_no_deps,lazy,on_cron,eager|}\"",
+            "              automation_condition_config: {\"cron_schedule\":\"${7|@daily,@hourly,@weekly,@monthly, 0 2 * * *|}\", \"cron_timezone\":\"${8|utc,pst|}\"}",
+            "              freshness_check: {\"lower_bound_delta_seconds\": 129600}",
             "      streams:",
-            "        ${6:$1}.${7:table}:",
+            "        ${14:$1}.${15:table}:",
             ""
             ]
-    }
-    
+    },    
 }
 

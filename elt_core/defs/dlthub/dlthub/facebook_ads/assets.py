@@ -1,12 +1,11 @@
 import dlt
 
-from elt_core.defs.dlthub.factory import dlt_assets_factory, add_configs, dlt_freshness_checks_factory
 from .resources import get_campaigns
+from .....defs.dlthub.factory import (
+    dlt_assets_factory,add_configs, dlt_freshness_checks_factory
+)
 
 
-
-schema = "facebook_ads"
-kinds = ["facebook"]
 
 resources = [
     add_configs(
@@ -27,5 +26,7 @@ resources = [
     )
 ]
 
+kinds = ["api"]
+schema = "facebook_ads"
 assets, deps = dlt_assets_factory(resources, schema, kinds)
 asset_checks = dlt_freshness_checks_factory([assets])

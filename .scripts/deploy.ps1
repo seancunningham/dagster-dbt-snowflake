@@ -1,14 +1,12 @@
-conda activate data_platform
-
 Write-Host("`BUILDING DBT")
 
 $dbt_path = ".\dbt"
 echo "cleaning target"
-$log = dbt clean --project-dir $dbt_path --no-clean-project-files-only
+$log = uv run dbt clean --project-dir $dbt_path --no-clean-project-files-only
 echo "installing dependancies"
-$log = dbt deps --project-dir $dbt_path
+$log = uv run dbt deps --project-dir $dbt_path
 echo "parsing manifest"
-$log = dbt parse --project-dir $dbt_path --profiles-dir $dbt_path --target prod
+$log = uv run dbt parse --project-dir $dbt_path --profiles-dir $dbt_path --target prod
 
 echo "creating deferal manifest"
 foreach($line in $log){
@@ -25,7 +23,7 @@ if (!(Test-Path -Path $defer_path -PathType Container)) {
 Copy-Item -Path $dbt_path"\target\manifest.json" -Destination $defer_path -Force
 
 echo "creating docs"
-$log = dbt docs generate --project-dir $dbt_path --target prod
+$log = uv run dbt docs generate --project-dir $dbt_path --target prod
 
 
 
@@ -35,10 +33,10 @@ $new_image = "dagster/elt-core:"+$branch_id
 docker build . --target dagster_elt_core -t $new_image
 
 Write-Host("`nDEPLOYING BUILD")
-$values = Get-Content -Path .\.deployment\helm_template.yaml
+$values = Get-Content -Path .\.scripts\helm_template.yaml
 $values = $values -replace "{{ branch_id }}", $branch_id
-$values | Out-File -FilePath .\.deployment\helm_values.yaml
-helm upgrade --install --hide-notes dagster dagster/dagster -f .\.deployment\helm_values.yaml
+$values | Out-File -FilePath .\.scripts\helm_values.yaml
+helm upgrade --install --hide-notes dagster dagster/dagster -f .\.scripts\helm_values.yaml
 
 Write-Host("`nCLEANING KUBERNETES")
 kubectl delete pod --field-selector=status.phase==Succeeded

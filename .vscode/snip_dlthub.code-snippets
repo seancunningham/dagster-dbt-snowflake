@@ -1,0 +1,42 @@
+{
+    "dlthub_scaffold": {
+        "prefix": "dlthub_scaffold",
+        "scope": "python",
+        "description": "description",
+        "body":[
+            "import dlt",
+            "",
+            "from .resources import ${1:function_name}",
+            "from ...factory import (",
+            "    dlt_assets_factory, add_configs, dlt_freshness_checks_factory",
+            ")",
+            "",
+            "",
+            "",
+            "resources = [",
+            "    add_configs(",
+            "        dlt.resource(",
+            "            $1,",
+            "            name=\"${2:schema}.raw.${3:$1}\",",
+            "            table_name=\"$3\",",
+            "            primary_key=\"${4:id}\",",
+            "            write_disposition=\"merge\"",
+            "        ),",
+            "        meta={",
+            "            \"dagster\": {",
+            "                \"automation_condition\": \"${5|on_cron_no_deps,lazy,on_cron,eager|}\",",
+            "                \"automation_condition_config\": {\"cron_schedule\":\"@${6|daily,hourly,weekly,monthly,0 2 * * *|}\", \"cron_timezone\":\"${7|utc,pst|}\"},",
+            "                \"freshness_lower_bound_delta_seconds\": ${8:108000}",
+            "            }",
+            "        }",
+            "    )",
+            "]",
+            "",
+            "kinds = [\"${9:api}\"]",
+            "schema = \"$2\"",
+            "assets, deps = dlt_assets_factory(resources, schema, kinds)",
+            "asset_checks = dlt_freshness_checks_factory([assets])"
+        ]
+    },
+}
+

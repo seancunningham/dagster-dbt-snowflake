@@ -1,0 +1,9 @@
+{
+    "dbt.deferConfigPerProject": {
+        "": {
+            "deferToProduction": true,
+            "manifestPathForDeferral": "c:\\Users\\Andrew\\Code\\data_platform\\dbt\\defer",
+            "manifestPathType": "local"
+        }
+    }
+}
