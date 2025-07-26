@@ -685,7 +685,5 @@ models:
         data_type: float
       - name: zwl
         data_type: float
-      - name: _dlt_load_id
-        data_type: varchar
-      - name: _dlt_id
-        data_type: varchar
+      - name: _loaded_at
+        data_type: timestamp_ntz
