@@ -1,5 +1,6 @@
 import os
 import json
+from typing import Callable
 from functools import cache
 from pathlib import Path
 
@@ -8,11 +9,12 @@ from dagster_dbt.asset_utils import DBT_DEFAULT_SELECT
 from dagster_dbt import (
     DagsterDbtTranslatorSettings,
     DbtCliResource,
+    DbtProject,
     dbt_assets
 )
 
 from elt_core.defs.dbt.translator import CustomDagsterDbtTranslator
-from elt_core.defs.dbt.resources import dbt
+# from elt_core.defs.dbt.resources import dbt
 
 
 
@@ -25,7 +27,8 @@ class DbtConfig(dg.Config):
 
 @cache
 def dbt_assets_factory(
-    name: str | None = None,
+    name: str | None,
+    dbt: Callable[[],DbtProject],
     partitioned: bool = False,
     select: str = DBT_DEFAULT_SELECT,
     exclude: str | None = None
