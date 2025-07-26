@@ -1,7 +1,9 @@
 import dlt
 
-from elt_core.defs.dlthub.factory import dlt_assets_factory, add_configs, dlt_freshness_checks_factory
 from .resources import get_campaigns, get_criterion
+from ...factory import (
+    dlt_assets_factory,add_configs, dlt_freshness_checks_factory
+)
 
 
 schema = "google_ads"

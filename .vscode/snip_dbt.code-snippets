@@ -2,6 +2,7 @@
     "dbt_sources_scaffold":{
         "prefix": "dbt_sources_scaffold",
         "scope": "jinja-yaml, yaml",
+        "description": "description",
         "body": [
             "version: 2",
             "",
@@ -17,6 +18,7 @@
     "dbt_snapshot_scaffold":{
         "prefix": "dbt_snapshot_scaffold",
         "scope": "jinja-yaml, yaml",
+        "description": "description",
         "body": [
             "version: 2",
             "",
@@ -38,6 +40,20 @@
             "      dbt_updated_at: _scd_updated_at",
             "      dbt_is_deleted: _scd_is_deleted",
             ""
+        ]
+    },
+    "automation_condition_config_sql":{
+        "scope": "jinja-sql,sql",
+        "prefix": "automation_condition_config",
+        "description": "description",
+        "body":[
+            "meta = {",
+            "    \"dagster\": {",
+            "        \"automation_condition\": \"${1|on_cron,on_cron_no_deps,lazy,eager|}\",",
+            "        \"automation_condition_config\": {\"cron_schedule\":\"${2|@daily,@hourly,@weekly,@monthly, 0 2 * * *|}\", \"cron_timezone\":\"${3|utc,pst|}\"},",
+            "        \"freshness_check\": {\"lower_bound_delta_seconds\": ${4|129600,5400|}}",
+            "    }",
+            "  }"
         ]
     }
 }

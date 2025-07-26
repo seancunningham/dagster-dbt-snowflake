@@ -1,16 +1,20 @@
 {
 	"folders": [
 		{
+			"name": "Project",
 			"path": ".."
 		},
 		{
+			"name": "dbt",
 			"path": "../dbt"
 		},
 		{
-			"path": "../elt_core/defs/dlthub/dlthub"
+			"name": "Sling",
+			"path": "../elt_core/defs/sling/sling"
 		},
 		{
-			"path": "../elt_core/defs/sling/sling"
+			"name": "dlthub",
+			"path": "../elt_core/defs/dlthub/dlthub"
 		}
 	],
 	"settings": {
