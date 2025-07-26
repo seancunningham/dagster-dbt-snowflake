@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+- name: exchange_rate
+  database: "{{ '_'~target.name~'_' if target.name != 'prod'-}} raw"
+  schema: "exchange_rate {{- '__'~target.schema if not target.name in ['prod', 'qa']}}"
+  tables:
+  - name: cad

@@ -30,3 +30,33 @@ models:
         description: When the record was loaded from source
         data_type: timestamp_ntz
     description: Dimension containing all campaigns running across the marketing platforms
+  - name: fct_marketing__fct_attribution
+    columns:
+      - name: attribution_sid
+        data_type: varchar
+      - name: lookback_window
+        data_type: number
+      - name: criteria
+        data_type: array
+      - name: hit_id
+        data_type: varchar
+      - name: individual_id
+        data_type: varchar
+      - name: campaign_sid
+        data_type: varchar
+      - name: transaction_id
+        data_type: number
+      - name: advertised_product_id
+        data_type: varchar
+      - name: transacted_product_id
+        data_type: varchar
+      - name: sales_channel
+        data_type: varchar
+      - name: transacted_at
+        data_type: timestamp_ntz
+      - name: attribution_start_at
+        data_type: timestamp_ntz
+      - name: attribution_end_at
+        data_type: timestamp_ntz
+      - name: _loaded_at
+        data_type: timestamp_ntz

@@ -1,0 +1,691 @@
+models:
+  - name: stg_exchange_rate__cad
+    description: exchange rate for difference currancies
+    columns:
+      - name: date
+        description: The date of the set exchange rate
+        data_type: varchar
+      - name: _1inch
+        data_type: float
+      - name: aave
+        data_type: float
+      - name: ada
+        data_type: float
+      - name: aed
+        data_type: float
+      - name: afn
+        data_type: float
+      - name: agix
+        data_type: float
+      - name: akt
+        data_type: float
+      - name: algo
+        data_type: float
+      - name: all
+        data_type: float
+      - name: amd
+        data_type: float
+      - name: amp
+        data_type: float
+      - name: ang
+        data_type: float
+      - name: aoa
+        data_type: float
+      - name: ape
+        data_type: float
+      - name: apt
+        data_type: float
+      - name: ar
+        data_type: float
+      - name: arb
+        data_type: float
+      - name: ars
+        data_type: float
+      - name: atom
+        data_type: float
+      - name: ats
+        data_type: float
+      - name: aud
+        data_type: float
+      - name: avax
+        data_type: float
+      - name: awg
+        data_type: float
+      - name: axs
+        data_type: float
+      - name: azm
+        data_type: float
+      - name: azn
+        data_type: float
+      - name: bake
+        data_type: float
+      - name: bam
+        data_type: float
+      - name: bat
+        data_type: float
+      - name: bbd
+        data_type: float
+      - name: bch
+        data_type: float
+      - name: bdt
+        data_type: float
+      - name: bef
+        data_type: float
+      - name: bgn
+        data_type: float
+      - name: bhd
+        data_type: float
+      - name: bif
+        data_type: float
+      - name: bmd
+        data_type: float
+      - name: bnb
+        data_type: float
+      - name: bnd
+        data_type: float
+      - name: bob
+        data_type: float
+      - name: brl
+        data_type: float
+      - name: bsd
+        data_type: float
+      - name: bsv
+        data_type: float
+      - name: bsw
+        data_type: float
+      - name: btc
+        data_type: float
+      - name: btcb
+        data_type: float
+      - name: btg
+        data_type: float
+      - name: btn
+        data_type: float
+      - name: btt
+        data_type: float
+      - name: busd
+        data_type: float
+      - name: bwp
+        data_type: float
+      - name: byn
+        data_type: float
+      - name: byr
+        data_type: float
+      - name: bzd
+        data_type: float
+      - name: cad
+        data_type: number
+      - name: cake
+        data_type: float
+      - name: cdf
+        data_type: float
+      - name: celo
+        data_type: float
+      - name: cfx
+        data_type: float
+      - name: chf
+        data_type: float
+      - name: chz
+        data_type: float
+      - name: clp
+        data_type: float
+      - name: cnh
+        data_type: float
+      - name: cny
+        data_type: float
+      - name: comp
+        data_type: float
+      - name: cop
+        data_type: float
+      - name: crc
+        data_type: float
+      - name: cro
+        data_type: float
+      - name: crv
+        data_type: float
+      - name: cspr
+        data_type: float
+      - name: cuc
+        data_type: float
+      - name: cup
+        data_type: float
+      - name: cve
+        data_type: float
+      - name: cvx
+        data_type: float
+      - name: cyp
+        data_type: float
+      - name: czk
+        data_type: float
+      - name: dai
+        data_type: float
+      - name: dash
+        data_type: float
+      - name: dcr
+        data_type: float
+      - name: dem
+        data_type: float
+      - name: dfi
+        data_type: float
+      - name: djf
+        data_type: float
+      - name: dkk
+        data_type: float
+      - name: doge
+        data_type: float
+      - name: dop
+        data_type: float
+      - name: dot
+        data_type: float
+      - name: dydx
+        data_type: float
+      - name: dzd
+        data_type: float
+      - name: eek
+        data_type: float
+      - name: egld
+        data_type: float
+      - name: egp
+        data_type: float
+      - name: enj
+        data_type: float
+      - name: eos
+        data_type: float
+      - name: ern
+        data_type: float
+      - name: esp
+        data_type: float
+      - name: etb
+        data_type: float
+      - name: etc
+        data_type: float
+      - name: eth
+        data_type: float
+      - name: eur
+        data_type: float
+      - name: fei
+        data_type: float
+      - name: fil
+        data_type: float
+      - name: fim
+        data_type: float
+      - name: fjd
+        data_type: float
+      - name: fkp
+        data_type: float
+      - name: flow
+        data_type: float
+      - name: flr
+        data_type: float
+      - name: frax
+        data_type: float
+      - name: frf
+        data_type: float
+      - name: ftm
+        data_type: float
+      - name: ftt
+        data_type: float
+      - name: fxs
+        data_type: float
+      - name: gala
+        data_type: float
+      - name: gbp
+        data_type: float
+      - name: gel
+        data_type: float
+      - name: ggp
+        data_type: float
+      - name: ghc
+        data_type: float
+      - name: ghs
+        data_type: float
+      - name: gip
+        data_type: float
+      - name: gmd
+        data_type: float
+      - name: gmx
+        data_type: float
+      - name: gnf
+        data_type: float
+      - name: gno
+        data_type: float
+      - name: grd
+        data_type: float
+      - name: grt
+        data_type: float
+      - name: gt
+        data_type: float
+      - name: gtq
+        data_type: float
+      - name: gusd
+        data_type: float
+      - name: gyd
+        data_type: float
+      - name: hbar
+        data_type: float
+      - name: hkd
+        data_type: float
+      - name: hnl
+        data_type: float
+      - name: hnt
+        data_type: float
+      - name: hot
+        data_type: float
+      - name: hrk
+        data_type: float
+      - name: ht
+        data_type: float
+      - name: htg
+        data_type: float
+      - name: huf
+        data_type: float
+      - name: icp
+        data_type: float
+      - name: idr
+        data_type: float
+      - name: iep
+        data_type: float
+      - name: ils
+        data_type: float
+      - name: imp
+        data_type: float
+      - name: imx
+        data_type: float
+      - name: inj
+        data_type: float
+      - name: inr
+        data_type: float
+      - name: iqd
+        data_type: float
+      - name: irr
+        data_type: float
+      - name: isk
+        data_type: float
+      - name: itl
+        data_type: float
+      - name: jep
+        data_type: float
+      - name: jmd
+        data_type: float
+      - name: jod
+        data_type: float
+      - name: jpy
+        data_type: float
+      - name: kas
+        data_type: float
+      - name: kava
+        data_type: float
+      - name: kcs
+        data_type: float
+      - name: kda
+        data_type: float
+      - name: kes
+        data_type: float
+      - name: kgs
+        data_type: float
+      - name: khr
+        data_type: float
+      - name: klay
+        data_type: float
+      - name: kmf
+        data_type: float
+      - name: knc
+        data_type: float
+      - name: kpw
+        data_type: float
+      - name: krw
+        data_type: float
+      - name: ksm
+        data_type: float
+      - name: kwd
+        data_type: float
+      - name: kyd
+        data_type: float
+      - name: kzt
+        data_type: float
+      - name: lak
+        data_type: float
+      - name: lbp
+        data_type: float
+      - name: ldo
+        data_type: float
+      - name: leo
+        data_type: float
+      - name: link
+        data_type: float
+      - name: lkr
+        data_type: float
+      - name: lrc
+        data_type: float
+      - name: lrd
+        data_type: float
+      - name: lsl
+        data_type: float
+      - name: ltc
+        data_type: float
+      - name: ltl
+        data_type: float
+      - name: luf
+        data_type: float
+      - name: luna
+        data_type: float
+      - name: lunc
+        data_type: float
+      - name: lvl
+        data_type: float
+      - name: lyd
+        data_type: float
+      - name: mad
+        data_type: float
+      - name: mana
+        data_type: float
+      - name: matic
+        data_type: float
+      - name: mbx
+        data_type: float
+      - name: mdl
+        data_type: float
+      - name: mga
+        data_type: float
+      - name: mgf
+        data_type: float
+      - name: mina
+        data_type: float
+      - name: mkd
+        data_type: float
+      - name: mkr
+        data_type: float
+      - name: mmk
+        data_type: float
+      - name: mnt
+        data_type: float
+      - name: mop
+        data_type: float
+      - name: mro
+        data_type: float
+      - name: mru
+        data_type: float
+      - name: mtl
+        data_type: float
+      - name: mur
+        data_type: float
+      - name: mvr
+        data_type: float
+      - name: mwk
+        data_type: float
+      - name: mxn
+        data_type: float
+      - name: mxv
+        data_type: float
+      - name: myr
+        data_type: float
+      - name: mzm
+        data_type: float
+      - name: mzn
+        data_type: float
+      - name: nad
+        data_type: float
+      - name: near
+        data_type: float
+      - name: neo
+        data_type: float
+      - name: nexo
+        data_type: float
+      - name: nft
+        data_type: float
+      - name: ngn
+        data_type: float
+      - name: nio
+        data_type: float
+      - name: nlg
+        data_type: float
+      - name: nok
+        data_type: float
+      - name: npr
+        data_type: float
+      - name: nzd
+        data_type: float
+      - name: okb
+        data_type: float
+      - name: omr
+        data_type: float
+      - name: one
+        data_type: float
+      - name: op
+        data_type: float
+      - name: ordi
+        data_type: float
+      - name: pab
+        data_type: float
+      - name: paxg
+        data_type: float
+      - name: pen
+        data_type: float
+      - name: pepe
+        data_type: float
+      - name: pgk
+        data_type: float
+      - name: php
+        data_type: float
+      - name: pkr
+        data_type: float
+      - name: pln
+        data_type: float
+      - name: pte
+        data_type: float
+      - name: pyg
+        data_type: float
+      - name: qar
+        data_type: float
+      - name: qnt
+        data_type: float
+      - name: qtum
+        data_type: float
+      - name: rol
+        data_type: float
+      - name: ron
+        data_type: float
+      - name: rpl
+        data_type: float
+      - name: rsd
+        data_type: float
+      - name: rub
+        data_type: float
+      - name: rune
+        data_type: float
+      - name: rvn
+        data_type: float
+      - name: rwf
+        data_type: float
+      - name: sand
+        data_type: float
+      - name: sar
+        data_type: float
+      - name: sbd
+        data_type: float
+      - name: scr
+        data_type: float
+      - name: sdd
+        data_type: float
+      - name: sdg
+        data_type: float
+      - name: sek
+        data_type: float
+      - name: sgd
+        data_type: float
+      - name: shib
+        data_type: float
+      - name: shp
+        data_type: float
+      - name: sit
+        data_type: float
+      - name: skk
+        data_type: float
+      - name: sle
+        data_type: float
+      - name: sll
+        data_type: float
+      - name: snx
+        data_type: float
+      - name: sol
+        data_type: float
+      - name: sos
+        data_type: float
+      - name: spl
+        data_type: float
+      - name: srd
+        data_type: float
+      - name: srg
+        data_type: float
+      - name: std
+        data_type: float
+      - name: stn
+        data_type: float
+      - name: stx
+        data_type: float
+      - name: sui
+        data_type: float
+      - name: svc
+        data_type: float
+      - name: syp
+        data_type: float
+      - name: szl
+        data_type: float
+      - name: thb
+        data_type: float
+      - name: theta
+        data_type: float
+      - name: tjs
+        data_type: float
+      - name: tmm
+        data_type: float
+      - name: tmt
+        data_type: float
+      - name: tnd
+        data_type: float
+      - name: ton
+        data_type: float
+      - name: top
+        data_type: float
+      - name: trl
+        data_type: float
+      - name: trx
+        data_type: float
+      - name: try
+        data_type: float
+      - name: ttd
+        data_type: float
+      - name: tusd
+        data_type: float
+      - name: tvd
+        data_type: float
+      - name: twd
+        data_type: float
+      - name: twt
+        data_type: float
+      - name: tzs
+        data_type: float
+      - name: uah
+        data_type: float
+      - name: ugx
+        data_type: float
+      - name: uni
+        data_type: float
+      - name: usd
+        data_type: float
+      - name: usdc
+        data_type: float
+      - name: usdd
+        data_type: float
+      - name: usdp
+        data_type: float
+      - name: usdt
+        data_type: float
+      - name: uyu
+        data_type: float
+      - name: uzs
+        data_type: float
+      - name: val
+        data_type: float
+      - name: veb
+        data_type: float
+      - name: ved
+        data_type: float
+      - name: vef
+        data_type: float
+      - name: ves
+        data_type: float
+      - name: vet
+        data_type: float
+      - name: vnd
+        data_type: float
+      - name: vuv
+        data_type: float
+      - name: waves
+        data_type: float
+      - name: wemix
+        data_type: float
+      - name: woo
+        data_type: float
+      - name: wst
+        data_type: float
+      - name: xaf
+        data_type: float
+      - name: xag
+        data_type: float
+      - name: xau
+        data_type: float
+      - name: xaut
+        data_type: float
+      - name: xbt
+        data_type: float
+      - name: xcd
+        data_type: float
+      - name: xch
+        data_type: float
+      - name: xdc
+        data_type: float
+      - name: xdr
+        data_type: float
+      - name: xec
+        data_type: float
+      - name: xem
+        data_type: float
+      - name: xlm
+        data_type: float
+      - name: xmr
+        data_type: float
+      - name: xof
+        data_type: float
+      - name: xpd
+        data_type: float
+      - name: xpf
+        data_type: float
+      - name: xpt
+        data_type: float
+      - name: xrp
+        data_type: float
+      - name: xtz
+        data_type: float
+      - name: yer
+        data_type: float
+      - name: zar
+        data_type: float
+      - name: zec
+        data_type: float
+      - name: zil
+        data_type: float
+      - name: zmk
+        data_type: float
+      - name: zmw
+        data_type: float
+      - name: zwd
+        data_type: float
+      - name: zwg
+        data_type: float
+      - name: zwl
+        data_type: float
+      - name: _dlt_load_id
+        data_type: varchar
+      - name: _dlt_id
+        data_type: varchar

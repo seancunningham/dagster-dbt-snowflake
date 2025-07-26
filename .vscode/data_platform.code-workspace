@@ -21,7 +21,10 @@
 		"files.associations": {
 			"*.sql": "jinja-sql",
 			"*.yml": "jinja-yaml"
-		}
+		},
+		"dbt.perspectiveTheme": "Pro Light",
+		"dbt.prefixGenerateModel": "stg",
+		"dbt.fileNameTemplateGenerateModel": "{prefix}_{sourceName}__{tableName}"
 	},
 	"tasks": {
 		"version": "2.0.0",
