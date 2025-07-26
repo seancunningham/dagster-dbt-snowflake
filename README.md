@@ -1,4 +1,4 @@
-```mermaid
+``` mermaid
 flowchart
     subgraph elt core
         subgraph Sling / dltHub 
