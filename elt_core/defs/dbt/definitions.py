@@ -11,11 +11,7 @@ from dagster_dbt import (
 )
 
 from elt_core.defs.dbt.factory import dbt_assets_factory
-from elt_core.defs.dbt.constants import (
-    SNAPSHOT_SELECTOR,
-    TIME_PARTITION_SELECTOR,
-)
-
+from elt_core.defs.dbt.constants import TIME_PARTITION_SELECTOR
 
 
 @definitions
@@ -41,7 +37,7 @@ def defs() -> dg.Definitions:
                 partitioned=True),
         dbt_assets_factory("dbt_non_partitioned_models",
                 dbt=dbt,
-                exclude=" ".join([TIME_PARTITION_SELECTOR]),
+                exclude=TIME_PARTITION_SELECTOR,
                 partitioned=False)
     ]
 
@@ -52,7 +48,9 @@ def defs() -> dg.Definitions:
     )
 
     return dg.Definitions(
-        resources={"dbt": DbtCliResource(project_dir=dbt())},
+        resources={
+            "dbt": DbtCliResource(project_dir=dbt())
+        },
         assets=assets,
         asset_checks=freshness_checks,
         sensors=[freshness_sensor]
