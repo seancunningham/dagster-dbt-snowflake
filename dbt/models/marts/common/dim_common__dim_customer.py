@@ -2,7 +2,6 @@ def model(dbt, session):
     session.use_schema("public")
     dbt.config(
         python_version="3.11",
-        tags=["account_id"],
         packages=["faker"],
         materialization="incremental",
         incremental_strategy="merge",
