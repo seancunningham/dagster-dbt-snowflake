@@ -58,6 +58,12 @@
 				}
 			},
 			{
+				"label": "dbt parse",
+				"type": "shell",
+				"command": "uv run --env-file .env  dbt parse",
+				"icon": {"id":"server"},
+			},
+			{
 				"label": "start app",
 				"dependsOn": ["dagster dev", "k8s port forward", "k8s pod status"],
 				"icon": {"id":"chip"},

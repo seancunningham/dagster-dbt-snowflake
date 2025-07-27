@@ -3,17 +3,17 @@ from typing import Iterable, Mapping, Any
 from dagster._utils.tags import is_valid_tag_key
 from dlt.extract.resource import DltResource
 from dagster_dlt.translator import DltResourceTranslatorData
-import dagster_dlt as dg_dlt
+from dagster_dlt import DagsterDltTranslator
 import dagster as dg
 
-from elt_core.utils.transaltor_helpers import (
+from ..helpers import (
     get_automation_condition_from_meta,
     get_partitions_def_from_meta
 )
 
 
 
-class CustomDagsterDltTranslator(dg_dlt.DagsterDltTranslator):
+class CustomDagsterDltTranslator(DagsterDltTranslator):
 
     def get_asset_spec(self, data: DltResourceTranslatorData) -> dg.AssetSpec:
         """Defines the asset spec for a given dlt resource.
@@ -57,19 +57,26 @@ class CustomDagsterDltTranslator(dg_dlt.DagsterDltTranslator):
             partitions_def=self.get_partitions_def(data.resource)
         )
 
+
+
     def get_deps_asset_keys(self, resource: DltResource) -> Iterable[dg.AssetKey]:
+        name : str | None = None
         if resource.is_transformer:
             pipe = resource._pipe
             while pipe.has_parent:
                 pipe = pipe.parent
-                asset_key = pipe.schema.name.split(".") # type: ignore
+                name = pipe.schema.name # type: ignore
         else:
-            asset_key = resource.name.split(".")
-            asset_key[1] = "src"
-        return [dg.AssetKey(asset_key)] # type: ignore
+            name = resource.name
+        if name:
+            schema, table = name.split(".")
+            asset_key = [schema, "src", table]
+            return [dg.AssetKey(asset_key)]
+        return super().get_deps_asset_keys(resource)
 
     def get_asset_key(self, resource: DltResource) -> dg.AssetKey:
-        asset_key = resource.name.split(".")
+        schema, table = resource.name.split(".")
+        asset_key = [schema, "raw", table]
         return dg.AssetKey(asset_key)
     
     def get_group_name(self, resource: DltResource) -> str:

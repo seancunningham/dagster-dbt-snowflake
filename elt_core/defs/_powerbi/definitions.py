@@ -15,7 +15,7 @@ import dagster as dg
         ["common", "dim", "dim_customer"]
     ],
     owners=["analytics@email.com"],
-    kinds=["powerbi"],
+    kinds={"powerbi"},
     group_name="bi",
     automation_condition=dg.AutomationCondition.eager(),
     description="This is the core semantic model that is used by business leadership to self serve analtics"
@@ -38,7 +38,7 @@ bi_exp_executive_dashboard = dg.AssetSpec(
     deps=[
         ["bi", "sm", "core_semantic_model"],
     ],
-    kinds=["powerbi"],
+    kinds={"powerbi"},
     group_name="bi"
 )
 
@@ -47,7 +47,7 @@ bi_exp_daily_metrics = dg.AssetSpec(
     deps=[
         ["bi", "sm", "core_semantic_model"],
     ],
-    kinds=["powerbi"],
+    kinds={"powerbi"},
     group_name="bi"
 )
 
@@ -56,6 +56,6 @@ bi_exp_weekly_metrics = dg.AssetSpec(
     deps=[
         ["bi", "sm", "core_semantic_model"],
     ],
-    kinds=["powerbi"],
+    kinds={"powerbi"},
     group_name="bi"
 )

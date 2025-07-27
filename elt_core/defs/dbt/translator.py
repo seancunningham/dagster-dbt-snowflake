@@ -5,13 +5,11 @@ from typing import Any, Optional
 import dagster as dg
 from dagster_dbt import DagsterDbtTranslator
 
-from elt_core.defs.automation_conditions import CustomAutomationCondition
-from elt_core.utils.transaltor_helpers import (
+from ..automation_conditions import CustomAutomationCondition
+from ..helpers import (
      get_automation_condition_from_meta,
      get_partitions_def_from_meta
 )
-
-dg.AssetCheckSpec
 
 
 class CustomDagsterDbtTranslator(DagsterDbtTranslator):

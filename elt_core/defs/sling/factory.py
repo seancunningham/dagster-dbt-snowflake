@@ -7,18 +7,18 @@ from datetime import timedelta
 
 import dagster as dg
 from dagster_sling import SlingResource, sling_assets, SlingConnectionResource
+from dagster_sling import SlingResource
 
-from elt_core.utils.secrets import get_secret
-from elt_core.defs.sling.translator import CustomDagsterSlingTranslator
-from elt_core.utils.transaltor_helpers import sanitize_input_signature
-
+from .translator import CustomDagsterSlingTranslator
+from ..helpers import sanitize_input_signature
+from ...utils.secrets import get_secret
 
 
 @cache
-def sling_factory(config_dir: Path) -> tuple[list[SlingConnectionResource], list[dg.AssetsDefinition], list[dg.AssetChecksDefinition]]:
+def build_sling_definitions(config_dir: Path) -> dg.Definitions:
     connections = []
     assets = []
-    asset_checks = []
+    freshness_checks = []
 
     for config_path in os.listdir(config_dir):
         if config_path.endswith(".yaml") or config_path.endswith(".yml"):
@@ -50,14 +50,20 @@ def sling_factory(config_dir: Path) -> tuple[list[SlingConnectionResource], list
                     asset_freshness_checks = _get_freshness_checks(replication_config)
                     
                     if asset_freshness_checks:
-                        asset_checks.extend(asset_freshness_checks)
+                        freshness_checks.extend(asset_freshness_checks)
                     if assets_definition:
                         assets.append(assets_definition)
                     if dep_asset_specs:
                         assets.extend(dep_asset_specs)
 
-
-    return connections, assets, asset_checks
+    return dg.Definitions(
+        resources={"sling":SlingResource(connections=connections)},
+        assets=assets,
+        asset_checks=freshness_checks,
+        sensors=[dg.build_sensor_for_freshness_checks(
+            freshness_checks=freshness_checks,
+            name="sling_freshness_checks_sensor")]
+    )
 
 def _get_connection(connection_config: dict) -> SlingConnectionResource | None:
     """parse connection from a replication config"""

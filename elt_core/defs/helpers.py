@@ -4,7 +4,7 @@ from inspect import signature
 
 import dagster as dg
 
-from elt_core.defs.automation_conditions import CustomAutomationCondition
+from .automation_conditions import CustomAutomationCondition
 
 
 

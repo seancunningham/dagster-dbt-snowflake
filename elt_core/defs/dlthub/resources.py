@@ -1,15 +1,16 @@
-import os
-
-import dagster as dg
 from dagster.components import definitions
-from dagster_dlt import DagsterDltResource
-
-from elt_core.key_vault import SecretClient
+from dagster import Definitions
 
 
 
 @definitions
-def defs() -> dg.Definitions:
+def defs() -> Definitions:
+    import os
+
+    import dagster as dg
+
+    from dagster_dlt import DagsterDltResource
+    from ...key_vault import SecretClient
 
     kv = SecretClient(
         vault_url=os.getenv("AZURE_KEYVAULT_URL"),
@@ -37,8 +38,9 @@ def defs() -> dg.Definitions:
 
     os.environ["ENABLE_DATASET_NAME_NORMALIZATION"] = "false"
 
+
     return dg.Definitions(
         resources={
             "dlt": DagsterDltResource()
-        },
+        }
     )

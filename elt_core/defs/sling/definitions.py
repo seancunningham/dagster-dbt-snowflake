@@ -1,26 +1,13 @@
-from pathlib import Path
-
-import dagster as dg
 from dagster.components import definitions
-from dagster_sling import SlingResource
-
-from .factory import sling_factory
+from dagster import Definitions
 
 
-
-config_dir = Path(__file__).joinpath(*[".."], "sling").resolve()
 
 @definitions
-def defs() -> dg.Definitions:
-    connections, assets, freshness_checks = sling_factory(config_dir)
-    freshness_sensor = dg.build_sensor_for_freshness_checks(
-        freshness_checks=freshness_checks,
-        name="sling_freshness_checks_sensor"
-    )
+def defs() -> Definitions:
+    from pathlib import Path
+    from .factory import build_sling_definitions
 
-    return dg.Definitions(
-        resources={"sling": SlingResource(connections=connections)},
-        assets=assets,
-        asset_checks=freshness_checks,
-        sensors=[freshness_sensor]
-    )
+    config_dir = Path(__file__).joinpath(*[".."], "sling").resolve()
+
+    return build_sling_definitions(config_dir)

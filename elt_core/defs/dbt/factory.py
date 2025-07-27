@@ -10,10 +10,12 @@ from dagster_dbt import (
     DagsterDbtTranslatorSettings,
     DbtCliResource,
     DbtProject,
-    dbt_assets
+    dbt_assets,
+    build_freshness_checks_from_dbt_assets
 )
 
-from elt_core.defs.dbt.translator import CustomDagsterDbtTranslator
+from .translator import CustomDagsterDbtTranslator
+from .constants import TIME_PARTITION_SELECTOR
 
 
 
@@ -23,6 +25,37 @@ class DbtConfig(dg.Config):
     defer_to_prod: bool = defer_to_prod
     favor_state: bool = False
 
+
+@cache
+def build_dbt_definitions(dbt: Callable[[], DbtProject]) -> dg.Definitions:
+
+    assets = [
+        dbt_assets_factory("dbt_partitioned_models",
+                dbt=dbt,
+                select=TIME_PARTITION_SELECTOR,
+                partitioned=True),
+        dbt_assets_factory("dbt_non_partitioned_models",
+                dbt=dbt,
+                exclude=TIME_PARTITION_SELECTOR,
+                partitioned=False)
+    ]
+
+    freshness_checks = build_freshness_checks_from_dbt_assets(dbt_assets=assets)
+    freshness_sensor = dg.build_sensor_for_freshness_checks(
+        freshness_checks=freshness_checks,
+        name="dbt_freshness_checks_sensor"
+    )
+
+    return dg.Definitions(
+        resources={
+            "dbt": DbtCliResource(
+                project_dir=dbt(),
+            )
+        },
+        assets=assets,
+        asset_checks=freshness_checks,
+        sensors=[freshness_sensor]
+    )
 
 @cache
 def dbt_assets_factory(
@@ -70,8 +103,8 @@ def dbt_assets_factory(
 
             args.extend(("--vars", json.dumps(dbt_vars)))
             
-            yield from dbt.cli(args, context=context).stream().with_insights()
+            yield from dbt.cli(args, context=context).stream()#.with_insights()
         else:
-            yield from dbt.cli(args, context=context).stream().with_insights()
+            yield from dbt.cli(args, context=context).stream()#.with_insights()
     
     return assets
