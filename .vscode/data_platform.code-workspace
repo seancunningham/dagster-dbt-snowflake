@@ -11,6 +11,10 @@
 		{
 			"name": "Sling",
 			"path": "../elt_core/defs/sling/sling"
+		},
+		{
+			"name": "dltHub",
+			"path": "../elt_core/defs/dlthub/dlthub"
 		}
 	],
 	"settings": {
@@ -23,7 +27,18 @@
 		"dbt.fileNameTemplateGenerateModel": "{prefix}_{sourceName}__{tableName}",
 		"dbt.lineage.defaultExpansion": 2,
 		"dbt.enableNewLineagePanel": true,
-		"dbt.enableMcpDataSourceQueryTools": true
+		"dbt.enableMcpDataSourceQueryTools": true,
+		"dbt.deferConfigPerProject": {
+			"dbt": {
+				"deferToProduction": true,
+				"manifestPathForDeferral": ".\\dbt\\state",
+				"manifestPathType": "local",
+				"favorState": false
+			},
+			"": {
+				"deferToProduction": true
+			}
+		}
 	},
 	"tasks": {
 		"version": "2.0.0",

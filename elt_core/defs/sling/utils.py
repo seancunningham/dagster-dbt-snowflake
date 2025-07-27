@@ -22,6 +22,7 @@ class DagsterSlingFactory:
     def build_definitions(config_dir: Path) -> dg.Definitions:
         """Returns a Definitions object for a path that contains Sling yaml configs.
         """
+
         connections = []
         assets = []
         freshness_checks = []
@@ -231,6 +232,8 @@ class DagsterSlingFactory:
     @staticmethod
     def _get_freshness_checks(replication_config: dict) -> list[dg.AssetChecksDefinition]:
         """Returns a list of AssetChecksDefinition for replication configs.
+        Configs supplied on the stream will take priority, otherwise the
+        default will be used.
         """
         
         freshness_checks = []
@@ -274,6 +277,7 @@ class DagsterSlingFactory:
                             **freshness_check_config)
                         freshness_checks.extend(last_update_freshness_checks)
                 except TypeError as e:
-                    raise TypeError(f"Error creating freshness check, check your configuration for '{asset_key}'. Supplied arguments: {freshness_check_config}")
+                    raise TypeError(f"Error creating freshness check, check your configuration"
+                                    "for '{asset_key}'. Supplied arguments: {freshness_check_config}")
 
         return freshness_checks
