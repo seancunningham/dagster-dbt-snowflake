@@ -11,6 +11,13 @@ from ..helpers import (
 
 
 class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
+    """Overrides methods of the standard translator.
+    
+    Holds a set of methods that derive Dagster asset definition metadata given
+    a representation of Sling resource (connections, replications).
+    Methods are overriden to customize the implementation.
+    
+    See parent class for details on the purpose of each override"""
 
     def get_asset_spec(self, stream_definition: Mapping[str, Any]) -> dg.AssetSpec:
         return dg.AssetSpec(

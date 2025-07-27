@@ -2,7 +2,6 @@ import os
 import json
 from typing import Callable
 from functools import cache
-from pathlib import Path
 
 import dagster as dg
 from dagster_dbt.asset_utils import DBT_DEFAULT_SELECT
@@ -16,7 +15,6 @@ from dagster_dbt import (
 
 from .translator import CustomDagsterDbtTranslator
 from .constants import TIME_PARTITION_SELECTOR
-
 
 
 defer_to_prod = os.getenv("TARGET", "").lower() != "prod"

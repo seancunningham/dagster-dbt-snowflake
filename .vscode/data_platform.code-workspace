@@ -58,6 +58,16 @@
 				}
 			},
 			{
+				"label": "clear k8s pod history",
+				"type": "shell",
+				"command":[
+					"kubectl config use-context desktop-linux;",
+					"kubectl delete pod --field-selector=status.phase==Completed;",
+					"kubectl delete pod --field-selector=status.phase==Succeeded;",
+					"kubectl delete pod --field-selector=status.phase==Failed;"
+				]
+			},
+			{
 				"label": "dbt parse",
 				"type": "shell",
 				"command": "uv run --env-file .env  dbt parse",

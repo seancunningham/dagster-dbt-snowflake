@@ -1,4 +1,10 @@
-def get_campaigns():
+from typing import Generator, Any
+
+
+def get_campaigns() -> Generator[list[dict[str, Any]], Any, None]:
+    """A generator that will yield responses from a stub representing an api to
+    download data from facebook ads.
+    """
 
     response = [
         {"id":90009, "name":"summer_sale", "start_date": "2024-06-01", "updated":"2025-07-02 21:14:03"},

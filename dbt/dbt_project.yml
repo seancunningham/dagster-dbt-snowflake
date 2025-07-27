@@ -14,13 +14,6 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-flags:
-  warn_error_options:
-    error: # Previously called "include"
-    warn: # Previously called "exclude"
-    silence: # To silence or ignore warnings
-      - NoNodesForSelectionCriteria
-
 
 clean-targets:
   - "target"

@@ -9,7 +9,16 @@ from .automation_conditions import CustomAutomationCondition
 
 
 def get_automation_condition_from_meta(meta: dict[str, Any]) -> dg.AutomationCondition | None:
-
+    """Return an AutomationCondition if valid configuartion is provided in the meta.
+    Meta should be of format dict in the following structure:
+    >>> # Meta should be of format dict in the following structure:
+        "meta":{
+            "dagster":{
+                "automation_condition": condition,
+                "automation_condition_config": {argument: value}
+            }
+        }
+    """
     condition_name = meta.get("automation_condition")
     if not condition_name:
          return None
@@ -31,6 +40,18 @@ def get_automation_condition_from_meta(meta: dict[str, Any]) -> dg.AutomationCon
     
 
 def get_partitions_def_from_meta(meta: dict[str, Any]) -> dg.TimeWindowPartitionsDefinition | None:
+    """Return an TimeWindowPartitionsDefinition if valid configuartion is provided in the meta.
+    Partition accepts the values: hourly, daily, weekly, monthly.  partition_start_date should be a 
+    iso format date, or timestamp.
+    
+    >>> # Meta should be of format dict in the following structure:
+        "meta":{
+            "dagster":{
+                "partition": "daily",
+                "partition_start_date": "2025-01-01"
+            }
+        }
+    """
     try:
         partition = meta.get("partition")
         partition_start_date = meta.get("partition_start_date")
@@ -51,6 +72,7 @@ def get_partitions_def_from_meta(meta: dict[str, Any]) -> dg.TimeWindowPartition
 
 def sanitize_input_signature(func: Callable, kwargs: dict) -> dict:
     """Remove any arguments that are not expected by the recieving function"""
+    
     sig = signature(func)
     key_words = list(kwargs.keys())
     expected_arguments = {argument for argument, _ in sig.parameters.items()}

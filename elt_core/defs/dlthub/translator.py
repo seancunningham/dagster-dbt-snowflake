@@ -14,6 +14,13 @@ from ..helpers import (
 
 
 class CustomDagsterDltTranslator(DagsterDltTranslator):
+    """Overrides methods of the standard translator.
+    
+    Holds a set of methods that derive Dagster asset definition metadata given
+    a representation of dltHub resource (resources, pipes, etc).
+    Methods are overriden to customize the implementation.
+    
+    See parent class for details on the purpose of each override"""
 
     def get_asset_spec(self, data: DltResourceTranslatorData) -> dg.AssetSpec:
         """Defines the asset spec for a given dlt resource.

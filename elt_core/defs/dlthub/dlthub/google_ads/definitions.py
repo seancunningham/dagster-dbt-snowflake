@@ -1,17 +1,17 @@
+import dlt
 import dagster as dg
 from dagster.components import definitions
-import dlt
-from ...factory import (
-    build_dlt_definitions, config
-)
+from ...factory import build_dlt_definitions, config
+
+
+#######################################################
 @definitions
 def defs() -> dg.Definitions:
-#######################################################
-    from .resources import get_campaigns, get_criterion
+    from .resources import google_ads
     resources = [
 #######################################################
         config(dlt.resource(
-                get_campaigns,
+                google_ads("get_campaigns"),
                 name="google_ads.campaigns",
                 table_name="campaigns",
                 primary_key="id",
@@ -24,13 +24,13 @@ def defs() -> dg.Definitions:
                     "automation_condition_config": {
                         "cron_schedule":"@daily",
                         "cron_timezone":"utc"},
-                    "freshness_lower_bound_delta_seconds": 108000
+                    # "freshness_lower_bound_delta_seconds": 108000
                 }
             }
         ),
 #######################################################
         config(dlt.resource(
-                get_criterion,
+                google_ads("get_criterion"),
                 name="google_ads.criterion",
                 table_name="criterion",
                 primary_key="id",
@@ -43,7 +43,7 @@ def defs() -> dg.Definitions:
                     "automation_condition_config": {
                         "cron_schedule":"@daily",
                         "cron_timezone":"utc"},
-                    "freshness_lower_bound_delta_seconds": 108000
+                    # "freshness_lower_bound_delta_seconds": 108000
                 }
             }
         )

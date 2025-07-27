@@ -6,7 +6,7 @@
         meta = {
             "dagster": {
                 "automation_condition": "on_cron",
-                "automation_condition_config": {"cron_schedule":"@daily", "cron_timezone":"utc"},
+                "automation_condition_config": {"cron_schedule":"@daily", "cron_timezone":"utc", "ignore_asset_keys": ["google_ads","stg", "campaigns"]},
                 "freshness_check": {"lower_bound_delta_seconds": 129600}
             }
         }
