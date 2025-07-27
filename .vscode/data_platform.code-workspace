@@ -11,10 +11,6 @@
 		{
 			"name": "Sling",
 			"path": "../elt_core/defs/sling/sling"
-		},
-		{
-			"name": "dlthub",
-			"path": "../elt_core/defs/dlthub/dlthub"
 		}
 	],
 	"settings": {

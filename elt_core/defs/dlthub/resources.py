@@ -2,9 +2,17 @@ from dagster.components import definitions
 from dagster import Definitions
 
 
-
 @definitions
 def defs() -> Definitions:
+    """Returns set of definitions explicitly available and loadable by Dagster tools.
+    Will be automatically dectectd and loaded by the load_defs function in the root
+    definitions file.
+
+    Assets and asset checks for dltHub are defined in the dlthub subfolder in the definitions.py
+    file for each resource.
+
+    @definitions decorator will provides lazy loading so that the assets are only
+    instantiated when needed."""
     import os
 
     import dagster as dg

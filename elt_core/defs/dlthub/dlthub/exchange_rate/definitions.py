@@ -1,7 +1,7 @@
 import dlt
 import dagster as dg
 from dagster.components import definitions
-from ...factory import build_dlt_definitions, config
+from ...utils import DagsterDltFactory, ConfigurableDltResource
 
 
 #######################################################
@@ -10,7 +10,7 @@ def defs() -> dg.Definitions:
     from .resources import get_exchange_rate
     resources = [
 #######################################################
-        config(dlt.resource(
+        ConfigurableDltResource.config(dlt.resource(
                 get_exchange_rate("cad"),
                 name="exchange_rate.cad",
                 table_name="cad",
@@ -29,7 +29,7 @@ def defs() -> dg.Definitions:
             }
         ),
 #######################################################
-        config(dlt.resource(
+        ConfigurableDltResource.config(dlt.resource(
                 get_exchange_rate("usd"),
                 name="exchange_rate.usd",
                 table_name="usd",
@@ -49,5 +49,5 @@ def defs() -> dg.Definitions:
         )
 #######################################################
     ]
-    return build_dlt_definitions(tuple(resources))
+    return DagsterDltFactory.build_definitions(tuple(resources))
 

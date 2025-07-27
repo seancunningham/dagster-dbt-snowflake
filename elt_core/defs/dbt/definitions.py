@@ -14,7 +14,7 @@ def defs() -> Definitions:
     instantiated when needed."""
 
     from pathlib import Path
-    from .factory import build_dbt_definitions
+    from .utils import DagsterDbtFactory
 
     project_dir = Path(__file__).joinpath(*[".."]*4, "dbt/").resolve()
     state_path = "state/"
@@ -30,4 +30,4 @@ def defs() -> Definitions:
             project.prepare_if_dev()
         return project
     
-    return build_dbt_definitions(dbt)
+    return DagsterDbtFactory.build_definitions(dbt)

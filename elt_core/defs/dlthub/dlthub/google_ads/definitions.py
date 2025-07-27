@@ -1,7 +1,7 @@
 import dlt
 import dagster as dg
 from dagster.components import definitions
-from ...factory import build_dlt_definitions, config
+from ...utils import DagsterDltFactory, ConfigurableDltResource
 
 
 #######################################################
@@ -10,7 +10,7 @@ def defs() -> dg.Definitions:
     from .resources import google_ads
     resources = [
 #######################################################
-        config(dlt.resource(
+        ConfigurableDltResource.config(dlt.resource(
                 google_ads("get_campaigns"),
                 name="google_ads.campaigns",
                 table_name="campaigns",
@@ -29,7 +29,7 @@ def defs() -> dg.Definitions:
             }
         ),
 #######################################################
-        config(dlt.resource(
+        ConfigurableDltResource.config(dlt.resource(
                 google_ads("get_criterion"),
                 name="google_ads.criterion",
                 table_name="criterion",
@@ -49,4 +49,4 @@ def defs() -> dg.Definitions:
         )
 #######################################################
     ]
-    return build_dlt_definitions(tuple(resources))
+    return DagsterDltFactory.build_definitions(tuple(resources))

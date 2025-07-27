@@ -1,7 +1,7 @@
 import dlt
 import dagster as dg
 from dagster.components import definitions
-from ...factory import build_dlt_definitions, config
+from ...utils import DagsterDltFactory, ConfigurableDltResource
 
 
 #######################################################
@@ -10,7 +10,7 @@ def defs() -> dg.Definitions:
     from .resources import get_campaigns
     resources = [
 #######################################################
-        config(dlt.resource(
+        ConfigurableDltResource.config(dlt.resource(
                 get_campaigns,
                 name="facebook_ads.campaigns",
                 table_name="campaigns",
@@ -30,5 +30,5 @@ def defs() -> dg.Definitions:
         )
 #######################################################
     ]
-    return build_dlt_definitions(tuple(resources))
+    return DagsterDltFactory.build_definitions(tuple(resources))
 
