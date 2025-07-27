@@ -25,7 +25,7 @@ replications:
         dagster:
           partition: "hourly"
           partition_start_date: "2025-07-01"
-          automation_condition: "on_cron_no_deps"
+          automation_condition: "on_schedule"
           automation_condition_config: {"cron_schedule":"@hourly", "cron_timezone":"utc"}
           # freshness_check: {"deadline_cron": "30 * * * *"}
     streams:

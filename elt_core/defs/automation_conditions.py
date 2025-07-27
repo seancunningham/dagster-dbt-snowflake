@@ -139,7 +139,7 @@ class CustomAutomationCondition(AutomationCondition):
     
 
     @staticmethod
-    def on_cron_no_deps(cron_schedule: str, cron_timezone: str = "utc") -> AutomationCondition:
+    def on_schedule(cron_schedule: str, cron_timezone: str = "utc") -> AutomationCondition:
         """Returns an AutomationCondition which will cause a target to be executed on a given
         cron schedule, regardless of the state of its dependencies
 

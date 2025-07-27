@@ -20,7 +20,7 @@ def defs() -> dg.Definitions:
             kinds={"api"},
             meta={
                 "dagster": {
-                    "automation_condition": "on_cron_no_deps",
+                    "automation_condition": "on_schedule",
                     "automation_condition_config": {
                         "cron_schedule":"@daily",
                         "cron_timezone":"utc"},
@@ -39,7 +39,7 @@ def defs() -> dg.Definitions:
             kinds={"api"},
             meta={
                 "dagster": {
-                    "automation_condition": "on_cron_no_deps",
+                    "automation_condition": "on_schedule",
                     "automation_condition_config": {
                         "cron_schedule":"@daily",
                         "cron_timezone":"utc"},

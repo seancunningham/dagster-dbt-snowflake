@@ -23,7 +23,7 @@ replications:
         adjust_column_type: true
       meta:
         dagster:
-          automation_condition: "on_cron_no_deps"
+          automation_condition: "on_schedule"
           automation_condition_config: {"cron_schedule":"@daily", "cron_timezone":"utc"}
           # freshness_check: {"lower_bound_delta_seconds": 129600}
     streams:

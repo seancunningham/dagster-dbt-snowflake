@@ -75,7 +75,7 @@
         "body":[
             "meta = {",
             "    \"dagster\": {",
-            "        \"automation_condition\": \"${1|on_cron,on_cron_no_deps,lazy,eager|}\",",
+            "        \"automation_condition\": \"${1|on_cron,on_schedule,lazy,eager|}\",",
             "        \"automation_condition_config\": {\"cron_schedule\":\"${2|@daily,@hourly,@weekly,@monthly, 0 2 * * *|}\", \"cron_timezone\":\"${3|utc,pst|}\"},",
             "        \"freshness_check\": {\"lower_bound_delta_seconds\": ${4|129600,5400|}}",
             "    }",
