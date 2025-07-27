@@ -1,7 +1,8 @@
 import os
 
 class SecretClient():
-    """A stub keyvault to simulate an integration with Azure Keyvault
+    """A stub keyvault to simulate an integration with Azure Keyvault.
+    This would be replaced by a keyvault library.
     """
 
     def get_secret(self, secret_name:str) -> str:
