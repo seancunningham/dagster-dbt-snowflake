@@ -5,8 +5,8 @@ from typing import Any, Optional, override
 import dagster as dg
 from dagster_dbt import DagsterDbtTranslator
 
-from ..automation_conditions import CustomAutomationCondition
-from ..helpers import (
+from ...utils.automation_conditions import CustomAutomationCondition
+from ...utils.helpers import (
      get_automation_condition_from_meta,
      get_partitions_def_from_meta
 )

@@ -13,12 +13,13 @@ def defs() -> Definitions:
 
     @definitions decorator will provides lazy loading so that the assets are only
     instantiated when needed."""
+    
     import os
 
     import dagster as dg
 
     from dagster_dlt import DagsterDltResource
-    from ...key_vault import SecretClient
+    from ...utils.keyvault_stub import SecretClient
 
     kv = SecretClient(
         vault_url=os.getenv("AZURE_KEYVAULT_URL"),

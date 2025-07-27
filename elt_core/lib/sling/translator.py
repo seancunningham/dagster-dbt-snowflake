@@ -4,7 +4,7 @@ import dagster_sling as dg_sling
 import dagster as dg
 
 from dagster._utils.tags import is_valid_tag_key
-from ..helpers import (
+from ...utils.helpers import (
      get_automation_condition_from_meta,
      get_partitions_def_from_meta
 )

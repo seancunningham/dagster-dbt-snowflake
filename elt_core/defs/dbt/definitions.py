@@ -1,7 +1,5 @@
-import os
-from dagster import Definitions
 from dagster.components import definitions
-from dagster_dbt import DbtProject
+from dagster import Definitions
 
 
 @definitions
@@ -13,8 +11,12 @@ def defs() -> Definitions:
     @definitions decorator will provides lazy loading so that the assets are only
     instantiated when needed."""
 
+    import os
+
+    from dagster_dbt import DbtProject
     from pathlib import Path
-    from .utils import DagsterDbtFactory
+    
+    from ...lib.dbt import DagsterDbtFactory
 
     project_dir = Path(__file__).joinpath(*[".."]*4, "dbt/").resolve()
     state_path = "state/"

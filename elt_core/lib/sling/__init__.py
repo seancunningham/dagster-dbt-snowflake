@@ -10,7 +10,7 @@ from dagster_sling import SlingResource, sling_assets, SlingConnectionResource
 from dagster_sling.sling_event_iterator import SlingEventType
 
 from .translator import CustomDagsterSlingTranslator
-from ..helpers import sanitize_input_signature
+from ...utils.helpers import sanitize_input_signature
 from ...utils.secrets import get_secret
 
 class DagsterSlingFactory:

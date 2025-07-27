@@ -153,4 +153,4 @@ class CustomAutomationCondition(AutomationCondition):
             & AutomationCondition.cron_tick_passed(
                 cron_schedule, cron_timezone
             ).since_last_handled()
-        ).with_label(f"on_cron_no_deps({cron_schedule}, {cron_timezone})")
+        ).with_label(f"on_schedule({cron_schedule}, {cron_timezone})")

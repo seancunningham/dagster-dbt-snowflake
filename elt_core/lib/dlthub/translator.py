@@ -6,7 +6,7 @@ from dagster_dlt.translator import DltResourceTranslatorData
 from dagster_dlt import DagsterDltTranslator
 import dagster as dg
 
-from ..helpers import (
+from ...utils.helpers import (
     get_automation_condition_from_meta,
     get_partitions_def_from_meta
 )

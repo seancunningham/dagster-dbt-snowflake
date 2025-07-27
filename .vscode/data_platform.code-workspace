@@ -11,10 +11,6 @@
 		{
 			"name": "Sling",
 			"path": "../elt_core/defs/sling/sling"
-		},
-		{
-			"name": "dltHub",
-			"path": "../elt_core/defs/dlthub/dlthub"
 		}
 	],
 	"settings": {
@@ -81,7 +77,7 @@
 			{
 				"label": "dbt parse",
 				"type": "shell",
-				"command": "uv run --env-file .env  dbt parse",
+				"command": "uv run --env-file .env  dbt parse --target dev",
 				"icon": {"id":"server"},
 			},
 			{
