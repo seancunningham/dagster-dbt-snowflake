@@ -39,4 +39,5 @@ project.root_module = "elt_core"
 dev = [
     "dagster-dg-cli>=1.11.2",
     "dagster-webserver>=1.11.2",
+    "sphinx>=8.2.3",
 ]
