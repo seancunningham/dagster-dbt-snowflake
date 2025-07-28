@@ -1,4 +1,4 @@
-from typing import Mapping, Any, Iterable
+from typing import Mapping, Any, Iterable, override
 
 import dagster_sling as dg_sling
 import dagster as dg
@@ -19,6 +19,7 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
     
     See parent class for details on the purpose of each override"""
 
+    @override
     def get_asset_spec(self, stream_definition: Mapping[str, Any]) -> dg.AssetSpec:
         return dg.AssetSpec(
             automation_condition=self.get_automation_condition(stream_definition),
@@ -53,7 +54,8 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
                 stream_definition
             )
         )
-    
+
+    @override
     def get_asset_key(self, stream_definition: Mapping[str, Any]) -> dg.AssetKey:
         config = stream_definition.get("config") or {}
         meta = config.get("meta") or {}
@@ -73,6 +75,7 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
         schema, table = self.sanitize_stream_name(stream_name).split(".")
         return dg.AssetKey([schema, "raw", table])
 
+    @override
     def get_deps_asset_key(self, stream_definition: Mapping[str, Any]) -> Iterable[dg.AssetKey]:
         config = stream_definition.get("config", {}) or {}
         meta = config.get("meta", {}) or {}
@@ -94,7 +97,8 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
         stream_name = stream_definition["name"]
         schema, table = self.sanitize_stream_name(stream_name).split(".")
         return [dg.AssetKey([schema, "src", table])]
-    
+
+    @override    
     def get_group_name(self, stream_definition: Mapping[str, Any]) -> str:
         try:
             group = stream_definition["config"]["meta"]["dagster"]["group"]
@@ -105,7 +109,8 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
         stream_name = stream_definition["name"]
         schema, _ = self.sanitize_stream_name(stream_name).split(".")
         return schema
-        
+
+    @override        
     def get_tags(self, stream_definition: Mapping[str, Any]) -> Mapping[str, Any]:
         try:
             tags = stream_definition["config"]["meta"]["dagster"]["tags"]
@@ -113,8 +118,6 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
         except Exception: ...
         return {}
 
-
-    # not implemented in base class
     def get_automation_condition(self, stream_definition: Mapping[str, Any]) -> None | dg.AutomationCondition:
         try:
             meta = stream_definition["config"]["meta"]["dagster"]
@@ -122,7 +125,8 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
             return automation_condition
         except Exception: ...
         return None
-    
+
+  
     def get_partitions_def(self, stream_definition: Mapping[str, Any]) -> None | dg.PartitionsDefinition:
         try:
             meta = stream_definition["config"]["meta"]["dagster"]

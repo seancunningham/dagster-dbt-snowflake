@@ -95,6 +95,7 @@ class DagsterDbtFactory:
             ),
             backfill_policy=dg.BackfillPolicy.single_run(),
             project=dbt_project,
+            pool="dbt"
         )
         def assets(
             context: dg.AssetExecutionContext,

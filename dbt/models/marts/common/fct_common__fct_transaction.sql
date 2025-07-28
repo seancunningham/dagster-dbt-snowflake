@@ -9,5 +9,5 @@ with transactions as (
 )
 
 select
-  *
+    *
 from transactions

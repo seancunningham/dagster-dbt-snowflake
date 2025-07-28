@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 from typing import Any, Generator, Sequence
 from functools import cache
@@ -71,6 +72,9 @@ class DagsterDltFactory:
     @staticmethod
     def _build_assets(resource: ConfigurableDltResource) -> list[dg.AssetsDefinition | dg.AssetSpec]:
             schema, table = resource.name.split(".")
+            dataset_name = schema
+            if os.getenv("TARGET") == "dev":
+                dataset_name = schema+"__"+os.getenv("DEV__DESTINATION__USER", "DEFAULT").upper()
             
             @dlt.source()
             def source() -> Generator[DltResource, Any, None]:
@@ -82,12 +86,13 @@ class DagsterDltFactory:
                 dlt_source=source(),
                 backfill_policy=dg.BackfillPolicy.single_run(),
                 dagster_dlt_translator=CustomDagsterDltTranslator(),
+                pool="dlthub",
                 dlt_pipeline=dlt.pipeline(
                     pipeline_name=f"{schema}__{table}",
                     destination="snowflake",
-                    dataset_name=schema,
+                    dataset_name=dataset_name,
                     progress="log",
-                ),
+                )
             )
             def assets(context: dg.AssetExecutionContext, dlt: DagsterDltResource) -> Generator[DltEventType, Any, None]:
                 yield from dlt.run(context=context)
