@@ -5,7 +5,7 @@ external integrations.
 
 
 ``` mermaid
-flowchart
+flowchart LR
     subgraph Sling / dltHub 
         src-->raw
     end

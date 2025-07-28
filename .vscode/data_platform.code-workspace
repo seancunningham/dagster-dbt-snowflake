@@ -10,10 +10,10 @@
 		},
 		{
 			"name": "Sling",
-			"path": "../elt_core/defs/sling/sling"
+			"path": "../data_platform/defs/sling/sling"
 		},
 		{
-			"path": "../elt_core/defs/dlthub/dlthub"
+			"path": "../data_platform/defs/dlthub/dlthub"
 		}
 	],
 	"settings": {

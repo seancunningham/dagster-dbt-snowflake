@@ -1,10 +1,10 @@
 Write-Host("`BUILDING DBT")
 
 $dbt_path = ".\dbt"
-echo "cleaning target"
-$log = uv run --env-file .env dbt clean --project-dir $dbt_path --no-clean-project-files-only
-echo "installing dependancies"
-$log = uv run --env-file .env dbt deps --project-dir $dbt_path
+# echo "cleaning target"
+# $log = uv run --env-file .env dbt clean --project-dir $dbt_path --no-clean-project-files-only
+# echo "installing dependancies"
+# $log = uv run --env-file .env dbt deps --project-dir $dbt_path
 echo "parsing manifest"
 $log = uv run --env-file .env dbt parse --project-dir $dbt_path --profiles-dir $dbt_path --target prod
 
@@ -18,9 +18,9 @@ foreach($line in $log){
 
 Write-Host("`nBUILDING DOCKER IMAGE")
 $branch_id = (-join ((97..122) | Get-Random -Count 15 | ForEach-Object {[char]$_}))
-$new_image = "dagster/elt-core:"+$branch_id
+$new_image = "dagster/data-platform:"+$branch_id
 uv run --env-file .env docker build . `
-    --target dagster_elt_core -t $new_image
+    --target data_platform -t $new_image
 
 Write-Host("`nDEPLOYING BUILD")
 $values = Get-Content -Path .\.scripts\helm_template.yaml
@@ -38,17 +38,17 @@ kubectl delete pod --field-selector=status.phase==ImagePullBackoff
 
 Write-Host("`nCLEANING DOCKER REPOSITORY")
 
-$old_image=docker inspect dagster-elt-core | ConvertFrom-Json
+$old_image=docker inspect data-platform | ConvertFrom-Json
 $old_image=$old_image.Config.Image
 
-docker stop dagster-elt-core
-docker rm dagster-elt-core
+docker stop data-platform
+docker rm data-platform
 
-docker container create -t --name dagster-elt-core $new_image
+docker container create -t --name data-platform $new_image
 
-docker stop dagster-elt-core-rollback
-docker rm dagster-elt-core-rollback
-docker container create -t --name dagster-elt-core-rollback $old_image
+docker stop data-platform-rollback
+docker rm data-platform-rollback
+docker container create -t --name data-platform-rollback $old_image
 
 Start-Sleep 5
 docker image prune -a --force
@@ -63,7 +63,9 @@ if (!(Test-Path -Path $defer_path -PathType Container)) {
 }
 Copy-Item -Path $dbt_path"\target\manifest.json" -Destination $defer_path -Force
 
-echo "creating dbt docs"
+echo "CREATING DBT DOCS"
 uv run --env-file .env dbt docs generate --project-dir $dbt_path --target prod
-echo "creating dagster docs"
-pdoc --html elt_core --force --skip-errors
+echo "CREATING DAGSTER DOCS"
+uv run --env-file .env pdoc --html data_platform --force --skip-errors
+Remove-Item -Path ./docs -Recurse
+Rename-Item -Path ./html -NewName docs

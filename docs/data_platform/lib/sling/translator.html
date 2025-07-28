@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>data_platform.lib.sling.translator API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>data_platform.lib.sling.translator</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="data_platform.lib.sling.translator.CustomDagsterSlingTranslator"><code class="flex name class">
+<span>class <span class="ident">CustomDagsterSlingTranslator</span></span>
+<span>(</span><span>target_prefix: str = 'target')</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
+    &#34;&#34;&#34;Overrides methods of the standard translator.
+    
+    Holds a set of methods that derive Dagster asset definition metadata given
+    a representation of Sling resource (connections, replications).
+    Methods are overriden to customize the implementation.
+    
+    See parent class for details on the purpose of each override&#34;&#34;&#34;
+
+    def get_asset_spec(self, stream_definition: Mapping[str, Any]) -&gt; dg.AssetSpec:
+        return dg.AssetSpec(
+            automation_condition=self.get_automation_condition(stream_definition),
+            partitions_def=self.get_partitions_def(stream_definition),
+            key=self._resolve_back_compat_method(
+                &#34;get_asset_key&#34;, self._default_asset_key_fn, stream_definition
+            ),
+            deps=self._resolve_back_compat_method(
+                &#34;get_deps_asset_key&#34;, self._default_deps_fn, stream_definition
+            ),
+            description=self._resolve_back_compat_method(
+                &#34;get_description&#34;, self._default_description_fn, stream_definition
+            ),
+            metadata=self._resolve_back_compat_method(
+                &#34;get_metadata&#34;, self._default_metadata_fn, stream_definition
+            ),
+            tags=self._resolve_back_compat_method(
+                &#34;get_tags&#34;, self._default_tags_fn, stream_definition
+            ),
+            kinds=self._resolve_back_compat_method(
+                &#34;get_kinds&#34;, self._default_kinds_fn, stream_definition
+            ),
+            group_name=self._resolve_back_compat_method(
+                &#34;get_group_name&#34;, self._default_group_name_fn, stream_definition
+            ),
+            legacy_freshness_policy=self._resolve_back_compat_method(
+                &#34;get_freshness_policy&#34;, self._default_freshness_policy_fn, stream_definition
+            ),
+            auto_materialize_policy=self._resolve_back_compat_method(
+                &#34;get_auto_materialize_policy&#34;,
+                self._default_auto_materialize_policy_fn,
+                stream_definition
+            )
+        )
+    
+    def get_asset_key(self, stream_definition: Mapping[str, Any]) -&gt; dg.AssetKey:
+        config = stream_definition.get(&#34;config&#34;) or {}
+        meta = config.get(&#34;meta&#34;) or {}
+        dagster = meta.get(&#34;dagster&#34;) or {}
+        asset_key = dagster.get(&#34;asset_key&#34;, None)
+
+        if asset_key:
+            if self.sanitize_stream_name(asset_key) != asset_key:
+                raise ValueError(
+                    f&#34;Asset key {asset_key} for stream {stream_definition[&#39;name&#39;]} is not &#34;
+                    &#34;sanitized. Please use only alphanumeric characters and underscores.&#34;
+                )
+            return dg.AssetKey(asset_key.split(&#34;.&#34;))
+
+        # You can override the Sling Replication default object with an object key
+        stream_name = stream_definition[&#34;name&#34;]
+        schema, table = self.sanitize_stream_name(stream_name).split(&#34;.&#34;)
+        return dg.AssetKey([schema, &#34;raw&#34;, table])
+
+    def get_deps_asset_key(self, stream_definition: Mapping[str, Any]) -&gt; Iterable[dg.AssetKey]:
+        config = stream_definition.get(&#34;config&#34;, {}) or {}
+        meta = config.get(&#34;meta&#34;, {}) or {}
+        deps = meta.get(&#34;dagster&#34;, {}).get(&#34;deps&#34;)
+        deps_out = []
+        if deps and isinstance(deps, str):
+            deps = [deps]
+        if deps:
+            assert isinstance(deps, list)
+            for asset_key in deps:
+                if self.sanitize_stream_name(asset_key) != asset_key:
+                    raise ValueError(
+                        f&#34;Deps Asset key {asset_key} for stream {stream_definition[&#39;name&#39;]} is not &#34;
+                        &#34;sanitized. Please use only alphanumeric characters and underscores.&#34;
+                    )
+                deps_out.append(dg.AssetKey(asset_key.split(&#34;.&#34;)))
+            return deps_out
+
+        stream_name = stream_definition[&#34;name&#34;]
+        schema, table = self.sanitize_stream_name(stream_name).split(&#34;.&#34;)
+        return [dg.AssetKey([schema, &#34;src&#34;, table])]
+    
+    def get_group_name(self, stream_definition: Mapping[str, Any]) -&gt; str:
+        try:
+            group = stream_definition[&#34;config&#34;][&#34;meta&#34;][&#34;dagster&#34;][&#34;group&#34;]
+            if group:
+                return group
+        except Exception: ...
+
+        stream_name = stream_definition[&#34;name&#34;]
+        schema, _ = self.sanitize_stream_name(stream_name).split(&#34;.&#34;)
+        return schema
+        
+    def get_tags(self, stream_definition: Mapping[str, Any]) -&gt; Mapping[str, Any]:
+        try:
+            tags = stream_definition[&#34;config&#34;][&#34;meta&#34;][&#34;dagster&#34;][&#34;tags&#34;]
+            return {tag: &#34;&#34; for tag in tags if is_valid_tag_key(tag)}
+        except Exception: ...
+        return {}
+
+
+    # not implemented in base class
+    def get_automation_condition(self, stream_definition: Mapping[str, Any]) -&gt; None | dg.AutomationCondition:
+        try:
+            meta = stream_definition[&#34;config&#34;][&#34;meta&#34;][&#34;dagster&#34;]
+            automation_condition = get_automation_condition_from_meta(meta)
+            return automation_condition
+        except Exception: ...
+        return None
+    
+    def get_partitions_def(self, stream_definition: Mapping[str, Any]) -&gt; None | dg.PartitionsDefinition:
+        try:
+            meta = stream_definition[&#34;config&#34;][&#34;meta&#34;][&#34;dagster&#34;]
+            automation_condition = get_partitions_def_from_meta(meta)
+            return automation_condition
+        except Exception: ...
+        return None</code></pre>
+</details>
+<div class="desc"><p>Overrides methods of the standard translator.</p>
+<p>Holds a set of methods that derive Dagster asset definition metadata given
+a representation of Sling resource (connections, replications).
+Methods are overriden to customize the implementation.</p>
+<p>See parent class for details on the purpose of each override</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dagster_sling.dagster_sling_translator.DagsterSlingTranslator</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_asset_key"><code class="name flex">
+<span>def <span class="ident">get_asset_key</span></span>(<span>self, stream_definition: Mapping[str, Any]) ‑> dagster._core.definitions.asset_key.AssetKey</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_asset_key(self, stream_definition: Mapping[str, Any]) -&gt; dg.AssetKey:
+    config = stream_definition.get(&#34;config&#34;) or {}
+    meta = config.get(&#34;meta&#34;) or {}
+    dagster = meta.get(&#34;dagster&#34;) or {}
+    asset_key = dagster.get(&#34;asset_key&#34;, None)
+
+    if asset_key:
+        if self.sanitize_stream_name(asset_key) != asset_key:
+            raise ValueError(
+                f&#34;Asset key {asset_key} for stream {stream_definition[&#39;name&#39;]} is not &#34;
+                &#34;sanitized. Please use only alphanumeric characters and underscores.&#34;
+            )
+        return dg.AssetKey(asset_key.split(&#34;.&#34;))
+
+    # You can override the Sling Replication default object with an object key
+    stream_name = stream_definition[&#34;name&#34;]
+    schema, table = self.sanitize_stream_name(stream_name).split(&#34;.&#34;)
+    return dg.AssetKey([schema, &#34;raw&#34;, table])</code></pre>
+</details>
+<div class="desc"><p>A function that takes a stream definition from a Sling replication config and returns a
+Dagster AssetKey.</p>
+<p>The stream definition is a dictionary key/value pair where the key is the stream name and
+the value is a dictionary representing the Sling Replication Stream Config.</p>
+<p>For example:</p>
+<p>.. code-block:: python</p>
+<pre><code>stream_definition = {"public.users":
+    {'sql': 'select all_user_id, name from public."all_Users"',
+    'object': 'public.all_users'}
+}
+</code></pre>
+<p>By default, this returns the class's target_prefix parameter concatenated with the stream name.
+A stream named "public.accounts" will create an AssetKey named "target_public_accounts".</p>
+<p>Override this function to customize how to map a Sling stream to a Dagster AssetKey.</p>
+<p>Alternatively, you can provide metadata in your Sling replication config to specify the
+Dagster AssetKey for a stream as follows:</p>
+<p>.. code-block:: yaml</p>
+<pre><code>public.users:
+   meta:
+     dagster:
+       asset_key: "mydb_users"
+</code></pre>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>stream_definition</code></strong> :&ensp;<code>Mapping[str, Any]</code></dt>
+<dd>A dictionary representing the stream definition</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>AssetKey</code></dt>
+<dd>The Dagster AssetKey for the replication stream.</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<p>Using a custom mapping for streams:</p>
+<p>.. code-block:: python</p>
+<pre><code>class CustomSlingTranslator(DagsterSlingTranslator):
+    def get_asset_spec(self, stream_definition: Mapping[str, Any]) -&gt; AssetKey:
+        default_spec = super().get_asset_spec(stream_definition)
+        map = {"stream1": "asset1", "stream2": "asset2"}
+        return default_spec.replace_attributes(key=AssetKey(map[stream_definition["name"]]))
+</code></pre></div>
+</dd>
+<dt id="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_asset_spec"><code class="name flex">
+<span>def <span class="ident">get_asset_spec</span></span>(<span>self, stream_definition: Mapping[str, Any]) ‑> dagster._core.definitions.assets.definition.asset_spec.AssetSpec</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_asset_spec(self, stream_definition: Mapping[str, Any]) -&gt; dg.AssetSpec:
+    return dg.AssetSpec(
+        automation_condition=self.get_automation_condition(stream_definition),
+        partitions_def=self.get_partitions_def(stream_definition),
+        key=self._resolve_back_compat_method(
+            &#34;get_asset_key&#34;, self._default_asset_key_fn, stream_definition
+        ),
+        deps=self._resolve_back_compat_method(
+            &#34;get_deps_asset_key&#34;, self._default_deps_fn, stream_definition
+        ),
+        description=self._resolve_back_compat_method(
+            &#34;get_description&#34;, self._default_description_fn, stream_definition
+        ),
+        metadata=self._resolve_back_compat_method(
+            &#34;get_metadata&#34;, self._default_metadata_fn, stream_definition
+        ),
+        tags=self._resolve_back_compat_method(
+            &#34;get_tags&#34;, self._default_tags_fn, stream_definition
+        ),
+        kinds=self._resolve_back_compat_method(
+            &#34;get_kinds&#34;, self._default_kinds_fn, stream_definition
+        ),
+        group_name=self._resolve_back_compat_method(
+            &#34;get_group_name&#34;, self._default_group_name_fn, stream_definition
+        ),
+        legacy_freshness_policy=self._resolve_back_compat_method(
+            &#34;get_freshness_policy&#34;, self._default_freshness_policy_fn, stream_definition
+        ),
+        auto_materialize_policy=self._resolve_back_compat_method(
+            &#34;get_auto_materialize_policy&#34;,
+            self._default_auto_materialize_policy_fn,
+            stream_definition
+        )
+    )</code></pre>
+</details>
+<div class="desc"><p>A function that takes a stream definition from a Sling replication config and returns a
+Dagster AssetSpec.</p>
+<p>The stream definition is a dictionary key/value pair where the key is the stream name and
+the value is a dictionary representing the Sling Replication Stream Config.</p></div>
+</dd>
+<dt id="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_automation_condition"><code class="name flex">
+<span>def <span class="ident">get_automation_condition</span></span>(<span>self, stream_definition: Mapping[str, Any]) ‑> dagster._core.definitions.declarative_automation.automation_condition.AutomationCondition | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_automation_condition(self, stream_definition: Mapping[str, Any]) -&gt; None | dg.AutomationCondition:
+    try:
+        meta = stream_definition[&#34;config&#34;][&#34;meta&#34;][&#34;dagster&#34;]
+        automation_condition = get_automation_condition_from_meta(meta)
+        return automation_condition
+    except Exception: ...
+    return None</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_deps_asset_key"><code class="name flex">
+<span>def <span class="ident">get_deps_asset_key</span></span>(<span>self, stream_definition: Mapping[str, Any]) ‑> Iterable[dagster._core.definitions.asset_key.AssetKey]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_deps_asset_key(self, stream_definition: Mapping[str, Any]) -&gt; Iterable[dg.AssetKey]:
+    config = stream_definition.get(&#34;config&#34;, {}) or {}
+    meta = config.get(&#34;meta&#34;, {}) or {}
+    deps = meta.get(&#34;dagster&#34;, {}).get(&#34;deps&#34;)
+    deps_out = []
+    if deps and isinstance(deps, str):
+        deps = [deps]
+    if deps:
+        assert isinstance(deps, list)
+        for asset_key in deps:
+            if self.sanitize_stream_name(asset_key) != asset_key:
+                raise ValueError(
+                    f&#34;Deps Asset key {asset_key} for stream {stream_definition[&#39;name&#39;]} is not &#34;
+                    &#34;sanitized. Please use only alphanumeric characters and underscores.&#34;
+                )
+            deps_out.append(dg.AssetKey(asset_key.split(&#34;.&#34;)))
+        return deps_out
+
+    stream_name = stream_definition[&#34;name&#34;]
+    schema, table = self.sanitize_stream_name(stream_name).split(&#34;.&#34;)
+    return [dg.AssetKey([schema, &#34;src&#34;, table])]</code></pre>
+</details>
+<div class="desc"><p>A function that takes a stream definition from a Sling replication config and returns a
+Dagster AssetKey for each dependency of the replication stream.</p>
+<p>By default, this returns the stream name. For example, a stream named "public.accounts"
+will create an AssetKey named "target_public_accounts" and a dependency named "public_accounts".</p>
+<p>Override this function to customize how to map a Sling stream to a Dagster dependency.
+Alternatively, you can provide metadata in your Sling replication config to specify the
+Dagster AssetKey for a stream as follows:</p>
+<p>.. code-block:: yaml</p>
+<pre><code>public.users:
+    meta:
+        dagster:
+            deps: "sourcedb_users"
+</code></pre>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>stream_definition</code></strong> :&ensp;<code>Mapping[str, Any]</code></dt>
+<dd>A dictionary representing the stream definition</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Iterable[AssetKey]</code></dt>
+<dd>A list of Dagster AssetKey for each dependency of the replication stream.</dd>
+</dl></div>
+</dd>
+<dt id="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_group_name"><code class="name flex">
+<span>def <span class="ident">get_group_name</span></span>(<span>self, stream_definition: Mapping[str, Any]) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_group_name(self, stream_definition: Mapping[str, Any]) -&gt; str:
+    try:
+        group = stream_definition[&#34;config&#34;][&#34;meta&#34;][&#34;dagster&#34;][&#34;group&#34;]
+        if group:
+            return group
+    except Exception: ...
+
+    stream_name = stream_definition[&#34;name&#34;]
+    schema, _ = self.sanitize_stream_name(stream_name).split(&#34;.&#34;)
+    return schema</code></pre>
+</details>
+<div class="desc"><p>Retrieves the group name for a given stream definition.</p>
+<p>This method checks the provided stream definition for a group name in the metadata
+under the "dagster" key.</p>
+<h2 id="parameters">Parameters</h2>
+<p>stream_definition (Mapping[str, Any]): A dictionary representing the stream definition,
+which includes configuration details.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Optional[str]</code></dt>
+<dd>The group name if found, otherwise None.</dd>
+</dl></div>
+</dd>
+<dt id="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_partitions_def"><code class="name flex">
+<span>def <span class="ident">get_partitions_def</span></span>(<span>self, stream_definition: Mapping[str, Any]) ‑> dagster._core.definitions.partitions.definition.partitions_definition.PartitionsDefinition | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_partitions_def(self, stream_definition: Mapping[str, Any]) -&gt; None | dg.PartitionsDefinition:
+    try:
+        meta = stream_definition[&#34;config&#34;][&#34;meta&#34;][&#34;dagster&#34;]
+        automation_condition = get_partitions_def_from_meta(meta)
+        return automation_condition
+    except Exception: ...
+    return None</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_tags"><code class="name flex">
+<span>def <span class="ident">get_tags</span></span>(<span>self, stream_definition: Mapping[str, Any]) ‑> Mapping[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_tags(self, stream_definition: Mapping[str, Any]) -&gt; Mapping[str, Any]:
+    try:
+        tags = stream_definition[&#34;config&#34;][&#34;meta&#34;][&#34;dagster&#34;][&#34;tags&#34;]
+        return {tag: &#34;&#34; for tag in tags if is_valid_tag_key(tag)}
+    except Exception: ...
+    return {}</code></pre>
+</details>
+<div class="desc"><p>Retrieves the tags for a given stream definition.</p>
+<p>This method returns an empty dictionary, indicating that no tags are associated with
+the stream definition by default. This method can be overridden to provide custom tags.</p>
+<h2 id="parameters">Parameters</h2>
+<p>stream_definition (Mapping[str, Any]): A dictionary representing the stream definition,
+which includes configuration details.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Mapping[str, Any]</code></dt>
+<dd>An empty dictionary.</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="data_platform.lib.sling" href="index.html">data_platform.lib.sling</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="data_platform.lib.sling.translator.CustomDagsterSlingTranslator" href="#data_platform.lib.sling.translator.CustomDagsterSlingTranslator">CustomDagsterSlingTranslator</a></code></h4>
+<ul class="">
+<li><code><a title="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_asset_key" href="#data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_asset_key">get_asset_key</a></code></li>
+<li><code><a title="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_asset_spec" href="#data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_asset_spec">get_asset_spec</a></code></li>
+<li><code><a title="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_automation_condition" href="#data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_automation_condition">get_automation_condition</a></code></li>
+<li><code><a title="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_deps_asset_key" href="#data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_deps_asset_key">get_deps_asset_key</a></code></li>
+<li><code><a title="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_group_name" href="#data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_group_name">get_group_name</a></code></li>
+<li><code><a title="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_partitions_def" href="#data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_partitions_def">get_partitions_def</a></code></li>
+<li><code><a title="data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_tags" href="#data_platform.lib.sling.translator.CustomDagsterSlingTranslator.get_tags">get_tags</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>
