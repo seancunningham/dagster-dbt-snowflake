@@ -13,7 +13,6 @@
 			"path": "../elt_core/defs/sling/sling"
 		},
 		{
-			"name": "dlthub",
 			"path": "../elt_core/defs/dlthub/dlthub"
 		}
 	],
@@ -24,7 +23,21 @@
 		},
 		"dbt.perspectiveTheme": "Pro Light",
 		"dbt.prefixGenerateModel": "stg",
-		"dbt.fileNameTemplateGenerateModel": "{prefix}_{sourceName}__{tableName}"
+		"dbt.fileNameTemplateGenerateModel": "{prefix}_{sourceName}__{tableName}",
+		"dbt.lineage.defaultExpansion": 2,
+		"dbt.enableNewLineagePanel": true,
+		"dbt.enableMcpDataSourceQueryTools": true,
+		"dbt.deferConfigPerProject": {
+			"dbt": {
+				"deferToProduction": true,
+				"manifestPathForDeferral": ".\\dbt\\state",
+				"manifestPathType": "local",
+				"favorState": false
+			},
+			"": {
+				"deferToProduction": true
+			}
+		}
 	},
 	"tasks": {
 		"version": "2.0.0",
@@ -53,6 +66,22 @@
 					"showReuseMessage": true,
 					"clear": true
 				}
+			},
+			{
+				"label": "clear k8s pod history",
+				"type": "shell",
+				"command":[
+					"kubectl config use-context desktop-linux;",
+					"kubectl delete pod --field-selector=status.phase==Completed;",
+					"kubectl delete pod --field-selector=status.phase==Succeeded;",
+					"kubectl delete pod --field-selector=status.phase==Failed;"
+				]
+			},
+			{
+				"label": "dbt parse",
+				"type": "shell",
+				"command": "uv run --env-file .env  dbt parse --target dev",
+				"icon": {"id":"server"},
 			},
 			{
 				"label": "start app",

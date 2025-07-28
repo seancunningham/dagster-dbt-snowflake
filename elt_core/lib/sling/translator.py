@@ -4,13 +4,20 @@ import dagster_sling as dg_sling
 import dagster as dg
 
 from dagster._utils.tags import is_valid_tag_key
-from elt_core.utils.transaltor_helpers import (
+from ...utils.helpers import (
      get_automation_condition_from_meta,
      get_partitions_def_from_meta
 )
 
 
 class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
+    """Overrides methods of the standard translator.
+    
+    Holds a set of methods that derive Dagster asset definition metadata given
+    a representation of Sling resource (connections, replications).
+    Methods are overriden to customize the implementation.
+    
+    See parent class for details on the purpose of each override"""
 
     def get_asset_spec(self, stream_definition: Mapping[str, Any]) -> dg.AssetSpec:
         return dg.AssetSpec(

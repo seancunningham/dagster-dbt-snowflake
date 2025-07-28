@@ -8,7 +8,7 @@ ml_train_marketing_mix_model = dg.AssetSpec(
         ["adobe_experience", "stg", "hits"],
         ["marketing", "dim", "dim_campaigns"],
     ],
-    kinds=["azureml", "mlflow", "pytorch"],
+    kinds={"azureml", "mlflow", "pytorch"},
     group_name="data_science"
 )
 
@@ -20,6 +20,6 @@ ml_inference_marketing_mix_model = dg.AssetSpec(
         ["marketing", "dim", "dim_campaigns"],
         ["ml", "train", "marketing_mix_model"],
     ],
-    kinds=["azureml", "snowflake"],
+    kinds={"azureml", "snowflake"},
     group_name="data_science"
 )

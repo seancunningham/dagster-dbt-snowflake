@@ -30,7 +30,7 @@ FROM python:3.12-slim-bullseye AS dagster_elt_core
         rm -rf key_vault/
 
 
-    ENV DBT_TARGET=prod
+    ENV TARGET=prod
     WORKDIR /elt_core/
 
     EXPOSE 80

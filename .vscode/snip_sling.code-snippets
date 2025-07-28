@@ -1,6 +1,6 @@
 {
     "connection_sling": {
-        "scope": "yaml",
+        "scope": "yaml, jinja-yaml",
         "prefix": "sling_connection",
         "description": "description",
         "body": [
@@ -16,7 +16,7 @@
         ]
     },
     "replication_sling": {
-        "scope": "yaml",
+        "scope": "yaml, jinja-yaml",
         "prefix": "sling_replication",
         "description": "description",
         "body": [
@@ -35,7 +35,7 @@
             "          adjust_column_type: true",
             "        meta:",
             "          dagster:",
-            "            automation_condition: \"${5|on_cron_no_deps,lazy,on_cron,eager|}\"",
+            "            automation_condition: \"${5|on_schedule,lazy,on_cron,eager|}\"",
             "            automation_condition_config: {\"cron_schedule\":\"${6|@daily,@hourly,@weekly,@monthly, 0 2 * * *|}\", \"cron_timezone\":\"${7|utc,pst|}\"}",
             "            freshness_check: {\"lower_bound_delta_seconds\": 129600}",
             "      streams:",
@@ -44,7 +44,7 @@
         ]
     },
     "sling_scaffold": {
-        "scope": "yaml",
+        "scope": "yaml, jinja-yaml",
         "prefix": "sling_scaffold",
         "description": "description",
         "body": [
@@ -73,7 +73,7 @@
             "          adjust_column_type: true",
             "        meta:",
             "            dagster:",
-            "              automation_condition: \"${6|on_cron_no_deps,lazy,on_cron,eager|}\"",
+            "              automation_condition: \"${6|on_schedule,lazy,on_cron,eager|}\"",
             "              automation_condition_config: {\"cron_schedule\":\"${7|@daily,@hourly,@weekly,@monthly, 0 2 * * *|}\", \"cron_timezone\":\"${8|utc,pst|}\"}",
             "              freshness_check: {\"lower_bound_delta_seconds\": 129600}",
             "      streams:",

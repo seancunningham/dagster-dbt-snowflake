@@ -26,6 +26,6 @@ replications:
         primary_key: [order_id, product_id]
         meta:
           dagster:
-            automation_condition: "on_cron_no_deps"
+            automation_condition: "on_schedule"
             automation_condition_config: {"cron_schedule":"@daily", "cron_timezone":"utc"}
-            freshness_check: {"lower_bound_delta_seconds": 129600}
+            # freshness_check: {"lower_bound_delta_seconds": 129600}

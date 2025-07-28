@@ -6,9 +6,7 @@ from dagster.components import definitions
 warnings.filterwarnings("ignore", category=dg.BetaWarning)
 
 
-
 @definitions
-def defs() -> dg.Definitions:
+def dbt() -> dg.Definitions:
     import elt_core.defs
-
     return dg.load_defs(elt_core.defs)
