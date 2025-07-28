@@ -18,19 +18,17 @@ FROM python:3.12-slim-bullseye AS builder
         strip sling && upx sling
 
 
-FROM python:3.12-slim-bullseye AS dagster_elt_core
+FROM python:3.12-slim-bullseye AS data_platform
 
     ENV DAGSTER_HOME=/opt/dagster/dagster_home
 
     COPY --from=builder /root/.sling/ /root/.sling/
     COPY --from=builder /usr/local/ /usr/local/
-    COPY . /elt_core
+    COPY . /data_platform
     RUN mkdir -p $DAGSTER_HOME/ && \
-        mv elt_core/dagster.yaml $DAGSTER_HOME/dagster.yaml && \
-        rm -rf key_vault/
-
+        mv data_platform/dagster.yaml $DAGSTER_HOME/dagster.yaml
 
     ENV TARGET=prod
-    WORKDIR /elt_core/
+    WORKDIR /data_platform/
 
     EXPOSE 80

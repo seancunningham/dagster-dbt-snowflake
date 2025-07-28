@@ -1,7 +1,7 @@
 [project]
-name = "elt_core"
+name = "data_platform"
 version = "0.1.0"
-description = "Add your description here"
+description = "Data platform demonstration that integrates dagster, dbt, sling, and dlt."
 requires-python = ">=3.12,<3.13"
 dependencies = [
         "dagster-cloud==1.11.2",
@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [tool.setuptools.package-dir]
-mypkg = "elt_core"
+mypkg = "data_platform"
 
 [build-system]
 requires = ["setuptools"]
@@ -27,12 +27,12 @@ build-backend = "setuptools.build_meta"
 
 
 [tool.dagster]
-module_name = "elt_core.definitions"
-code_location_name = "elt_core"
+module_name = "data_platform.definitions"
+code_location_name = "data_platform"
 
 [tool.dg]
 directory_type = "project"
-project.root_module = "elt_core"
+project.root_module = "data_platform"
 
 
 [dependency-groups]

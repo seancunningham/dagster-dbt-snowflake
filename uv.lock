@@ -576,6 +576,57 @@ wheels = [
 ]
 
 [[package]]
+name = "data-platform"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "dagster-cloud" },
+    { name = "dagster-dbt" },
+    { name = "dagster-dlt" },
+    { name = "dagster-k8s" },
+    { name = "dagster-postgres" },
+    { name = "dagster-sling" },
+    { name = "dagster-snowflake" },
+    { name = "dbt-snowflake" },
+    { name = "faker" },
+    { name = "psutil" },
+    { name = "snowflake" },
+    { name = "snowflake-snowpark-python" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "dagster-dg-cli" },
+    { name = "dagster-webserver" },
+    { name = "pdoc3" },
+    { name = "sphinx" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "dagster-cloud", specifier = "==1.11.2" },
+    { name = "dagster-dbt", specifier = "==0.27.2" },
+    { name = "dagster-dlt", specifier = "==0.27.2" },
+    { name = "dagster-k8s", specifier = "==0.27.2" },
+    { name = "dagster-postgres", specifier = "==0.27.2" },
+    { name = "dagster-sling", specifier = "==0.27.2" },
+    { name = "dagster-snowflake", specifier = "==0.27.2" },
+    { name = "dbt-snowflake", specifier = "==1.10.0" },
+    { name = "faker", specifier = ">=37.4.2" },
+    { name = "psutil" },
+    { name = "snowflake", specifier = ">=1.6.0" },
+    { name = "snowflake-snowpark-python", specifier = ">=1.35.0" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "dagster-dg-cli", specifier = ">=1.11.2" },
+    { name = "dagster-webserver", specifier = ">=1.11.2" },
+    { name = "pdoc3", specifier = ">=0.11.6" },
+    { name = "sphinx", specifier = ">=8.2.3" },
+]
+
+[[package]]
 name = "dbt-adapters"
 version = "1.16.3"
 source = { registry = "https://pypi.org/simple" }
@@ -797,57 +848,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/9d/a4/e44218c2b394e31a6dd0d6b095c4e1f32d0be54c2a4b250032d717647bab/durationpy-0.10.tar.gz", hash = "sha256:1fa6893409a6e739c9c72334fc65cca1f355dbdd93405d30f726deb5bde42fba", size = 3335, upload-time = "2025-05-17T13:52:37.26Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b0/0d/9feae160378a3553fa9a339b0e9c1a048e147a4127210e286ef18b730f03/durationpy-0.10-py3-none-any.whl", hash = "sha256:3b41e1b601234296b4fb368338fdcd3e13e0b4fb5b67345948f4f2bf9868b286", size = 3922, upload-time = "2025-05-17T13:52:36.463Z" },
-]
-
-[[package]]
-name = "elt-core"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "dagster-cloud" },
-    { name = "dagster-dbt" },
-    { name = "dagster-dlt" },
-    { name = "dagster-k8s" },
-    { name = "dagster-postgres" },
-    { name = "dagster-sling" },
-    { name = "dagster-snowflake" },
-    { name = "dbt-snowflake" },
-    { name = "faker" },
-    { name = "psutil" },
-    { name = "snowflake" },
-    { name = "snowflake-snowpark-python" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "dagster-dg-cli" },
-    { name = "dagster-webserver" },
-    { name = "pdoc3" },
-    { name = "sphinx" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "dagster-cloud", specifier = "==1.11.2" },
-    { name = "dagster-dbt", specifier = "==0.27.2" },
-    { name = "dagster-dlt", specifier = "==0.27.2" },
-    { name = "dagster-k8s", specifier = "==0.27.2" },
-    { name = "dagster-postgres", specifier = "==0.27.2" },
-    { name = "dagster-sling", specifier = "==0.27.2" },
-    { name = "dagster-snowflake", specifier = "==0.27.2" },
-    { name = "dbt-snowflake", specifier = "==1.10.0" },
-    { name = "faker", specifier = ">=37.4.2" },
-    { name = "psutil" },
-    { name = "snowflake", specifier = ">=1.6.0" },
-    { name = "snowflake-snowpark-python", specifier = ">=1.35.0" },
-]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "dagster-dg-cli", specifier = ">=1.11.2" },
-    { name = "dagster-webserver", specifier = ">=1.11.2" },
-    { name = "pdoc3", specifier = ">=0.11.6" },
-    { name = "sphinx", specifier = ">=8.2.3" },
 ]
 
 [[package]]
