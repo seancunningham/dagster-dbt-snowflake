@@ -140,7 +140,8 @@ class DagsterSlingFactory:
                 name=config["source"]+"_assets",
                 replication_config=config,
                 backfill_policy=dg.BackfillPolicy.single_run(),
-                dagster_sling_translator=CustomDagsterSlingTranslator()
+                dagster_sling_translator=CustomDagsterSlingTranslator(),
+                pool="sling"
         )
         def assets(context: dg.AssetExecutionContext, sling: SlingResource) -> Generator[SlingEventType, Any, None]:
             if "defaults" not in config:

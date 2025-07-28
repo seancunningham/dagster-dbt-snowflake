@@ -39,6 +39,7 @@ project.root_module = "data_platform"
 dev = [
     "dagster-dg-cli>=1.11.2",
     "dagster-webserver>=1.11.2",
+    "jupyter>=1.1.1",
     "pdoc3>=0.11.6",
     "sphinx>=8.2.3",
 ]
