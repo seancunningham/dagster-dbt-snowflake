@@ -5,8 +5,8 @@
 *.wal
 **/conda.yml
 **/logs/
-!.env
 .*
+!.env
 !.gitignore
 values.yaml
 Dockerfile
