@@ -2,29 +2,18 @@ Write-Host("`BUILDING DBT")
 
 $dbt_path = ".\dbt"
 echo "cleaning target"
-$log = uv run dbt clean --project-dir $dbt_path --no-clean-project-files-only
+$log = uv run --env-file .env dbt clean --project-dir $dbt_path --no-clean-project-files-only
 echo "installing dependancies"
-$log = uv run dbt deps --project-dir $dbt_path
+$log = uv run --env-file .env dbt deps --project-dir $dbt_path
 echo "parsing manifest"
-$log = uv run dbt parse --project-dir $dbt_path --profiles-dir $dbt_path --target prod
+$log = uv run --env-file .env dbt parse --project-dir $dbt_path --profiles-dir $dbt_path --target prod
 
-echo "creating deferal manifest"
 foreach($line in $log){
     if ($line.Contains("Error") -eq $true) {
         echo "DBT BUILD FAILED:"
         return $log
     }
 }
-
-$defer_path = $dbt_path+"\state\"
-if (!(Test-Path -Path $defer_path -PathType Container)) {
-    New-Item -Path $defer_path -ItemType Directory
-}
-Copy-Item -Path $dbt_path"\target\manifest.json" -Destination $defer_path -Force
-
-echo "creating docs"
-$log = uv run dbt docs generate --project-dir $dbt_path --target prod
-
 
 
 Write-Host("`nBUILDING DOCKER IMAGE")
@@ -66,3 +55,13 @@ docker image prune -a --force
 
 Write-Host("`nDEPLOYMENT COMPLETE")
 Write-Host("Branch ID: " + $branch_id + "`n")
+
+echo "creating dbt state manifest"
+$defer_path = $dbt_path+"\state\"
+if (!(Test-Path -Path $defer_path -PathType Container)) {
+    New-Item -Path $defer_path -ItemType Directory
+}
+Copy-Item -Path $dbt_path"\target\manifest.json" -Destination $defer_path -Force
+
+echo "creating dbt docs"
+uv run --env-file .env dbt docs generate --project-dir $dbt_path --target prod

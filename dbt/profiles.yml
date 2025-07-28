@@ -1,34 +1,34 @@
 dbt:
   outputs:
     prod:
-      account: "{{ env_var('DESTINATION__SNOWFLAKE__HOST', '') }}"
-      user: "{{ env_var('DESTINATION__SNOWFLAKE__USER', '') }}"
-      password: "{{ env_var('DESTINATION__SNOWFLAKE__PASSWORD', '') }}"
-      role: "{{ env_var('DESTINATION__SNOWFLAKE__ROLE', '') }}"
       database: analytics
+      account: "{{ env_var('PROD__DESTINATION__HOST', '') }}"
+      role: "{{ env_var('PROD__DESTINATION__ROLE', '') }}"
+      user: "{{ env_var('PROD__DESTINATION__USER', '') }}"
       schema: prod
+      password: "{{ env_var('PROD__DESTINATION__PASSWORD', '') }}"
       threads: 8
       type: snowflake
       warehouse: compute_wh
     qa:
-      account: "{{ env_var('DESTINATION__SNOWFLAKE__HOST', '') }}"
-      user: "{{ env_var('DESTINATION__SNOWFLAKE__USER', '') }}"
-      password: "{{ env_var('DESTINATION__SNOWFLAKE__PASSWORD', '') }}"
-      role: "{{ env_var('DESTINATION__SNOWFLAKE__ROLE', '') }}"
-      database: _qa_analytics
+      database: analytics
+      account: "{{ env_var('PROD__DESTINATION__HOST', '') }}"
+      role: "{{ env_var('PROD__DESTINATION__ROLE', '') }}"
+      user: "{{ env_var('PROD__DESTINATION__USER', '') }}"
       schema: qa
+      password: "{{ env_var('PROD__DESTINATION__PASSWORD', '') }}"
       threads: 8
       type: snowflake
       warehouse: compute_wh
     dev:
-      account: "{{ env_var('DESTINATION__SNOWFLAKE__HOST', '') }}"
-      user: "{{ env_var('DESTINATION__SNOWFLAKE__USER', '') }}"
-      password: "{{ env_var('DESTINATION__SNOWFLAKE__PASSWORD', '') }}"
-      role: "{{ env_var('DESTINATION__SNOWFLAKE__ROLE', '') }}"
       database: _dev_analytics
-      schema: "{{ env_var('DESTINATION__SNOWFLAKE__USER', '') }}"
+      account: "{{ env_var('DEV__DESTINATION__HOST', '') }}"
+      role: "{{ env_var('DEV__DESTINATION__ROLE', '') }}"
+      user: "{{ env_var('DEV__DESTINATION__USER', '') }}"
+      schema: "{{ env_var('DEV__DESTINATION__USER', '') }}"
+      password: "{{ env_var('DEV__DESTINATION__PASSWORD', '') }}"
+      warehouse: compute_wh
       threads: 1
       type: snowflake
-      warehouse: compute_wh
 
   target: "{{ env_var('TARGET', 'dev') }}"
