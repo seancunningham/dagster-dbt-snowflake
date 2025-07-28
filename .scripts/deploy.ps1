@@ -65,3 +65,5 @@ Copy-Item -Path $dbt_path"\target\manifest.json" -Destination $defer_path -Force
 
 echo "creating dbt docs"
 uv run --env-file .env dbt docs generate --project-dir $dbt_path --target prod
+echo "creating dagster docs"
+pdoc --html elt_core --force --skip-errors
