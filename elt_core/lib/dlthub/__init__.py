@@ -83,7 +83,7 @@ class DagsterDltFactory:
                 backfill_policy=dg.BackfillPolicy.single_run(),
                 dagster_dlt_translator=CustomDagsterDltTranslator(),
                 dlt_pipeline=dlt.pipeline(
-                    pipeline_name=table,
+                    pipeline_name=f"{schema}__{table}",
                     destination="snowflake",
                     dataset_name=schema,
                     progress="log",
