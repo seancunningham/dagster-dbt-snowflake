@@ -822,6 +822,7 @@ dependencies = [
 dev = [
     { name = "dagster-dg-cli" },
     { name = "dagster-webserver" },
+    { name = "pdoc3" },
     { name = "sphinx" },
 ]
 
@@ -845,6 +846,7 @@ requires-dist = [
 dev = [
     { name = "dagster-dg-cli", specifier = ">=1.11.2" },
     { name = "dagster-webserver", specifier = ">=1.11.2" },
+    { name = "pdoc3", specifier = ">=0.11.6" },
     { name = "sphinx", specifier = ">=8.2.3" },
 ]
 
@@ -1618,6 +1620,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/fa/2a/52a8da6fe965dea6192eb716b357558e103aea0a1e9a8352ad575a8406ca/pathvalidate-3.3.1.tar.gz", hash = "sha256:b18c07212bfead624345bb8e1d6141cdcf15a39736994ea0b94035ad2b1ba177", size = 63262, upload-time = "2025-06-15T09:07:20.736Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/9a/70/875f4a23bfc4731703a5835487d0d2fb999031bd415e7d17c0ae615c18b7/pathvalidate-3.3.1-py3-none-any.whl", hash = "sha256:5263baab691f8e1af96092fa5137ee17df5bdfbd6cff1fcac4d6ef4bc2e1735f", size = 24305, upload-time = "2025-06-15T09:07:19.117Z" },
+]
+
+[[package]]
+name = "pdoc3"
+version = "0.11.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "mako" },
+    { name = "markdown" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ed/f0/07d8b771b99c16a06741cd7b2639494a15357df819ecf899c33b87db6257/pdoc3-0.11.6.tar.gz", hash = "sha256:1ea5e84b87a754d191fb64bf5e517ca6c50d0d84a614c1efecf6b46d290ae387", size = 177107, upload-time = "2025-03-20T22:53:53.099Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/df/98/629f269c2bd91bdcac147aad5cf51ceb645c0196e23a41ee3c051125190f/pdoc3-0.11.6-py3-none-any.whl", hash = "sha256:8b72723767bd48d899812d2aec8375fc1c3476e179455db0b4575e6dccb44b93", size = 255188, upload-time = "2025-03-20T22:53:51.671Z" },
 ]
 
 [[package]]
