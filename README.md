@@ -1,3 +1,9 @@
+# About
+A Dagster project integrating dbt, Sling, dltHub, and Snowflake into a single data platform.
+Includes stubs for powerBi, and AzureML, as well as Azure Keyvault to demonstrate
+external integrations.
+
+
 ``` mermaid
 flowchart
     subgraph elt core

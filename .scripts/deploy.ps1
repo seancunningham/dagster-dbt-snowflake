@@ -30,13 +30,15 @@ $log = uv run dbt docs generate --project-dir $dbt_path --target prod
 Write-Host("`nBUILDING DOCKER IMAGE")
 $branch_id = (-join ((97..122) | Get-Random -Count 15 | ForEach-Object {[char]$_}))
 $new_image = "dagster/elt-core:"+$branch_id
-docker build . --target dagster_elt_core -t $new_image
+uv run --env-file .env docker build . `
+    --target dagster_elt_core -t $new_image
 
 Write-Host("`nDEPLOYING BUILD")
 $values = Get-Content -Path .\.scripts\helm_template.yaml
 $values = $values -replace "{{ branch_id }}", $branch_id
 $values | Out-File -FilePath .\.scripts\helm_values.yaml
-helm upgrade --install --hide-notes dagster dagster/dagster -f .\.scripts\helm_values.yaml
+helm upgrade --install --hide-notes dagster dagster/dagster `
+    -f .\.scripts\helm_values.yaml
 
 Write-Host("`nCLEANING KUBERNETES")
 kubectl delete pod --field-selector=status.phase==Succeeded
@@ -52,6 +54,7 @@ $old_image=$old_image.Config.Image
 
 docker stop dagster-elt-core
 docker rm dagster-elt-core
+
 docker container create -t --name dagster-elt-core $new_image
 
 docker stop dagster-elt-core-rollback

@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 class SecretClient():
     """A stub keyvault to simulate an integration with Azure Keyvault.
@@ -8,50 +9,38 @@ class SecretClient():
     def get_secret(self, secret_name:str) -> str:
         """returns a secret from the keyvault
         """
-        
+        # SOURCE__ACCOUNTS_DB__DATABASE
         secrets = self.__secrets
-        secret = None
-        if os.getenv("TARGET") == "dev":
-            secrets = self.__dev_secrets
-            secret = os.getenv(secret_name)
-        
-        try:
-            if not secret:
-                location, _, config_item = secret_name.split("__")
-                secret = secrets.get(location, {}).get(config_item)
-        except Exception: ...
-        
-        if not secret:
-            secret = ""
-        return secret
+        location, _, attribute = secret_name.split("__")
+        secret = secrets.get(location, {}).get(attribute)
+
+        return secret or ""
 
     def __init__(self, vault_url:str|None=None, credential:str|None=None) -> None:
-
-        self.__secrets = { 
-            "SOURCE":{
-                "DATABASE":os.getenv("SOURCE_DATABASE"),
-                "HOST":os.getenv("SOURCE_HOST"),
-                "PORT":os.getenv("SOURCE_PORT"),
-                "USER":os.getenv("SOURCE_USER"),
-                "PASSWORD":os.getenv("SOURCE_PASSWORD")
-            },
-
-            "DESTINATION":{
-                "HOST":os.getenv("DESTINATION__SNOWFLAKE__HOST"),
-                "DATABASE":os.getenv("DESTINATION__SNOWFLAKE__DATABASE"),
-                "PASSWORD":os.getenv("DESTINATION__SNOWFLAKE__PASSWORD"),
-                "USER":os.getenv("DESTINATION__SNOWFLAKE__USER"),
-                "ROLE":os.getenv("DESTINATION__SNOWFLAKE__ROLE"),
-                "WAREHOUSE":os.getenv("DESTINATION__SNOWFLAKE__WAREHOUSE"),
+    
+        secrets = {
+                "SOURCE":{},
+                "DESTINATION":{}
             }
-        }
-        
-        self.__dev_secrets = {
-            "SOURCE": {
-                "DATABASE":os.getenv("SOURCE_DATABASE"),
-                "HOST":os.getenv("SOURCE_HOST"),
-                "PORT":os.getenv("SOURCE_PORT"),
-                "USER":os.getenv("SOURCE_USER"),
-                "PASSWORD":os.getenv("SOURCE_PASSWORD")
-            }
-        }
+
+        env_path = Path(__file__).joinpath(*[".."]*3, ".env").resolve()
+        set_env = os.getenv("TARGET", "")
+        with open(env_path, "r") as env:
+            for line in env:
+                line = line.strip()
+                if line.startswith(set_env.upper()) or line.startswith("ANY"):
+                    key, secret = line.split("=")
+                    env, location, attribute = key.split("__")
+                    secrets[location][attribute] = secret
+
+        self.__secrets = secrets
+
+
+if __name__ == "__main__":
+    os.environ["TARGET"] = "prod"
+    sc = SecretClient()
+    print("dev: ", sc.get_secret("SOURCE__ACCOUNTS_DB__DATABASE"))
+
+    os.environ["TARGET"] = "dev"
+    sc = SecretClient()
+    print("prod: ", sc.get_secret("SOURCE__ACCOUNTS_DB__DATABASE"))
