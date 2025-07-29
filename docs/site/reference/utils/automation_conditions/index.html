@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Automation conditions - Data Platform</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Automation conditions";
+        var mkdocs_page_input_path = "reference\\utils\\automation_conditions.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Data Platform
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../definitions/">Definitions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Defs</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" > azureml</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../defs/_azureml/definitions/">Definitions</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" > powerbi</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../defs/_powerbi/definitions/">Definitions</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Dbt</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../defs/dbt/definitions/">Definitions</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Dlthub</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../defs/dlthub/resources/">Resources</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" >Dlthub</a>
+    <ul>
+                <li class="toctree-l4"><a class="reference internal" >Exchange rate</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" >Facebook ads</a>
+                </li>
+                <li class="toctree-l4"><a class="reference internal" >Google ads</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Sling</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../defs/sling/definitions/">Definitions</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Lib</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../lib/__init__/">  init  </a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Dbt</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../lib/dbt/__init__/">  init  </a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../lib/dbt/constants/">Constants</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../lib/dbt/translator/">Translator</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Dlthub</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../lib/dlthub/__init__/">  init  </a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../lib/dlthub/translator/">Translator</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Sling</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../lib/sling/__init__/">  init  </a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../lib/sling/translator/">Translator</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Utils</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Automation conditions</a>
+    <ul class="current">
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../helpers/">Helpers</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../keyvault_stub/">Keyvault stub</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../secrets/">Secrets</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Data Platform</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+          <li class="breadcrumb-item">Utils</li>
+      <li class="breadcrumb-item active">Automation conditions</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="data_platform.utils.automation_conditions"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="data_platform.utils.automation_conditions.CustomAutomationCondition" class="doc doc-heading">
+            <code>CustomAutomationCondition</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="dagster.AutomationCondition">AutomationCondition</span></code></p>
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>data_platform\utils\automation_conditions.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CustomAutomationCondition</span><span class="p">(</span><span class="n">AutomationCondition</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_automation_condition</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">automation_condition_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AutomationCondition</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">methods</span> <span class="o">=</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">|</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span>
+        <span class="k">return</span> <span class="n">methods</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">automation_condition_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">manual</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns no AutomationCondition that will require a user to manually trigger.</span>
+<span class="sd">        Used for overriding default automations for static assets.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">missing_or_changed</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AutomationCondition</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns no AutomationCondition that will trigger only if the asset has never</span>
+<span class="sd">        been materialized, or if its definition has changed.</span>
+
+<span class="sd">        Common use for dbt seeds that only need to be reloaded when the underlying csv</span>
+<span class="sd">        file changes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_latest_time_window</span><span class="p">()</span>
+            <span class="o">&amp;</span> <span class="p">(</span>
+                <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">code_version_changed</span><span class="p">()</span>
+                <span class="o">|</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">newly_missing</span><span class="p">()</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">since_last_handled</span><span class="p">()</span>
+            <span class="o">&amp;</span> <span class="o">~</span><span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_progress</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">with_label</span><span class="p">(</span><span class="s2">&quot;missing_or_changed&quot;</span><span class="p">)</span>
+
+    <span class="nd">@override</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">eager</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AndAutomationCondition</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns an AutomationCondition which will cause a target to be executed if</span>
+<span class="sd">        any of its dependencies update, and will execute missing partitions if they</span>
+<span class="sd">        become missing after this condition is applied to the target. This will not</span>
+<span class="sd">        execute targets that have any missing or in progress dependencies, or are</span>
+<span class="sd">        currently in progress.</span>
+
+<span class="sd">        For time partitioned assets, only the latest time partition will be considered.</span>
+<span class="sd">        Commonly used for assets that are far downstream and have users that directly</span>
+<span class="sd">        interact with them, and do not have sensitivity to late arriving dimensions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_latest_time_window</span><span class="p">()</span>
+            <span class="o">&amp;</span> <span class="p">(</span>
+                <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">newly_missing</span><span class="p">()</span>
+                <span class="o">|</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">any_deps_updated</span><span class="p">()</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">since_last_handled</span><span class="p">()</span>
+            <span class="o">&amp;</span> <span class="o">~</span><span class="n">AutomationCondition</span><span class="o">.</span><span class="n">any_deps_missing</span><span class="p">()</span>
+            <span class="o">&amp;</span> <span class="o">~</span><span class="n">AutomationCondition</span><span class="o">.</span><span class="n">any_deps_in_progress</span><span class="p">()</span>
+            <span class="o">&amp;</span> <span class="o">~</span><span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_progress</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">with_label</span><span class="p">(</span><span class="s2">&quot;eager&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">eager_with_deps_checks</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AutomationCondition</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns an AutomationCondition which will cause a target</span>
+<span class="sd">        to be executed if any of its dependencies update but only after,</span>
+<span class="sd">        the dependencies blocking checks have passed, and will</span>
+<span class="sd">        execute missing partitions if they become missing after this</span>
+<span class="sd">        condition is applied to the target. This will not execute targets</span>
+<span class="sd">        that have any missing or in progress dependencies,</span>
+<span class="sd">        or are currently in progress.</span>
+
+<span class="sd">        For time partitioned assets, only the latest time partition will be considered.</span>
+<span class="sd">        Commonly used for assets that are far downstream and have users that directly</span>
+<span class="sd">        interact with them, and do not have sensitivity to late arriving dimensions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">eager</span><span class="p">()</span>
+            <span class="o">&amp;</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">all_deps_blocking_checks_passed</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lazy</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AutomationCondition</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns an AutomationCondition which will cause a target to be executed if</span>
+<span class="sd">        any downstream conditions are true or the partition is missing or changed.</span>
+
+<span class="sd">        Commonly used for intermediate assets that are used for downstream</span>
+<span class="sd">        materializations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">any_downstream_conditions</span><span class="p">()</span> <span class="o">|</span> <span class="bp">cls</span><span class="o">.</span><span class="n">missing_or_changed</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">with_label</span><span class="p">(</span><span class="s2">&quot;lazy&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lazy_on_cron</span><span class="p">(</span>
+        <span class="n">cron_schedule</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">cron_timezone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;UTC&quot;</span><span class="p">,</span>
+        <span class="n">ignore_asset_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AutomationCondition</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns an AutomationCondition which will cause a target to be</span>
+<span class="sd">        executed if any downstream conditions are true or the partition is missing or</span>
+<span class="sd">        changed. Will limit to only one execution for the given cron_schedule.</span>
+
+<span class="sd">        Commonly used for intermediate assets that are used for downstream</span>
+<span class="sd">        materializations, that have high frequency upstream assets, but themselves do</span>
+<span class="sd">        not need to be updated as frequently.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ignore_asset_keys</span> <span class="o">=</span> <span class="n">ignore_asset_keys</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_latest_time_window</span><span class="p">()</span>
+            <span class="o">&amp;</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">cron_tick_passed</span><span class="p">(</span>
+                <span class="n">cron_schedule</span><span class="p">,</span> <span class="n">cron_timezone</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">since_last_handled</span><span class="p">()</span>
+            <span class="o">&amp;</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">all_deps_updated_since_cron</span><span class="p">(</span>
+                <span class="n">cron_schedule</span><span class="p">,</span> <span class="n">cron_timezone</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">ignore</span><span class="p">(</span><span class="n">AssetSelection</span><span class="o">.</span><span class="n">assets</span><span class="p">(</span><span class="o">*</span><span class="n">ignore_asset_keys</span><span class="p">))</span>
+            <span class="o">&amp;</span> <span class="o">~</span><span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_progress</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">with_label</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lazy_on_cron(</span><span class="si">{</span><span class="n">cron_schedule</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">cron_timezone</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@override</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_cron</span><span class="p">(</span>
+        <span class="n">cron_schedule</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">cron_timezone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;UTC&quot;</span><span class="p">,</span>
+        <span class="n">ignore_asset_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AndAutomationCondition</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns an AutomationCondition which will cause a target to be executed on a</span>
+<span class="sd">        given cron schedule, after all of its dependencies have been updated since the</span>
+<span class="sd">        latest tick of that cron schedule.</span>
+
+<span class="sd">        For time partitioned assets, only the latest time partition will be considered.</span>
+
+<span class="sd">        Commonly used for assets that are far downstream and have users that directly</span>
+<span class="sd">        interact with them, and have sensitivity to late arriving dimensions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ignore_asset_keys</span> <span class="o">=</span> <span class="n">ignore_asset_keys</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">on_cron</span><span class="p">(</span><span class="n">cron_schedule</span><span class="p">,</span> <span class="n">cron_timezone</span><span class="p">)</span><span class="o">.</span><span class="n">ignore</span><span class="p">(</span>
+            <span class="n">AssetSelection</span><span class="o">.</span><span class="n">assets</span><span class="p">(</span><span class="o">*</span><span class="n">ignore_asset_keys</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_schedule</span><span class="p">(</span>
+        <span class="n">cron_schedule</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cron_timezone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;utc&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AutomationCondition</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns an AutomationCondition which will cause a target to be executed on a</span>
+<span class="sd">        given cron schedule, regardless of the state of its dependencies</span>
+
+<span class="sd">        For time partitioned assets, only the latest time partition will be considered.</span>
+
+<span class="sd">        Commonly used for assets in the ingestion layer that should always run on</span>
+<span class="sd">        a scheduled basis, and have no way of knowing when the source system has</span>
+<span class="sd">        updates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_latest_time_window</span><span class="p">()</span>
+            <span class="o">&amp;</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">cron_tick_passed</span><span class="p">(</span>
+                <span class="n">cron_schedule</span><span class="p">,</span> <span class="n">cron_timezone</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">since_last_handled</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">with_label</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;on_schedule(</span><span class="si">{</span><span class="n">cron_schedule</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">cron_timezone</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="data_platform.utils.automation_conditions.CustomAutomationCondition.eager" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">eager</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns an AutomationCondition which will cause a target to be executed if
+any of its dependencies update, and will execute missing partitions if they
+become missing after this condition is applied to the target. This will not
+execute targets that have any missing or in progress dependencies, or are
+currently in progress.</p>
+<p>For time partitioned assets, only the latest time partition will be considered.
+Commonly used for assets that are far downstream and have users that directly
+interact with them, and do not have sensitivity to late arriving dimensions.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>data_platform\utils\automation_conditions.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@override</span>
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">eager</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AndAutomationCondition</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns an AutomationCondition which will cause a target to be executed if</span>
+<span class="sd">    any of its dependencies update, and will execute missing partitions if they</span>
+<span class="sd">    become missing after this condition is applied to the target. This will not</span>
+<span class="sd">    execute targets that have any missing or in progress dependencies, or are</span>
+<span class="sd">    currently in progress.</span>
+
+<span class="sd">    For time partitioned assets, only the latest time partition will be considered.</span>
+<span class="sd">    Commonly used for assets that are far downstream and have users that directly</span>
+<span class="sd">    interact with them, and do not have sensitivity to late arriving dimensions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_latest_time_window</span><span class="p">()</span>
+        <span class="o">&amp;</span> <span class="p">(</span>
+            <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">newly_missing</span><span class="p">()</span>
+            <span class="o">|</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">any_deps_updated</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">since_last_handled</span><span class="p">()</span>
+        <span class="o">&amp;</span> <span class="o">~</span><span class="n">AutomationCondition</span><span class="o">.</span><span class="n">any_deps_missing</span><span class="p">()</span>
+        <span class="o">&amp;</span> <span class="o">~</span><span class="n">AutomationCondition</span><span class="o">.</span><span class="n">any_deps_in_progress</span><span class="p">()</span>
+        <span class="o">&amp;</span> <span class="o">~</span><span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_progress</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">with_label</span><span class="p">(</span><span class="s2">&quot;eager&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="data_platform.utils.automation_conditions.CustomAutomationCondition.eager_with_deps_checks" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">eager_with_deps_checks</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns an AutomationCondition which will cause a target
+to be executed if any of its dependencies update but only after,
+the dependencies blocking checks have passed, and will
+execute missing partitions if they become missing after this
+condition is applied to the target. This will not execute targets
+that have any missing or in progress dependencies,
+or are currently in progress.</p>
+<p>For time partitioned assets, only the latest time partition will be considered.
+Commonly used for assets that are far downstream and have users that directly
+interact with them, and do not have sensitivity to late arriving dimensions.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>data_platform\utils\automation_conditions.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">eager_with_deps_checks</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AutomationCondition</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns an AutomationCondition which will cause a target</span>
+<span class="sd">    to be executed if any of its dependencies update but only after,</span>
+<span class="sd">    the dependencies blocking checks have passed, and will</span>
+<span class="sd">    execute missing partitions if they become missing after this</span>
+<span class="sd">    condition is applied to the target. This will not execute targets</span>
+<span class="sd">    that have any missing or in progress dependencies,</span>
+<span class="sd">    or are currently in progress.</span>
+
+<span class="sd">    For time partitioned assets, only the latest time partition will be considered.</span>
+<span class="sd">    Commonly used for assets that are far downstream and have users that directly</span>
+<span class="sd">    interact with them, and do not have sensitivity to late arriving dimensions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">eager</span><span class="p">()</span>
+        <span class="o">&amp;</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">all_deps_blocking_checks_passed</span><span class="p">()</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="data_platform.utils.automation_conditions.CustomAutomationCondition.lazy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">lazy</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns an AutomationCondition which will cause a target to be executed if
+any downstream conditions are true or the partition is missing or changed.</p>
+<p>Commonly used for intermediate assets that are used for downstream
+materializations.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>data_platform\utils\automation_conditions.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lazy</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AutomationCondition</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns an AutomationCondition which will cause a target to be executed if</span>
+<span class="sd">    any downstream conditions are true or the partition is missing or changed.</span>
+
+<span class="sd">    Commonly used for intermediate assets that are used for downstream</span>
+<span class="sd">    materializations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">any_downstream_conditions</span><span class="p">()</span> <span class="o">|</span> <span class="bp">cls</span><span class="o">.</span><span class="n">missing_or_changed</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">with_label</span><span class="p">(</span><span class="s2">&quot;lazy&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="data_platform.utils.automation_conditions.CustomAutomationCondition.lazy_on_cron" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">lazy_on_cron</span><span class="p">(</span><span class="n">cron_schedule</span><span class="p">,</span> <span class="n">cron_timezone</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">,</span> <span class="n">ignore_asset_keys</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns an AutomationCondition which will cause a target to be
+executed if any downstream conditions are true or the partition is missing or
+changed. Will limit to only one execution for the given cron_schedule.</p>
+<p>Commonly used for intermediate assets that are used for downstream
+materializations, that have high frequency upstream assets, but themselves do
+not need to be updated as frequently.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>data_platform\utils\automation_conditions.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">lazy_on_cron</span><span class="p">(</span>
+    <span class="n">cron_schedule</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">cron_timezone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;UTC&quot;</span><span class="p">,</span>
+    <span class="n">ignore_asset_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AutomationCondition</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns an AutomationCondition which will cause a target to be</span>
+<span class="sd">    executed if any downstream conditions are true or the partition is missing or</span>
+<span class="sd">    changed. Will limit to only one execution for the given cron_schedule.</span>
+
+<span class="sd">    Commonly used for intermediate assets that are used for downstream</span>
+<span class="sd">    materializations, that have high frequency upstream assets, but themselves do</span>
+<span class="sd">    not need to be updated as frequently.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ignore_asset_keys</span> <span class="o">=</span> <span class="n">ignore_asset_keys</span> <span class="ow">or</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_latest_time_window</span><span class="p">()</span>
+        <span class="o">&amp;</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">cron_tick_passed</span><span class="p">(</span>
+            <span class="n">cron_schedule</span><span class="p">,</span> <span class="n">cron_timezone</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">since_last_handled</span><span class="p">()</span>
+        <span class="o">&amp;</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">all_deps_updated_since_cron</span><span class="p">(</span>
+            <span class="n">cron_schedule</span><span class="p">,</span> <span class="n">cron_timezone</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">ignore</span><span class="p">(</span><span class="n">AssetSelection</span><span class="o">.</span><span class="n">assets</span><span class="p">(</span><span class="o">*</span><span class="n">ignore_asset_keys</span><span class="p">))</span>
+        <span class="o">&amp;</span> <span class="o">~</span><span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_progress</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">with_label</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lazy_on_cron(</span><span class="si">{</span><span class="n">cron_schedule</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">cron_timezone</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="data_platform.utils.automation_conditions.CustomAutomationCondition.manual" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">manual</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns no AutomationCondition that will require a user to manually trigger.
+Used for overriding default automations for static assets.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>data_platform\utils\automation_conditions.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">manual</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns no AutomationCondition that will require a user to manually trigger.</span>
+<span class="sd">    Used for overriding default automations for static assets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="data_platform.utils.automation_conditions.CustomAutomationCondition.missing_or_changed" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">missing_or_changed</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns no AutomationCondition that will trigger only if the asset has never
+been materialized, or if its definition has changed.</p>
+<p>Common use for dbt seeds that only need to be reloaded when the underlying csv
+file changes.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>data_platform\utils\automation_conditions.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">missing_or_changed</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AutomationCondition</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns no AutomationCondition that will trigger only if the asset has never</span>
+<span class="sd">    been materialized, or if its definition has changed.</span>
+
+<span class="sd">    Common use for dbt seeds that only need to be reloaded when the underlying csv</span>
+<span class="sd">    file changes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_latest_time_window</span><span class="p">()</span>
+        <span class="o">&amp;</span> <span class="p">(</span>
+            <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">code_version_changed</span><span class="p">()</span>
+            <span class="o">|</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">newly_missing</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">since_last_handled</span><span class="p">()</span>
+        <span class="o">&amp;</span> <span class="o">~</span><span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_progress</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">with_label</span><span class="p">(</span><span class="s2">&quot;missing_or_changed&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="data_platform.utils.automation_conditions.CustomAutomationCondition.on_cron" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">on_cron</span><span class="p">(</span><span class="n">cron_schedule</span><span class="p">,</span> <span class="n">cron_timezone</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">,</span> <span class="n">ignore_asset_keys</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns an AutomationCondition which will cause a target to be executed on a
+given cron schedule, after all of its dependencies have been updated since the
+latest tick of that cron schedule.</p>
+<p>For time partitioned assets, only the latest time partition will be considered.</p>
+<p>Commonly used for assets that are far downstream and have users that directly
+interact with them, and have sensitivity to late arriving dimensions.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>data_platform\utils\automation_conditions.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="nd">@override</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">on_cron</span><span class="p">(</span>
+    <span class="n">cron_schedule</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">cron_timezone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;UTC&quot;</span><span class="p">,</span>
+    <span class="n">ignore_asset_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AndAutomationCondition</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns an AutomationCondition which will cause a target to be executed on a</span>
+<span class="sd">    given cron schedule, after all of its dependencies have been updated since the</span>
+<span class="sd">    latest tick of that cron schedule.</span>
+
+<span class="sd">    For time partitioned assets, only the latest time partition will be considered.</span>
+
+<span class="sd">    Commonly used for assets that are far downstream and have users that directly</span>
+<span class="sd">    interact with them, and have sensitivity to late arriving dimensions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ignore_asset_keys</span> <span class="o">=</span> <span class="n">ignore_asset_keys</span> <span class="ow">or</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">on_cron</span><span class="p">(</span><span class="n">cron_schedule</span><span class="p">,</span> <span class="n">cron_timezone</span><span class="p">)</span><span class="o">.</span><span class="n">ignore</span><span class="p">(</span>
+        <span class="n">AssetSelection</span><span class="o">.</span><span class="n">assets</span><span class="p">(</span><span class="o">*</span><span class="n">ignore_asset_keys</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="data_platform.utils.automation_conditions.CustomAutomationCondition.on_schedule" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">on_schedule</span><span class="p">(</span><span class="n">cron_schedule</span><span class="p">,</span> <span class="n">cron_timezone</span><span class="o">=</span><span class="s1">&#39;utc&#39;</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Returns an AutomationCondition which will cause a target to be executed on a
+given cron schedule, regardless of the state of its dependencies</p>
+<p>For time partitioned assets, only the latest time partition will be considered.</p>
+<p>Commonly used for assets in the ingestion layer that should always run on
+a scheduled basis, and have no way of knowing when the source system has
+updates.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>data_platform\utils\automation_conditions.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">on_schedule</span><span class="p">(</span>
+    <span class="n">cron_schedule</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cron_timezone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;utc&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AutomationCondition</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns an AutomationCondition which will cause a target to be executed on a</span>
+<span class="sd">    given cron schedule, regardless of the state of its dependencies</span>
+
+<span class="sd">    For time partitioned assets, only the latest time partition will be considered.</span>
+
+<span class="sd">    Commonly used for assets in the ingestion layer that should always run on</span>
+<span class="sd">    a scheduled basis, and have no way of knowing when the source system has</span>
+<span class="sd">    updates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">in_latest_time_window</span><span class="p">()</span>
+        <span class="o">&amp;</span> <span class="n">AutomationCondition</span><span class="o">.</span><span class="n">cron_tick_passed</span><span class="p">(</span>
+            <span class="n">cron_schedule</span><span class="p">,</span> <span class="n">cron_timezone</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">since_last_handled</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">with_label</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;on_schedule(</span><span class="si">{</span><span class="n">cron_schedule</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">cron_timezone</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../lib/sling/translator/" class="btn btn-neutral float-left" title="Translator"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../helpers/" class="btn btn-neutral float-right" title="Helpers">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../lib/sling/translator/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../helpers/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
