@@ -66,30 +66,31 @@ el.replaceWith(d);
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class DagsterDbtFactory:
-    &#34;&#34;&#34;Factory to generate dagster definitions from a dbt project.
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;Factory to generate dagster definitions from a dbt project.&#34;&#34;&#34;
 
     @cache
     @staticmethod
     def build_definitions(dbt: Callable[[], DbtProject]) -&gt; dg.Definitions:
-        &#34;&#34;&#34;Returns a Definitions object from a dbt project.
-        &#34;&#34;&#34;
-
+        &#34;&#34;&#34;Returns a Definitions object from a dbt project.&#34;&#34;&#34;
+        
         assets = [
-            DagsterDbtFactory._get_assets(&#34;dbt_partitioned_models&#34;,
-                    dbt=dbt,
-                    select=TIME_PARTITION_SELECTOR,
-                    partitioned=True),
-            DagsterDbtFactory._get_assets(&#34;dbt_non_partitioned_models&#34;,
-                    dbt=dbt,
-                    exclude=TIME_PARTITION_SELECTOR,
-                    partitioned=False)
+            DagsterDbtFactory._get_assets(
+                &#34;dbt_partitioned_models&#34;,
+                dbt=dbt,
+                select=TIME_PARTITION_SELECTOR,
+                partitioned=True,
+            ),
+            DagsterDbtFactory._get_assets(
+                &#34;dbt_non_partitioned_models&#34;,
+                dbt=dbt,
+                exclude=TIME_PARTITION_SELECTOR,
+                partitioned=False,
+            ),
         ]
 
         freshness_checks = build_freshness_checks_from_dbt_assets(dbt_assets=assets)
         freshness_sensor = dg.build_sensor_for_freshness_checks(
-            freshness_checks=freshness_checks,
-            name=&#34;dbt_freshness_checks_sensor&#34;
+            freshness_checks=freshness_checks, name=&#34;dbt_freshness_checks_sensor&#34;
         )
 
         return dg.Definitions(
@@ -100,23 +101,21 @@ el.replaceWith(d);
             },
             assets=assets,
             asset_checks=freshness_checks,
-            sensors=[freshness_sensor]
+            sensors=[freshness_sensor],
         )
-
 
     @cache
     @staticmethod
     def _get_assets(
-            name: str | None,
-            dbt: Callable[[],DbtProject],
-            partitioned: bool = False,
-            select: str = DBT_DEFAULT_SELECT,
-            exclude: str | None = None
-            ) -&gt; dg.AssetsDefinition:
+        name: str | None,
+        dbt: Callable[[], DbtProject],
+        partitioned: bool = False,
+        select: str = DBT_DEFAULT_SELECT,
+        exclude: str | None = None,
+    ) -&gt; dg.AssetsDefinition:
         &#34;&#34;&#34;Returns a AssetsDefinition with different execution for partitioned
         and non-partitioned models so that they can be ran on the same job.
         &#34;&#34;&#34;
-        
         dbt_project = dbt()
         assert dbt_project
 
@@ -132,12 +131,11 @@ el.replaceWith(d);
             ),
             backfill_policy=dg.BackfillPolicy.single_run(),
             project=dbt_project,
+            pool=&#34;dbt&#34;,
         )
         def assets(
-            context: dg.AssetExecutionContext,
-            dbt: DbtCliResource,
-            config: DbtConfig) -&gt; Generator[DbtEventIterator, Any, Any]:
-
+            context: dg.AssetExecutionContext, dbt: DbtCliResource, config: DbtConfig
+        ) -&gt; Generator[DbtEventIterator, Any, Any]:
             args = [&#34;build&#34;]
 
             if config.full_refresh:
@@ -152,15 +150,19 @@ el.replaceWith(d);
                 format = &#34;%Y-%m-%d %H:%M:%S&#34;
                 dbt_vars = {
                     &#34;min_date&#34;: time_window.start.strftime(format),
-                    &#34;max_date&#34;: time_window.end.strftime(format)
+                    &#34;max_date&#34;: time_window.end.strftime(format),
                 }
 
                 args.extend((&#34;--vars&#34;, json.dumps(dbt_vars)))
-                
-                yield from dbt.cli(args, context=context).stream()#.with_insights() # type: ignore
+
+                yield from dbt.cli(
+                    args, context=context
+                ).stream()  # .with_insights() # type: ignore
             else:
-                yield from dbt.cli(args, context=context).stream()#.with_insights() # type: ignore
-        
+                yield from dbt.cli(
+                    args, context=context
+                ).stream()  # .with_insights() # type: ignore
+
         return assets</code></pre>
 </details>
 <div class="desc"><p>Factory to generate dagster definitions from a dbt project.</p></div>
@@ -177,24 +179,26 @@ el.replaceWith(d);
 <pre><code class="python">@cache
 @staticmethod
 def build_definitions(dbt: Callable[[], DbtProject]) -&gt; dg.Definitions:
-    &#34;&#34;&#34;Returns a Definitions object from a dbt project.
-    &#34;&#34;&#34;
-
+    &#34;&#34;&#34;Returns a Definitions object from a dbt project.&#34;&#34;&#34;
+    
     assets = [
-        DagsterDbtFactory._get_assets(&#34;dbt_partitioned_models&#34;,
-                dbt=dbt,
-                select=TIME_PARTITION_SELECTOR,
-                partitioned=True),
-        DagsterDbtFactory._get_assets(&#34;dbt_non_partitioned_models&#34;,
-                dbt=dbt,
-                exclude=TIME_PARTITION_SELECTOR,
-                partitioned=False)
+        DagsterDbtFactory._get_assets(
+            &#34;dbt_partitioned_models&#34;,
+            dbt=dbt,
+            select=TIME_PARTITION_SELECTOR,
+            partitioned=True,
+        ),
+        DagsterDbtFactory._get_assets(
+            &#34;dbt_non_partitioned_models&#34;,
+            dbt=dbt,
+            exclude=TIME_PARTITION_SELECTOR,
+            partitioned=False,
+        ),
     ]
 
     freshness_checks = build_freshness_checks_from_dbt_assets(dbt_assets=assets)
     freshness_sensor = dg.build_sensor_for_freshness_checks(
-        freshness_checks=freshness_checks,
-        name=&#34;dbt_freshness_checks_sensor&#34;
+        freshness_checks=freshness_checks, name=&#34;dbt_freshness_checks_sensor&#34;
     )
 
     return dg.Definitions(
@@ -205,7 +209,7 @@ def build_definitions(dbt: Callable[[], DbtProject]) -&gt; dg.Definitions:
         },
         assets=assets,
         asset_checks=freshness_checks,
-        sensors=[freshness_sensor]
+        sensors=[freshness_sensor],
     )</code></pre>
 </details>
 <div class="desc"><p>Returns a Definitions object from a dbt project.</p></div>

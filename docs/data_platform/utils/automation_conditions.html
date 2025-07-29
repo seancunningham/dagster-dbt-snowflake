@@ -55,101 +55,105 @@ el.replaceWith(d);
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class CustomAutomationCondition(AutomationCondition):
-    
     @classmethod
-    def get_automation_condition(cls, automation_condition_name: str) -&gt; Optional[AutomationCondition]:
+    def get_automation_condition(
+        cls, automation_condition_name: str
+    ) -&gt; AutomationCondition | None:
         methods = AutomationCondition.__dict__ | cls.__dict__
-        return methods.get(automation_condition_name, None)      
-
+        return methods.get(automation_condition_name, None)
 
     @staticmethod
     def manual() -&gt; None:
-         &#34;&#34;&#34;Returns no AutomationCondition that will require a user to manually trigger.
-         Used for overriding default automations for static assets.
-         &#34;&#34;&#34;
-         return None
-
+        &#34;&#34;&#34;Returns no AutomationCondition that will require a user to manually trigger.
+        Used for overriding default automations for static assets.
+        &#34;&#34;&#34;
+        return None
 
     @staticmethod
     def missing_or_changed() -&gt; AutomationCondition:
-        &#34;&#34;&#34;Returns no AutomationCondition that will trigger only if the asset has never been
-        materialized, or if its definition has changed.
+        &#34;&#34;&#34;Returns no AutomationCondition that will trigger only if the asset has never
+        been materialized, or if its definition has changed.
 
-        Common use for dbt seeds that only need to be reloaded when the underlying csv file changes.
-         &#34;&#34;&#34;
+        Common use for dbt seeds that only need to be reloaded when the underlying csv
+        file changes.
+        &#34;&#34;&#34;
         return (
             AutomationCondition.in_latest_time_window()
             &amp; (
-                AutomationCondition.code_version_changed() | AutomationCondition.newly_missing()
+                AutomationCondition.code_version_changed()
+                | AutomationCondition.newly_missing()
             ).since_last_handled()
-            &amp; ~ AutomationCondition.in_progress()
-        ).with_label(f&#34;missing_or_changed&#34;)
-
+            &amp; ~AutomationCondition.in_progress()
+        ).with_label(&#34;missing_or_changed&#34;)
 
     @override
     @staticmethod
     def eager() -&gt; AndAutomationCondition:
-            &#34;&#34;&#34;Returns an AutomationCondition which will cause a target
-            to be executed if any of its dependencies update, and will
-            execute missing partitions if they become missing after this
-            condition is applied to the target. This will not execute targets
-            that have any missing or in progress dependencies,
-            or are currently in progress.
+        &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be executed if
+        any of its dependencies update, and will execute missing partitions if they
+        become missing after this condition is applied to the target. This will not
+        execute targets that have any missing or in progress dependencies, or are
+        currently in progress.
 
-            For time partitioned assets, only the latest time partition will be considered.
-            Commonly used for assets that are far downstream and have users that directly
-            interact with them, and do not have sensitivity to late arriving dimensions.&#34;&#34;&#34;
-            return (
-                AutomationCondition.in_latest_time_window()
-                &amp; (
-                    AutomationCondition.newly_missing() | AutomationCondition.any_deps_updated()
-                ).since_last_handled()
-                &amp; ~AutomationCondition.any_deps_missing()
-                &amp; ~AutomationCondition.any_deps_in_progress()
-                &amp; ~AutomationCondition.in_progress()
-            ).with_label(&#34;eager&#34;)
-
+        For time partitioned assets, only the latest time partition will be considered.
+        Commonly used for assets that are far downstream and have users that directly
+        interact with them, and do not have sensitivity to late arriving dimensions.
+        &#34;&#34;&#34;
+        return (
+            AutomationCondition.in_latest_time_window()
+            &amp; (
+                AutomationCondition.newly_missing()
+                | AutomationCondition.any_deps_updated()
+            ).since_last_handled()
+            &amp; ~AutomationCondition.any_deps_missing()
+            &amp; ~AutomationCondition.any_deps_in_progress()
+            &amp; ~AutomationCondition.in_progress()
+        ).with_label(&#34;eager&#34;)
 
     @staticmethod
     def eager_with_deps_checks() -&gt; AutomationCondition:
-            &#34;&#34;&#34;Returns an AutomationCondition which will cause a target
-            to be executed if any of its dependencies update but only after,
-            the dependencies blocking checks have passed, and will
-            execute missing partitions if they become missing after this
-            condition is applied to the target. This will not execute targets
-            that have any missing or in progress dependencies,
-            or are currently in progress.
+        &#34;&#34;&#34;Returns an AutomationCondition which will cause a target
+        to be executed if any of its dependencies update but only after,
+        the dependencies blocking checks have passed, and will
+        execute missing partitions if they become missing after this
+        condition is applied to the target. This will not execute targets
+        that have any missing or in progress dependencies,
+        or are currently in progress.
 
-            For time partitioned assets, only the latest time partition will be considered.
-            Commonly used for assets that are far downstream and have users that directly
-            interact with them, and do not have sensitivity to late arriving dimensions.&#34;&#34;&#34;
-            return ((AutomationCondition.eager()
-                     &amp; AutomationCondition.all_deps_blocking_checks_passed()))    
-
+        For time partitioned assets, only the latest time partition will be considered.
+        Commonly used for assets that are far downstream and have users that directly
+        interact with them, and do not have sensitivity to late arriving dimensions.
+        &#34;&#34;&#34;
+        return (
+            AutomationCondition.eager()
+            &amp; AutomationCondition.all_deps_blocking_checks_passed()
+        )
 
     @classmethod
     def lazy(cls) -&gt; AutomationCondition:
-        &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be
-        executed if any downstream conditions are true or the partition is missing or changed.
-        
-        Commonly used for intermediate assets that are used for downstream materializations.
+        &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be executed if
+        any downstream conditions are true or the partition is missing or changed.
+
+        Commonly used for intermediate assets that are used for downstream
+        materializations.
         &#34;&#34;&#34;
-        return(
+        return (
             AutomationCondition.any_downstream_conditions() | cls.missing_or_changed()
         ).with_label(&#34;lazy&#34;)
-    
 
     @staticmethod
     def lazy_on_cron(
-            cron_schedule: str, cron_timezone: str = &#34;UTC&#34;,
-            ignore_asset_keys: list[list[str]]| None = None) -&gt; AutomationCondition:
+        cron_schedule: str,
+        cron_timezone: str = &#34;UTC&#34;,
+        ignore_asset_keys: list[list[str]] | None = None,
+    ) -&gt; AutomationCondition:
         &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be
-        executed if any downstream conditions are true or the partition is missing or changed.
-        Will limit to only one execution for the given cron_schedule.
-        
-        Commonly used for intermediate assets that are used for downstream materializations,
-        that have high frequency upstream assets, but themselves do not need to be updated as
-        frequently.
+        executed if any downstream conditions are true or the partition is missing or
+        changed. Will limit to only one execution for the given cron_schedule.
+
+        Commonly used for intermediate assets that are used for downstream
+        materializations, that have high frequency upstream assets, but themselves do
+        not need to be updated as frequently.
         &#34;&#34;&#34;
         ignore_asset_keys = ignore_asset_keys or []
         return (
@@ -157,40 +161,45 @@ el.replaceWith(d);
             &amp; AutomationCondition.cron_tick_passed(
                 cron_schedule, cron_timezone
             ).since_last_handled()
-            &amp; AutomationCondition.all_deps_updated_since_cron(cron_schedule, cron_timezone).ignore(
-            AssetSelection.assets(*ignore_asset_keys))
-            &amp; ~ AutomationCondition.in_progress()
+            &amp; AutomationCondition.all_deps_updated_since_cron(
+                cron_schedule, cron_timezone
+            ).ignore(AssetSelection.assets(*ignore_asset_keys))
+            &amp; ~AutomationCondition.in_progress()
         ).with_label(f&#34;lazy_on_cron({cron_schedule}, {cron_timezone})&#34;)
-    
 
     @staticmethod
     @override
     def on_cron(
-            cron_schedule: str,
-            cron_timezone: str = &#34;UTC&#34;,
-            ignore_asset_keys: list[list[str]]| None = None) -&gt; AndAutomationCondition:
-        &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be
-        executed on a given cron schedule, after all of its dependencies have
-        been updated since the latest tick of that cron schedule.
+        cron_schedule: str,
+        cron_timezone: str = &#34;UTC&#34;,
+        ignore_asset_keys: list[list[str]] | None = None,
+    ) -&gt; AndAutomationCondition:
+        &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be executed on a
+        given cron schedule, after all of its dependencies have been updated since the
+        latest tick of that cron schedule.
 
         For time partitioned assets, only the latest time partition will be considered.
-        
+
         Commonly used for assets that are far downstream and have users that directly
-        interact with them, and have sensitivity to late arriving dimensions.&#34;&#34;&#34;
+        interact with them, and have sensitivity to late arriving dimensions.
+        &#34;&#34;&#34;
         ignore_asset_keys = ignore_asset_keys or []
         return AutomationCondition.on_cron(cron_schedule, cron_timezone).ignore(
-            AssetSelection.assets(*ignore_asset_keys))
-    
+            AssetSelection.assets(*ignore_asset_keys)
+        )
 
     @staticmethod
-    def on_schedule(cron_schedule: str, cron_timezone: str = &#34;utc&#34;) -&gt; AutomationCondition:
-        &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be executed on a given
-        cron schedule, regardless of the state of its dependencies
+    def on_schedule(
+        cron_schedule: str, cron_timezone: str = &#34;utc&#34;
+    ) -&gt; AutomationCondition:
+        &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be executed on a
+        given cron schedule, regardless of the state of its dependencies
 
         For time partitioned assets, only the latest time partition will be considered.
 
-        Commonly used for assets in the ingestion layer that should always run on a scheduled basis,
-        and have no way of knowing when the source system has updates.
+        Commonly used for assets in the ingestion layer that should always run on
+        a scheduled basis, and have no way of knowing when the source system has
+        updates.
         &#34;&#34;&#34;
         return (
             AutomationCondition.in_latest_time_window()
@@ -247,32 +256,32 @@ def my_asset(): ...
 <pre><code class="python">@override
 @staticmethod
 def eager() -&gt; AndAutomationCondition:
-        &#34;&#34;&#34;Returns an AutomationCondition which will cause a target
-        to be executed if any of its dependencies update, and will
-        execute missing partitions if they become missing after this
-        condition is applied to the target. This will not execute targets
-        that have any missing or in progress dependencies,
-        or are currently in progress.
+    &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be executed if
+    any of its dependencies update, and will execute missing partitions if they
+    become missing after this condition is applied to the target. This will not
+    execute targets that have any missing or in progress dependencies, or are
+    currently in progress.
 
-        For time partitioned assets, only the latest time partition will be considered.
-        Commonly used for assets that are far downstream and have users that directly
-        interact with them, and do not have sensitivity to late arriving dimensions.&#34;&#34;&#34;
-        return (
-            AutomationCondition.in_latest_time_window()
-            &amp; (
-                AutomationCondition.newly_missing() | AutomationCondition.any_deps_updated()
-            ).since_last_handled()
-            &amp; ~AutomationCondition.any_deps_missing()
-            &amp; ~AutomationCondition.any_deps_in_progress()
-            &amp; ~AutomationCondition.in_progress()
-        ).with_label(&#34;eager&#34;)</code></pre>
+    For time partitioned assets, only the latest time partition will be considered.
+    Commonly used for assets that are far downstream and have users that directly
+    interact with them, and do not have sensitivity to late arriving dimensions.
+    &#34;&#34;&#34;
+    return (
+        AutomationCondition.in_latest_time_window()
+        &amp; (
+            AutomationCondition.newly_missing()
+            | AutomationCondition.any_deps_updated()
+        ).since_last_handled()
+        &amp; ~AutomationCondition.any_deps_missing()
+        &amp; ~AutomationCondition.any_deps_in_progress()
+        &amp; ~AutomationCondition.in_progress()
+    ).with_label(&#34;eager&#34;)</code></pre>
 </details>
-<div class="desc"><p>Returns an AutomationCondition which will cause a target
-to be executed if any of its dependencies update, and will
-execute missing partitions if they become missing after this
-condition is applied to the target. This will not execute targets
-that have any missing or in progress dependencies,
-or are currently in progress.</p>
+<div class="desc"><p>Returns an AutomationCondition which will cause a target to be executed if
+any of its dependencies update, and will execute missing partitions if they
+become missing after this condition is applied to the target. This will not
+execute targets that have any missing or in progress dependencies, or are
+currently in progress.</p>
 <p>For time partitioned assets, only the latest time partition will be considered.
 Commonly used for assets that are far downstream and have users that directly
 interact with them, and do not have sensitivity to late arriving dimensions.</p></div>
@@ -287,19 +296,22 @@ interact with them, and do not have sensitivity to late arriving dimensions.</p>
 </summary>
 <pre><code class="python">@staticmethod
 def eager_with_deps_checks() -&gt; AutomationCondition:
-        &#34;&#34;&#34;Returns an AutomationCondition which will cause a target
-        to be executed if any of its dependencies update but only after,
-        the dependencies blocking checks have passed, and will
-        execute missing partitions if they become missing after this
-        condition is applied to the target. This will not execute targets
-        that have any missing or in progress dependencies,
-        or are currently in progress.
+    &#34;&#34;&#34;Returns an AutomationCondition which will cause a target
+    to be executed if any of its dependencies update but only after,
+    the dependencies blocking checks have passed, and will
+    execute missing partitions if they become missing after this
+    condition is applied to the target. This will not execute targets
+    that have any missing or in progress dependencies,
+    or are currently in progress.
 
-        For time partitioned assets, only the latest time partition will be considered.
-        Commonly used for assets that are far downstream and have users that directly
-        interact with them, and do not have sensitivity to late arriving dimensions.&#34;&#34;&#34;
-        return ((AutomationCondition.eager()
-                 &amp; AutomationCondition.all_deps_blocking_checks_passed()))    </code></pre>
+    For time partitioned assets, only the latest time partition will be considered.
+    Commonly used for assets that are far downstream and have users that directly
+    interact with them, and do not have sensitivity to late arriving dimensions.
+    &#34;&#34;&#34;
+    return (
+        AutomationCondition.eager()
+        &amp; AutomationCondition.all_deps_blocking_checks_passed()
+    )</code></pre>
 </details>
 <div class="desc"><p>Returns an AutomationCondition which will cause a target
 to be executed if any of its dependencies update but only after,
@@ -322,9 +334,10 @@ interact with them, and do not have sensitivity to late arriving dimensions.</p>
 <span>def <span class="ident">lazy</span></span>(<span>) ‑> dagster._core.definitions.declarative_automation.automation_condition.AutomationCondition</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns an AutomationCondition which will cause a target to be
-executed if any downstream conditions are true or the partition is missing or changed.</p>
-<p>Commonly used for intermediate assets that are used for downstream materializations.</p></div>
+<div class="desc"><p>Returns an AutomationCondition which will cause a target to be executed if
+any downstream conditions are true or the partition is missing or changed.</p>
+<p>Commonly used for intermediate assets that are used for downstream
+materializations.</p></div>
 </dd>
 <dt id="data_platform.utils.automation_conditions.CustomAutomationCondition.lazy_on_cron"><code class="name flex">
 <span>def <span class="ident">lazy_on_cron</span></span>(<span>cron_schedule: str,<br>cron_timezone: str = 'UTC',<br>ignore_asset_keys: list[list[str]] | None = None) ‑> dagster._core.definitions.declarative_automation.automation_condition.AutomationCondition</span>
@@ -336,15 +349,17 @@ executed if any downstream conditions are true or the partition is missing or ch
 </summary>
 <pre><code class="python">@staticmethod
 def lazy_on_cron(
-        cron_schedule: str, cron_timezone: str = &#34;UTC&#34;,
-        ignore_asset_keys: list[list[str]]| None = None) -&gt; AutomationCondition:
+    cron_schedule: str,
+    cron_timezone: str = &#34;UTC&#34;,
+    ignore_asset_keys: list[list[str]] | None = None,
+) -&gt; AutomationCondition:
     &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be
-    executed if any downstream conditions are true or the partition is missing or changed.
-    Will limit to only one execution for the given cron_schedule.
-    
-    Commonly used for intermediate assets that are used for downstream materializations,
-    that have high frequency upstream assets, but themselves do not need to be updated as
-    frequently.
+    executed if any downstream conditions are true or the partition is missing or
+    changed. Will limit to only one execution for the given cron_schedule.
+
+    Commonly used for intermediate assets that are used for downstream
+    materializations, that have high frequency upstream assets, but themselves do
+    not need to be updated as frequently.
     &#34;&#34;&#34;
     ignore_asset_keys = ignore_asset_keys or []
     return (
@@ -352,17 +367,18 @@ def lazy_on_cron(
         &amp; AutomationCondition.cron_tick_passed(
             cron_schedule, cron_timezone
         ).since_last_handled()
-        &amp; AutomationCondition.all_deps_updated_since_cron(cron_schedule, cron_timezone).ignore(
-        AssetSelection.assets(*ignore_asset_keys))
-        &amp; ~ AutomationCondition.in_progress()
+        &amp; AutomationCondition.all_deps_updated_since_cron(
+            cron_schedule, cron_timezone
+        ).ignore(AssetSelection.assets(*ignore_asset_keys))
+        &amp; ~AutomationCondition.in_progress()
     ).with_label(f&#34;lazy_on_cron({cron_schedule}, {cron_timezone})&#34;)</code></pre>
 </details>
 <div class="desc"><p>Returns an AutomationCondition which will cause a target to be
-executed if any downstream conditions are true or the partition is missing or changed.
-Will limit to only one execution for the given cron_schedule.</p>
-<p>Commonly used for intermediate assets that are used for downstream materializations,
-that have high frequency upstream assets, but themselves do not need to be updated as
-frequently.</p></div>
+executed if any downstream conditions are true or the partition is missing or
+changed. Will limit to only one execution for the given cron_schedule.</p>
+<p>Commonly used for intermediate assets that are used for downstream
+materializations, that have high frequency upstream assets, but themselves do
+not need to be updated as frequently.</p></div>
 </dd>
 <dt id="data_platform.utils.automation_conditions.CustomAutomationCondition.manual"><code class="name flex">
 <span>def <span class="ident">manual</span></span>(<span>) ‑> None</span>
@@ -374,10 +390,10 @@ frequently.</p></div>
 </summary>
 <pre><code class="python">@staticmethod
 def manual() -&gt; None:
-     &#34;&#34;&#34;Returns no AutomationCondition that will require a user to manually trigger.
-     Used for overriding default automations for static assets.
-     &#34;&#34;&#34;
-     return None</code></pre>
+    &#34;&#34;&#34;Returns no AutomationCondition that will require a user to manually trigger.
+    Used for overriding default automations for static assets.
+    &#34;&#34;&#34;
+    return None</code></pre>
 </details>
 <div class="desc"><p>Returns no AutomationCondition that will require a user to manually trigger.
 Used for overriding default automations for static assets.</p></div>
@@ -392,22 +408,25 @@ Used for overriding default automations for static assets.</p></div>
 </summary>
 <pre><code class="python">@staticmethod
 def missing_or_changed() -&gt; AutomationCondition:
-    &#34;&#34;&#34;Returns no AutomationCondition that will trigger only if the asset has never been
-    materialized, or if its definition has changed.
+    &#34;&#34;&#34;Returns no AutomationCondition that will trigger only if the asset has never
+    been materialized, or if its definition has changed.
 
-    Common use for dbt seeds that only need to be reloaded when the underlying csv file changes.
-     &#34;&#34;&#34;
+    Common use for dbt seeds that only need to be reloaded when the underlying csv
+    file changes.
+    &#34;&#34;&#34;
     return (
         AutomationCondition.in_latest_time_window()
         &amp; (
-            AutomationCondition.code_version_changed() | AutomationCondition.newly_missing()
+            AutomationCondition.code_version_changed()
+            | AutomationCondition.newly_missing()
         ).since_last_handled()
-        &amp; ~ AutomationCondition.in_progress()
-    ).with_label(f&#34;missing_or_changed&#34;)</code></pre>
+        &amp; ~AutomationCondition.in_progress()
+    ).with_label(&#34;missing_or_changed&#34;)</code></pre>
 </details>
-<div class="desc"><p>Returns no AutomationCondition that will trigger only if the asset has never been
-materialized, or if its definition has changed.</p>
-<p>Common use for dbt seeds that only need to be reloaded when the underlying csv file changes.</p></div>
+<div class="desc"><p>Returns no AutomationCondition that will trigger only if the asset has never
+been materialized, or if its definition has changed.</p>
+<p>Common use for dbt seeds that only need to be reloaded when the underlying csv
+file changes.</p></div>
 </dd>
 <dt id="data_platform.utils.automation_conditions.CustomAutomationCondition.on_cron"><code class="name flex">
 <span>def <span class="ident">on_cron</span></span>(<span>cron_schedule: str,<br>cron_timezone: str = 'UTC',<br>ignore_asset_keys: list[list[str]] | None = None) ‑> dagster._core.definitions.declarative_automation.operators.boolean_operators.AndAutomationCondition</span>
@@ -420,24 +439,27 @@ materialized, or if its definition has changed.</p>
 <pre><code class="python">@staticmethod
 @override
 def on_cron(
-        cron_schedule: str,
-        cron_timezone: str = &#34;UTC&#34;,
-        ignore_asset_keys: list[list[str]]| None = None) -&gt; AndAutomationCondition:
-    &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be
-    executed on a given cron schedule, after all of its dependencies have
-    been updated since the latest tick of that cron schedule.
+    cron_schedule: str,
+    cron_timezone: str = &#34;UTC&#34;,
+    ignore_asset_keys: list[list[str]] | None = None,
+) -&gt; AndAutomationCondition:
+    &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be executed on a
+    given cron schedule, after all of its dependencies have been updated since the
+    latest tick of that cron schedule.
 
     For time partitioned assets, only the latest time partition will be considered.
-    
+
     Commonly used for assets that are far downstream and have users that directly
-    interact with them, and have sensitivity to late arriving dimensions.&#34;&#34;&#34;
+    interact with them, and have sensitivity to late arriving dimensions.
+    &#34;&#34;&#34;
     ignore_asset_keys = ignore_asset_keys or []
     return AutomationCondition.on_cron(cron_schedule, cron_timezone).ignore(
-        AssetSelection.assets(*ignore_asset_keys))</code></pre>
+        AssetSelection.assets(*ignore_asset_keys)
+    )</code></pre>
 </details>
-<div class="desc"><p>Returns an AutomationCondition which will cause a target to be
-executed on a given cron schedule, after all of its dependencies have
-been updated since the latest tick of that cron schedule.</p>
+<div class="desc"><p>Returns an AutomationCondition which will cause a target to be executed on a
+given cron schedule, after all of its dependencies have been updated since the
+latest tick of that cron schedule.</p>
 <p>For time partitioned assets, only the latest time partition will be considered.</p>
 <p>Commonly used for assets that are far downstream and have users that directly
 interact with them, and have sensitivity to late arriving dimensions.</p></div>
@@ -451,14 +473,17 @@ interact with them, and have sensitivity to late arriving dimensions.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def on_schedule(cron_schedule: str, cron_timezone: str = &#34;utc&#34;) -&gt; AutomationCondition:
-    &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be executed on a given
-    cron schedule, regardless of the state of its dependencies
+def on_schedule(
+    cron_schedule: str, cron_timezone: str = &#34;utc&#34;
+) -&gt; AutomationCondition:
+    &#34;&#34;&#34;Returns an AutomationCondition which will cause a target to be executed on a
+    given cron schedule, regardless of the state of its dependencies
 
     For time partitioned assets, only the latest time partition will be considered.
 
-    Commonly used for assets in the ingestion layer that should always run on a scheduled basis,
-    and have no way of knowing when the source system has updates.
+    Commonly used for assets in the ingestion layer that should always run on
+    a scheduled basis, and have no way of knowing when the source system has
+    updates.
     &#34;&#34;&#34;
     return (
         AutomationCondition.in_latest_time_window()
@@ -467,11 +492,12 @@ def on_schedule(cron_schedule: str, cron_timezone: str = &#34;utc&#34;) -&gt; Au
         ).since_last_handled()
     ).with_label(f&#34;on_schedule({cron_schedule}, {cron_timezone})&#34;)</code></pre>
 </details>
-<div class="desc"><p>Returns an AutomationCondition which will cause a target to be executed on a given
-cron schedule, regardless of the state of its dependencies</p>
+<div class="desc"><p>Returns an AutomationCondition which will cause a target to be executed on a
+given cron schedule, regardless of the state of its dependencies</p>
 <p>For time partitioned assets, only the latest time partition will be considered.</p>
-<p>Commonly used for assets in the ingestion layer that should always run on a scheduled basis,
-and have no way of knowing when the source system has updates.</p></div>
+<p>Commonly used for assets in the ingestion layer that should always run on
+a scheduled basis, and have no way of knowing when the source system has
+updates.</p></div>
 </dd>
 </dl>
 </dd>

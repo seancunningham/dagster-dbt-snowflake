@@ -1,4 +1,6 @@
-from typing import Callable, Any, Generator
+from collections.abc import Callable, Generator
+from typing import Any
+
 import requests
 
 
@@ -7,12 +9,14 @@ def get_exchange_rate(currency: str) -> Callable[[], Any]:
     with daily exchange rates for the selected currency
     """
 
-    uri = ("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api"
-           "@latest"
-            "/v1/"
-            f"currencies/{currency}.json")
+    uri = (
+        "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api"
+        "@latest"
+        "/v1/"
+        f"currencies/{currency}.json"
+    )
 
-    def exchange_api() -> Generator[Any, Any, None]:# -> Any:
+    def exchange_api() -> Generator[Any, Any, None]:
         response = requests.get(uri)
         yield response.json()
         while next_uri := response.json().get("next_page"):
@@ -20,6 +24,7 @@ def get_exchange_rate(currency: str) -> Callable[[], Any]:
             yield response.json()
 
     return exchange_api
+
 
 if __name__ == "__main__":
     get_ex = get_exchange_rate("usd")

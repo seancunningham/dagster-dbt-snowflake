@@ -45,7 +45,7 @@ el.replaceWith(d);
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="data_platform.defs.dlthub.dlthub.google_ads.data.google_ads"><code class="name flex">
-<span>def <span class="ident">google_ads</span></span>(<span>endpoint) ‑> Callable[[], Generator[list[dict[str, Any]], Any, None]]</span>
+<span>def <span class="ident">google_ads</span></span>(<span>endpoint) ‑> Callable[[], Generator[list[dict[str, typing.Any]], typing.Any, None]]</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -58,25 +58,37 @@ el.replaceWith(d);
     &#34;&#34;&#34;
 
     if endpoint == &#34;get_campaigns&#34;:
+
         def get_campaigns() -&gt; Generator[list[dict[str, Any]], Any, None]:
             response = [
-                {&#34;id&#34;:10001, &#34;name&#34;:&#34;summer_sale&#34;, &#34;start_date&#34;: &#34;2024-06-01&#34;, &#34;criteria&#34;: [{&#34;id&#34;:1}, {&#34;id&#34;:2}]},
-                {&#34;id&#34;:20002, &#34;name&#34;:&#34;winter_sale&#34;, &#34;start_date&#34;: &#34;2024-01-01&#34;, &#34;criteria&#34;: [{&#34;id&#34;:2}] }
+                {
+                    &#34;id&#34;: 10001,
+                    &#34;name&#34;: &#34;summer_sale&#34;,
+                    &#34;start_date&#34;: &#34;2024-06-01&#34;,
+                    &#34;criteria&#34;: [{&#34;id&#34;: 1}, {&#34;id&#34;: 2}],
+                },
+                {
+                    &#34;id&#34;: 20002,
+                    &#34;name&#34;: &#34;winter_sale&#34;,
+                    &#34;start_date&#34;: &#34;2024-01-01&#34;,
+                    &#34;criteria&#34;: [{&#34;id&#34;: 2}],
+                },
             ]
             yield response
+
         return get_campaigns
-    
 
     if endpoint == &#34;get_criterion&#34;:
+
         def get_criterion() -&gt; Generator[list[dict[str, Any]], Any, None]:
             response = [
-                {&#34;id&#34;:1, &#34;type&#34;:&#34;audience&#34;, &#34;value&#34;:&#34;summer_shoppers&#34;},
-                {&#34;id&#34;:2, &#34;type&#34;:&#34;age&#34;, &#34;value&#34;:&#34;20-35&#34;},
+                {&#34;id&#34;: 1, &#34;type&#34;: &#34;audience&#34;, &#34;value&#34;: &#34;summer_shoppers&#34;},
+                {&#34;id&#34;: 2, &#34;type&#34;: &#34;age&#34;, &#34;value&#34;: &#34;20-35&#34;},
             ]
             yield response
 
         return get_criterion
-    
+
     else:
         raise KeyError(f&#34;Endpoint &#39;{endpoint}&#39; is not implemented.&#34;)</code></pre>
 </details>

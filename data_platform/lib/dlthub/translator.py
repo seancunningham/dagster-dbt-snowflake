@@ -1,36 +1,38 @@
-from typing import Iterable, Mapping, Any, override
+from collections.abc import Iterable, Mapping
+from typing import Any, override
 
-from dagster._utils.tags import is_valid_tag_key
-from dlt.extract.resource import DltResource
-from dagster_dlt.translator import DltResourceTranslatorData
-from dagster_dlt import DagsterDltTranslator
 import dagster as dg
+from dagster._utils.tags import is_valid_tag_key
+from dagster_dlt import DagsterDltTranslator
+from dagster_dlt.translator import DltResourceTranslatorData
+from dlt.extract.resource import DltResource
 
 from ...utils.helpers import (
     get_automation_condition_from_meta,
-    get_partitions_def_from_meta
+    get_partitions_def_from_meta,
 )
-
 
 
 class CustomDagsterDltTranslator(DagsterDltTranslator):
     """Overrides methods of the standard translator.
-    
-    Holds a set of methods that derive Dagster asset definition metadata given
-    a representation of dltHub resource (resources, pipes, etc).
-    Methods are overriden to customize the implementation.
-    
-    See parent class for details on the purpose of each override"""
+
+    Holds a set of methods that derive Dagster asset definition metadata given a
+    representation of dltHub resource (resources, pipes, etc).  Methods are overriden to
+    customize the implementation.
+
+    See parent class for details on the purpose of each override
+    """
 
     @override
     def get_asset_spec(self, data: DltResourceTranslatorData) -> dg.AssetSpec:
-        
         return dg.AssetSpec(
             key=self._resolve_back_compat_method(
                 "get_asset_key", self._default_asset_key_fn, data.resource
             ),
             automation_condition=self._resolve_back_compat_method(
-                "get_automation_condition", self._default_automation_condition_fn, data.resource
+                "get_automation_condition",
+                self._default_automation_condition_fn,
+                data.resource,
             ),
             deps=self._resolve_back_compat_method(
                 "get_deps_asset_keys", self._default_deps_fn, data.resource
@@ -47,21 +49,23 @@ class CustomDagsterDltTranslator(DagsterDltTranslator):
             owners=self._resolve_back_compat_method(
                 "get_owners", self._default_owners_fn, data.resource
             ),
-            tags=self._resolve_back_compat_method("get_tags", self._default_tags_fn, data.resource),
+            tags=self._resolve_back_compat_method(
+                "get_tags", self._default_tags_fn, data.resource
+            ),
             kinds=self._resolve_back_compat_method(
                 "get_kinds", self._default_kinds_fn, data.resource, data.destination
             ),
-            partitions_def=self.get_partitions_def(data.resource)
+            partitions_def=self.get_partitions_def(data.resource),
         )
 
     @override
     def get_deps_asset_keys(self, resource: DltResource) -> Iterable[dg.AssetKey]:
-        name : str | None = None
+        name: str | None = None
         if resource.is_transformer:
             pipe = resource._pipe
             while pipe.has_parent:
                 pipe = pipe.parent
-                name = pipe.schema.name # type: ignore
+                name = pipe.schema.name  # type: ignore
         else:
             name = resource.name
         if name:
@@ -81,27 +85,34 @@ class CustomDagsterDltTranslator(DagsterDltTranslator):
         group = resource.name.split(".")[0]
         return group
 
-    def get_partitions_def(self, resource: DltResource) -> dg.PartitionsDefinition | None:
+    def get_partitions_def(
+        self, resource: DltResource
+    ) -> dg.PartitionsDefinition | None:
         try:
-            meta = resource.meta.get("dagster") # type: ignore
+            meta = resource.meta.get("dagster")  # type: ignore
             return get_partitions_def_from_meta(meta)
-        except Exception: ...
+        except Exception:
+            ...
         return None
 
     @override
-    def get_automation_condition(self, resource: DltResource):
+    def get_automation_condition(
+        self, resource: DltResource
+    ) -> dg.AutomationCondition[Any] | None:
         try:
-            meta = resource.meta.get("dagster") # type: ignore
+            meta = resource.meta.get("dagster")  # type: ignore
             automation_condition = get_automation_condition_from_meta(meta)
             if automation_condition:
                 return automation_condition
-        except Exception: ...
+        except Exception:
+            ...
         return super().get_automation_condition(resource)
 
     @override
     def get_tags(self, resource: DltResource) -> Mapping[str, Any]:
         try:
-            tags = resource.tags # type: ignore
+            tags = resource.tags  # type: ignore
             return {tag: "" for tag in tags if is_valid_tag_key(tag)}
-        except Exception: ...
+        except Exception:
+            ...
         return {}

@@ -45,7 +45,7 @@ el.replaceWith(d);
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="data_platform.defs.dlthub.dlthub.exchange_rate.data.get_exchange_rate"><code class="name flex">
-<span>def <span class="ident">get_exchange_rate</span></span>(<span>currency: str) ‑> Callable[[], Any]</span>
+<span>def <span class="ident">get_exchange_rate</span></span>(<span>currency: str) ‑> Callable[[], typing.Any]</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -57,12 +57,14 @@ el.replaceWith(d);
     with daily exchange rates for the selected currency
     &#34;&#34;&#34;
 
-    uri = (&#34;https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api&#34;
-           &#34;@latest&#34;
-            &#34;/v1/&#34;
-            f&#34;currencies/{currency}.json&#34;)
+    uri = (
+        &#34;https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api&#34;
+        &#34;@latest&#34;
+        &#34;/v1/&#34;
+        f&#34;currencies/{currency}.json&#34;
+    )
 
-    def exchange_api() -&gt; Generator[Any, Any, None]:# -&gt; Any:
+    def exchange_api() -&gt; Generator[Any, Any, None]:
         response = requests.get(uri)
         yield response.json()
         while next_uri := response.json().get(&#34;next_page&#34;):
