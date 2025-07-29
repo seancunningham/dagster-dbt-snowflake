@@ -1,0 +1,16 @@
+site_name: Data Platform
+theme:
+  name: "readthedocs"
+
+docs_dir: "docs\\template"
+site_dir: "docs\\site"
+
+theme:
+  name: material
+
+plugins:
+- search
+- mkdocstrings
+- gen-files:
+    scripts:
+    - gen_doc_stubs.py 
