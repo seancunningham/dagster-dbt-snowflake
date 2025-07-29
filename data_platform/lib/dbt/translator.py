@@ -1,31 +1,31 @@
 import re
 from collections.abc import Mapping
-from typing import Any, Optional, override
+from typing import Any, override
 
 import dagster as dg
 from dagster_dbt import DagsterDbtTranslator
 
 from ...utils.automation_conditions import CustomAutomationCondition
 from ...utils.helpers import (
-     get_automation_condition_from_meta,
-     get_partitions_def_from_meta
+    get_automation_condition_from_meta,
+    get_partitions_def_from_meta,
 )
 
 
 class CustomDagsterDbtTranslator(DagsterDbtTranslator):
     """Overrides methods of the standard translator.
-    
+
     Holds a set of methods that derive Dagster asset definition metadata given
     a representation of a dbt resource (models, tests, sources, etc).
     Methods are overriden to customize the implementation.
-    
+
     See parent class for details on the purpose of each override"""
 
     @override
     def get_asset_key(self, dbt_resource_props: Mapping[str, Any]) -> dg.AssetKey:
-        meta = dbt_resource_props.get("config", {}).get("meta", {}) or dbt_resource_props.get(
+        meta = dbt_resource_props.get("config", {}).get(
             "meta", {}
-        )
+        ) or dbt_resource_props.get("meta", {})
         meta_dagster = meta.get("dagster") or {}
         asset_key_config = meta_dagster.get("asset_key")
         if asset_key_config:
@@ -63,16 +63,20 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
         return super().get_group_name(dbt_resource_props)
 
     @override
-    def get_partitions_def(self, dbt_resource_props: Mapping[str, Any]) -> Optional[dg.PartitionsDefinition]:
+    def get_partitions_def(
+        self, dbt_resource_props: Mapping[str, Any]
+    ) -> dg.PartitionsDefinition | None:
         meta = dbt_resource_props.get("config", {}).get("meta", {}).get("dagster", {})
         return get_partitions_def_from_meta(meta)
 
     @override
-    def get_automation_condition(self, dbt_resource_props: Mapping[str, Any]) -> Optional[dg.AutomationCondition]:
+    def get_automation_condition(
+        self, dbt_resource_props: Mapping[str, Any]
+    ) -> dg.AutomationCondition | None:
         meta = dbt_resource_props.get("config", {}).get("meta", {}).get("dagster", {})
         automation_condition = get_automation_condition_from_meta(meta)
         if automation_condition:
-             return automation_condition
+            return automation_condition
 
         # default settings for resource types
         resource_type = dbt_resource_props.get("resource_type")
@@ -80,10 +84,10 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
             return CustomAutomationCondition.eager_with_deps_checks()
 
         if resource_type == "seed":
-             return CustomAutomationCondition.code_version_changed()
+            return CustomAutomationCondition.code_version_changed()
 
         else:
-             return CustomAutomationCondition.lazy()
+            return CustomAutomationCondition.lazy()
 
     @override
     def get_tags(self, dbt_resource_props: Mapping[str, Any]) -> Mapping[str, str]:

@@ -1,6 +1,7 @@
 import dagster as dg
 
-# asset stubs for demonstration, would actually be connected in production
+"""Asset stubs for demonstration, would actually be connected in production.
+"""
 
 ml_train_marketing_mix_model = dg.AssetSpec(
     key=["ml", "train", "marketing_mix_model"],
@@ -9,7 +10,7 @@ ml_train_marketing_mix_model = dg.AssetSpec(
         ["marketing", "dim", "dim_campaigns"],
     ],
     kinds={"azureml", "mlflow", "pytorch"},
-    group_name="data_science"
+    group_name="data_science",
 )
 
 
@@ -21,5 +22,5 @@ ml_inference_marketing_mix_model = dg.AssetSpec(
         ["ml", "train", "marketing_mix_model"],
     ],
     kinds={"azureml", "snowflake"},
-    group_name="data_science"
+    group_name="data_science",
 )

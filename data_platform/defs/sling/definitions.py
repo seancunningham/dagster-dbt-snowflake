@@ -1,5 +1,5 @@
-from dagster.components import definitions
 from dagster import Definitions
+from dagster.components import definitions
 
 
 @definitions
@@ -9,8 +9,10 @@ def defs() -> Definitions:
     definitions file.
 
     @definitions decorator will provides lazy loading so that the assets are only
-    instantiated when needed."""
+    instantiated when needed.
+    """
     from pathlib import Path
+
     from ...lib.sling import DagsterSlingFactory
 
     config_dir = Path(__file__).joinpath(*[".."], "sling").resolve()
