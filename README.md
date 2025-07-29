@@ -26,6 +26,9 @@ flowchart LR
         int-->ml
     end
 ```
+# Documentation
+Documentation can be found on the gitHub pages site:
+#### https://andrewstaus.github.io/data-platform/
 
 # Setup
 Requires a .env file with the following keys
