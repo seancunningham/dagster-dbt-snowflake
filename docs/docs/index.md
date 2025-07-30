@@ -1,5 +1,3 @@
-# Data Platform
-
 Welcome to the data platform documentation page.
 This page provides documentation about the dagster implementation.
 
@@ -12,8 +10,3 @@ Lib contains the library code that translates configurations into dagster artifa
 
 ### Definitions
 Definitions is how Dagster loads the artifacts.
-
-
-# DBT
-A static dbt <a href="https://andrewstaus.github.io/data-platform/dbt/target/">
-documentation</a> refrence is availible.

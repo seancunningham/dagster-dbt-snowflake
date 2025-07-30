@@ -63,9 +63,7 @@ if (!(Test-Path -Path $defer_path -PathType Container)) {
 }
 Copy-Item -Path $dbt_path"\target\manifest.json" -Destination $defer_path -Force
 
+echo "CREATING PROJECT DOCS"
+uv run mkdocs build
 echo "CREATING DBT DOCS"
 uv run --env-file .env dbt docs generate --project-dir $dbt_path --target prod
-echo "CREATING DAGSTER DOCS"
-uv run --env-file .env pdoc --html data_platform --force --skip-errors
-Remove-Item -Path ./docs -Recurse
-Rename-Item -Path ./html -NewName docs
