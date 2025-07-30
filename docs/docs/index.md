@@ -1,12 +1,27 @@
-Welcome to the data platform documentation page.
-This page provides documentation about the dagster implementation.
+A Dagster project integrating dbt, Sling, dltHub, and Snowflake into a single data platform.
+Includes stubs for powerBi, and AzureML, as well as Azure Keyvault to demonstrate
+external integrations.
 
-### Utils
-Utils contains the utility functions that are shared between different integrations.
-Notably the definitions for Automation Condtions are availible here.
 
-### Lib
-Lib contains the library code that translates configurations into dagster artifacts.
-
-### Definitions
-Definitions is how Dagster loads the artifacts.
+``` mermaid
+flowchart LR
+    subgraph Sling / dltHub 
+        src-->raw
+    end
+    subgraph dbt 
+        raw-->pii
+        raw-->stg
+        raw-->snp
+        snp-->int
+        stg-->int
+        int-->mrt
+    end
+    subgraph PowerBI
+        mrt-->sem
+        sem-->exp
+    end
+    subgraph Snowpark
+        mrt-->ml
+        int-->ml
+    end
+```
