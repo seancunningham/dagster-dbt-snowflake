@@ -34,6 +34,7 @@ models:
     columns:
       - name: attribution_sid
         data_type: varchar
+        description: add in my description
       - name: lookback_window
         data_type: number
       - name: criteria

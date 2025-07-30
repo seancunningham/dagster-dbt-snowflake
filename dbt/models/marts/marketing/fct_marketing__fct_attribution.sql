@@ -13,7 +13,8 @@
                 "automation_condition_config": {"cron_schedule":"@daily", "cron_timezone":"utc"},
                 "freshness_check": {"lower_bound_delta_seconds": 129600}
             }
-        }
+        },
+        tags = ["pii"]
     )
 -}}
 
