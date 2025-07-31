@@ -9,12 +9,10 @@ theme:
   name: material
 
 plugins:
-- search
-- mkdocstrings
-- gen-files:
-    scripts:
-    - docs/gen_doc_stubs.py
-- mermaid2
-
-extra_javascript:
-  - https://unpkg.com/mermaid/dist/mermaid.min.js
+  - search
+  - mkdocstrings
+  - gen-files:
+      scripts:
+      - docs/gen_doc_stubs.py
+  - mermaid2:
+      javascript: https://unpkg.com/mermaid/dist/mermaid.min.js

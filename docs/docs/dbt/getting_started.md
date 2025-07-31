@@ -4,8 +4,8 @@
 >dbt (data build tool) is an open-source tool that empowers data analysts and engineers to transform data within their data warehouses by writing and executing SQL code. It focuses on the "transform" part of the ETL (Extract, Load, Transform) process, allowing users to define, test, and deploy data transformations using SQL. Essentially, dbt enables teams to build and manage their data models in a collaborative, version-controlled, and testable way, ensuring data quality and reliability.
 
 ## dbt Learning Material
-- https://learn.getdbt.com/learn/course/dbt-fundamentals/
-- https://learn.getdbt.com/learn/learning-path/dbt-certified-developer
+[dbt Fundamentals](https://learn.getdbt.com/learn/course/dbt-fundamentals/)
+<br>[dbt Certified Developer](https://learn.getdbt.com/learn/learning-path/dbt-certified-developer)
 
 # Contributing
 Create a feature branch based off the `develop` branch.
@@ -36,14 +36,14 @@ Models are organized into three folders: `staging`, `intermediate`, `marts`, as 
 ```mermaid
 ---
 config:
-  look: handDrawn
+  theme: neutral
 ---
 graph LR
-raw-->pii
-raw-->stg
-raw-->snp
-stg-->int
-int-->mrt
+  n1["raw"]-->n2["pii"]
+  n1-->n3["stg"]
+  n1-->snp
+  n3-->n4["int"]
+  n4-->n5["mrt"]
 ```
 
 ### staging
