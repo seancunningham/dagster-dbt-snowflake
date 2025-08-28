@@ -1,8 +1,0 @@
-version: 2
-
-sources:
-- name: entity_resolution
-  database: "{{ '_'~target.name~'_' if target.name != 'prod'-}} raw"
-  schema: "entity_resolution {{- '__'~target.schema if not target.name in ['prod', 'qa']}}"
-  tables:
-  - name: individual_party_keys

@@ -5,7 +5,7 @@ from dagster import Definitions
 from dagster.components import definitions
 from dagster_dbt import DbtProject
 
-from ...lib.dbt import DagsterDbtFactory
+from .factory import DagsterDbtFactory
 
 
 @definitions
@@ -23,11 +23,11 @@ def defs() -> Definitions:
     def dbt() -> DbtProject:
         project = DbtProject(
             project_dir=project_dir,
-            target=os.getenv("TARGET", "prod"),
+            target=os.getenv("TARGET", "dev"),
             state_path=state_path,
             profile="dbt",
         )
-        if os.getenv("PREPARE_IF_DEV") == "1":
+        if os.getenv("TARGET") == "dev":
             project.prepare_if_dev()
         return project
 

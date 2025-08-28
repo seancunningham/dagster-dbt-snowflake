@@ -1,0 +1,1 @@
+{{ test_not_null(column_name="transaction_margin", model=get_where_subquery(ref('fct_common__fct_transactions'))) }}

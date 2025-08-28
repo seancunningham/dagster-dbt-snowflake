@@ -1,8 +1,0 @@
-version: 2
-
-sources:
-- name: facebook_ads
-  database: "{{ '_'~target.name~'_' if target.name != 'prod'-}} raw"
-  schema: "facebook_ads {{- '__'~target.schema if not target.name in ['prod', 'qa']}}"
-  tables:
-  - name: campaigns

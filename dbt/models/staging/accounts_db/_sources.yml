@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: accounts_db
+    database: raw
+    schema: accounts_db
+    tables:
+      - name: accounts

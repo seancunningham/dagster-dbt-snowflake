@@ -2,31 +2,21 @@ dbt:
   outputs:
     prod:
       database: analytics
-      account: "{{ env_var('PROD__DESTINATION__HOST', '') }}"
-      role: "{{ env_var('PROD__DESTINATION__ROLE', '') }}"
-      user: "{{ env_var('PROD__DESTINATION__USER', '') }}"
       schema: prod
-      password: "{{ env_var('PROD__DESTINATION__PASSWORD', '') }}"
-      threads: 8
-      type: snowflake
-      warehouse: compute_wh
-    qa:
-      database: analytics
-      account: "{{ env_var('PROD__DESTINATION__HOST', '') }}"
-      role: "{{ env_var('PROD__DESTINATION__ROLE', '') }}"
-      user: "{{ env_var('PROD__DESTINATION__USER', '') }}"
-      schema: qa
-      password: "{{ env_var('PROD__DESTINATION__PASSWORD', '') }}"
+      account: luakcgq-ix74734
+      role: service_account
+      user: data_platform
+      password: "{{ env_var('DESTINATION__PASSWORD', '') }}"
       threads: 8
       type: snowflake
       warehouse: compute_wh
     dev:
       database: _dev_analytics
-      account: "{{ env_var('DEV__DESTINATION__HOST', '') }}"
-      role: "{{ env_var('DEV__DESTINATION__ROLE', '') }}"
-      user: "{{ env_var('DEV__DESTINATION__USER', '') }}"
-      schema: "{{ env_var('DEV__DESTINATION__USER', '') }}"
-      password: "{{ env_var('DEV__DESTINATION__PASSWORD', '') }}"
+      schema: astaus
+      account: luakcgq-ix74734
+      role: data_engineer
+      user: astaus
+      password: "{{ env_var('DESTINATION__PASSWORD', '') }}"
       warehouse: compute_wh
       threads: 1
       type: snowflake

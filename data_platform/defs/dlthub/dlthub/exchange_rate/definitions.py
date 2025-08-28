@@ -2,12 +2,12 @@ import dlt
 from dagster import Definitions
 from dagster.components import definitions
 
-from .....lib.dlthub import ConfigurableDltResource, DagsterDltFactory
-from .data import get_exchange_rate
 
-
+#######################################################
 @definitions
 def defs() -> Definitions:
+    from ...factory import ConfigurableDltResource, DagsterDltFactory
+    from .data import get_exchange_rate
     resources = [
         #######################################################
         ConfigurableDltResource.config(

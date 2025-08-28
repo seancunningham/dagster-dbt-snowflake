@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: google_ads
+    database: raw
+    schema: google_ads
+    tables:
+      - name: campaigns
+      - name: dlt_loads
+      - name: criteria
+      - name: campaigns__criteria

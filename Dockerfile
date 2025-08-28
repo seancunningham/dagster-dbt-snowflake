@@ -24,9 +24,13 @@ FROM python:3.12-slim-bullseye AS data_platform
 
     COPY --from=builder /root/.sling/ /root/.sling/
     COPY --from=builder /usr/local/ /usr/local/
-    COPY . /data_platform
-    RUN mkdir -p $DAGSTER_HOME/ && \
-        mv data_platform/dagster.yaml $DAGSTER_HOME/dagster.yaml
+
+    COPY pyproject.toml /data_platform/pyproject.toml
+    COPY .env /data_platform/.env
+    COPY data_platform /data_platform/data_platform
+    COPY dbt /data_platform/dbt
+    
+    COPY dagster.yaml $DAGSTER_HOME/dagster.yaml
 
     ENV TARGET=prod
     WORKDIR /data_platform/

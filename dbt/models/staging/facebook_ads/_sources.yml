@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: facebook_ads
+    database: raw
+    schema: facebook_ads
+    tables:
+      - name: campaigns

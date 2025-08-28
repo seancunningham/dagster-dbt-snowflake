@@ -6,7 +6,7 @@ from dagster.components import definitions
 #######################################################
 @definitions
 def defs() -> Definitions:
-    from .....lib.dlthub import ConfigurableDltResource, DagsterDltFactory
+    from ...factory import ConfigurableDltResource, DagsterDltFactory
     from .data import get_campaigns
 
     resources = [

@@ -35,3 +35,4 @@ package-lock.yml
 !**/dbt/target/catalog.json
 
 **/dbt_packages/*
+**/dbt_internal_packages/*

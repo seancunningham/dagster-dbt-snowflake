@@ -19,8 +19,7 @@ foreach($line in $log){
 Write-Host("`nBUILDING DOCKER IMAGE")
 $branch_id = (-join ((97..122) | Get-Random -Count 15 | ForEach-Object {[char]$_}))
 $new_image = "dagster/data-platform:"+$branch_id
-uv run --env-file .env docker build . `
-    --target data_platform -t $new_image
+uv run --env-file .env docker build . --target data_platform -t $new_image
 
 Write-Host("`nDEPLOYING BUILD")
 $values = Get-Content -Path .\.scripts\helm_template.yaml

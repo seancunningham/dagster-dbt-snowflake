@@ -1,8 +1,0 @@
-version: 2
-
-sources:
-- name: accounts_db
-  database: "{{ '_'~target.name~'_' if target.name != 'prod'-}} raw"
-  schema: "accounts_db {{- '__'~target.schema if not target.name in ['prod', 'qa']}}"
-  tables:
-  - name: accounts
