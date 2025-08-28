@@ -1,17 +1,19 @@
+version: 2
+
 snapshots:
   - name: snp_transaction_db__transactions_snapshot
     relation: source('transaction_db', 'transactions')
     config:
-      database: "{{ '_'~target.name~'_' if target.name != 'prod'-}} snapshot"
-      schema: "transaction_db {{- '__'~target.schema if not target.name in ['prod', 'qa']}}"
-      alias: transactions_snapshot
+      database: "{{ generate_database_name('snapshots') }}"
+      schema: "{{ generate_schema_name('transaction_db') }}"
+      alias: transactions
       unique_key: order_id
       strategy: timestamp
       updated_at: date_time
       dbt_valid_to_current: "to_date('9999-12-31')"
       snapshot_meta_column_names:
-        dbt_valid_from: _scd_start
-        dbt_valid_to: _scd_end
+        dbt_valid_from: _valid_from
+        dbt_valid_to: _valid_to
         dbt_scd_id: _scd_id
-        dbt_updated_at: _scd_updated_at
-        dbt_is_deleted: _scd_is_deleted
+        dbt_updated_at: _updated_at
+        dbt_is_deleted: _is_deleted

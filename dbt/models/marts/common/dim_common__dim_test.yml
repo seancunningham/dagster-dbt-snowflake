@@ -1,0 +1,15 @@
+models:
+  - name: dim_common__dim_test
+    columns:
+      - name: account_id
+        data_type: varchar
+      - name: account_first_name
+        data_type: varchar
+      - name: account_last_name
+        data_type: varchar
+      - name: account_email
+        data_type: varchar
+      - name: indvidual_party_key
+        data_type: varchar
+      - name: _loaded_at
+        data_type: timestamp_tz

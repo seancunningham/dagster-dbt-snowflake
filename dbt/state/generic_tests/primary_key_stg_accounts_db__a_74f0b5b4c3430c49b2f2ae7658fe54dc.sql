@@ -1,0 +1,1 @@
+{{ dbt_constraints.test_primary_key(column_name="account_id", model=get_where_subquery(ref('stg_accounts_db__accounts_pii'))) }}

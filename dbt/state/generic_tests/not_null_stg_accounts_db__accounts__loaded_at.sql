@@ -1,0 +1,1 @@
+{{ test_not_null(column_name="_loaded_at", model=get_where_subquery(ref('stg_accounts_db__accounts'))) }}

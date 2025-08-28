@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: adobe_experience
+    database: raw
+    schema: adobe_experience
+    tables:
+      - name: web_hits
+      - name: app_hits

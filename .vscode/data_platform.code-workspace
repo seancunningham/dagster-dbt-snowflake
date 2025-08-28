@@ -17,27 +17,15 @@
 		}
 	],
 	"settings": {
-		"files.associations": {
-			"*.sql": "jinja-sql",
-			"*.yml": "jinja-yaml"
-		},
-		"dbt.perspectiveTheme": "Pro Light",
-		"dbt.prefixGenerateModel": "stg",
-		"dbt.fileNameTemplateGenerateModel": "{prefix}_{sourceName}__{tableName}",
-		"dbt.lineage.defaultExpansion": 2,
-		"dbt.enableNewLineagePanel": true,
-		"dbt.enableMcpDataSourceQueryTools": true,
-		"dbt.deferConfigPerProject": {
-			"dbt": {
-				"deferToProduction": true,
-				"manifestPathForDeferral": ".\\dbt\\state",
-				"manifestPathType": "local",
-				"favorState": false
-			},
-			"": {
-				"deferToProduction": true
-			}
-		}
+		"sqlfluff.dbtInterface.enabled": false,
+		"sqlfluff.dialect": "",
+		"sqlfluff.linter.run": "onSave",
+		"sqlfluff.suppressNotifications": false,
+		"sqlfluff.executablePath": "C:\\Users\\Andrew\\Code\\data_platform\\.venv\\Scripts\\sqlfluff.exe",
+		"sqlfluff.rules": [],
+		"sqlfluff.excludeRules": [
+			""
+		]
 	},
 	"tasks": {
 		"version": "2.0.0",
@@ -133,7 +121,7 @@
 			{
 				"label": "dagster dev",
 				"type": "shell",
-				"command": "uv run --env-file .env  dagster dev",
+				"command": "uv run --env-file .dev.env  dagster dev",
 				"icon": {"id":"server"},
 				"presentation": {
 					"echo": true,

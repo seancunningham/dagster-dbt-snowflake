@@ -1,20 +1,22 @@
 {{-
-  config(
-    materialized = "incremental",
-    unique_key = "individual_party_key",
-    incremental_strategy = "delete+insert",
-    meta = {
-      "dagster": {
-        "automation_condition": "eager",
-        "freshness_check": {"lower_bound_delta_seconds": 129600}
-      }
-    }
-  )
+    config(
+        schema = "entity_resolution",
+        alias = "individual_party_keys",
+        materialized = "incremental",
+        unique_key = "individual_party_key",
+        incremental_strategy = "delete+insert",
+        meta = {
+            "dagster": {
+                "automation_condition": "eager",
+                "freshness_check": {"lower_bound_delta_seconds": 129600}
+            }
+        }
+    )
 -}}
 
 
 with individual_party_keys as (
-    SELECT * FROM {{ source("entity_resolution", "individual_party_keys") }}
+    select * from {{ source("entity_resolution", "individual_party_keys") }}
 )
 
 select
@@ -25,5 +27,5 @@ select
 from individual_party_keys
 
 {% if is_incremental() -%}
-  where _loaded_at >= coalesce((select max(_loaded_at) from {{ this }}), '1900-01-01')
+    where _loaded_at >= coalesce((select max(_loaded_at) from {{ this }}), '1900-01-01')
 {%- endif %}

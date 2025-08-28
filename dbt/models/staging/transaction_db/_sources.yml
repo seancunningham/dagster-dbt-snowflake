@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+- name: transaction_db
+  database: raw
+  schema: transaction_db
+  tables:
+  - name: transactions

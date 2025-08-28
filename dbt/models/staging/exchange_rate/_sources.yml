@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: exchange_rate
+    database: raw
+    schema: exchange_rate
+    tables:
+      - name: cad
+      - name: usd

@@ -13,7 +13,7 @@ def defs() -> Definitions:
     """
     from pathlib import Path
 
-    from ...lib.sling import DagsterSlingFactory
+    from .factory import DagsterSlingFactory
 
     config_dir = Path(__file__).joinpath(*[".."], "sling").resolve()
 

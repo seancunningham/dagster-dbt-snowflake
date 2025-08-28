@@ -20,14 +20,20 @@ class SecretClient:
     ) -> None:
         secrets = {"SOURCE": {}, "DESTINATION": {}}
 
-        env_path = Path(__file__).joinpath(*[".."] * 3, ".env").resolve()
-        set_env = os.getenv("TARGET", "")
+        env = os.getenv("TARGET", "dev")
+        env_file = ".dev.env"
+        if env == "prod":
+            env_file = ".env"
+        
+        env_path = Path(__file__).joinpath(*[".."] * 3, env_file).resolve()
         with open(env_path) as env:
             for line in env:
                 line = line.strip()
-                if line.startswith(set_env.upper()) or line.startswith("ANY"):
-                    key, secret = line.split("=")
-                    env, location, attribute = key.split("__")
-                    secrets[location][attribute] = secret
+                if line:
+                    key, value = line.split("=")
+                    keys = key.split("__")
+                    if len(keys) == 2:
+                        location, attribute = keys
+                        secrets[location][attribute] = value
 
         self.__secrets = secrets
