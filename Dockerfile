@@ -17,10 +17,13 @@ FROM python:3.12-slim-bullseye AS builder
         cd -- "$(dirname "$(find /root/.sling/ -type f -name sling | head -1)")" && \
         strip sling && upx sling
 
+    RUN apt-get update && \
+        apt-get -y install curl && \
+        curl -fsSL https://public.cdn.getdbt.com/fs/install/install.sh | sh -s -- --update && \
+        mv root/.local/bin/dbt usr/local/bin/dbt
 
 FROM python:3.12-slim-bullseye AS data_platform
 
-    RUN curl -fsSL https://public.cdn.getdbt.com/fs/install/install.sh | sh -s -- --update
 
     ENV DAGSTER_HOME=/opt/dagster/dagster_home
 
