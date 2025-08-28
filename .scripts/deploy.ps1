@@ -7,6 +7,7 @@ $dbt_path = ".\dbt"
 # $log = uv run --env-file .env dbt deps --project-dir $dbt_path
 echo "parsing manifest"
 $log = uv run --env-file .env dbt parse --project-dir $dbt_path --profiles-dir $dbt_path --target prod
+$log = uv run --env-file .env dbt compile --project-dir $dbt_path --profiles-dir $dbt_path --target prod
 
 foreach($line in $log){
     if ($line.Contains("Error") -eq $true) {

@@ -20,6 +20,8 @@ FROM python:3.12-slim-bullseye AS builder
 
 FROM python:3.12-slim-bullseye AS data_platform
 
+    RUN curl -fsSL https://public.cdn.getdbt.com/fs/install/install.sh | sh -s -- --update
+
     ENV DAGSTER_HOME=/opt/dagster/dagster_home
 
     COPY --from=builder /root/.sling/ /root/.sling/

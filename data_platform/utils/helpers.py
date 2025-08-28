@@ -1,7 +1,7 @@
 from collections.abc import Callable
 from datetime import datetime
 from inspect import signature
-from typing import Any
+from typing import Any, Mapping
 
 import dagster as dg
 
@@ -101,7 +101,7 @@ def sanitize_input_signature(func: Callable, kwargs: dict) -> dict:
     return kwargs
 
 
-def get_nested(config: dict, path: list) -> Any:
+def get_nested(config: Mapping[str, Any], path: list[str]) -> Any:
     """Helper function to safely traverse a nested dictionary that may have null values
     for a set key that is expected to be a dict. helpful because stream definitions that
     use only the default configs behave this way.
