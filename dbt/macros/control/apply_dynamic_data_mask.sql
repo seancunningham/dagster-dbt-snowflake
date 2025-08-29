@@ -1,3 +1,27 @@
+{#-
+Applys a dynamic mask to columns listed.
+
+Add a post hook to the model config, and masking rules will be applied to
+columns.
+
+    post_hook = "{{ apply_dynamic_data_mask(
+        columns = [
+            'account_first_name',
+            'account_last_name',
+            'account_email',
+        ]
+    )}}",
+
+Unmasking can be granted by role at column, table, schema, and database level:
+
+    {database}__{schema}__{table}__{column_name}__unmasked
+    {database}__{schema}__{table}__unmasked
+    {database}__{schema}__unmasked
+    {database}__unmasked
+
+Support for text and numeric type columns.
+-#}
+
 {%- macro apply_dynamic_data_mask(columns) -%}
 
     {%- set database = this.database -%}
