@@ -17,6 +17,11 @@
 		}
 	],
 	"settings": {
+		"dbt.environmentVariables": {
+			"DBT_STATE": "C:/Users/Andrew/Code/data_platform/dbt/state",
+			"DBT_DEFER": "1",
+			"PROJECT_DIR": "./dbt"
+		},
 		"sqlfluff.dbtInterface.enabled": false,
 		"sqlfluff.dialect": "",
 		"sqlfluff.linter.run": "onSave",

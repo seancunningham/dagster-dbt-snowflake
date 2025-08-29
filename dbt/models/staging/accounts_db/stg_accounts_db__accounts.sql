@@ -1,10 +1,17 @@
-{{
+{{-
     config(
         schema = "accounts_db",
         alias = "accounts",
         materialized = "incremental",
         unique_key = "account_id",
         incremental_strategy="delete+insert",
+        post_hook = "{{ apply_data_mask(
+            columns = [
+                'account_first_name',
+                'account_last_name',
+                'account_email',
+            ]
+        )}}",
         meta = {
             "dagster": {
                 "automation_condition": "eager",
@@ -12,21 +19,18 @@
             }
         }
     )
-}}
+-}}
 
 with accounts as (
-    select * from {{ ref("src_accounts_db__src_accounts") }}
+    select * from {{ source("accounts_db", "accounts") }}
 )
 
 select
-    account_id,
-    sha2(account_first_name, 256) account_first_name,
-    sha2(account_last_name, 256)  account_last_name,
-    sha2(account_email, 256)      account_email,
-    indvidual_party_key,
-    _loaded_at
+    id                      account_id,
+    trim(lower(first_name)) account_first_name,
+    trim(lower(last_name))  account_last_name,
+    trim(lower(email))      account_email,
+    party_key               indvidual_party_key,
+    {{ pst_to_utc("updated_at") }} updated_at, -- noqa:TMP
+    _sling_loaded_at        _loaded_at
 from accounts
-
-{% if is_incremental() -%}
-    where _loaded_at >= coalesce((select max(_loaded_at) from {{ this }}), '1900-01-01')
-{%- endif %}
