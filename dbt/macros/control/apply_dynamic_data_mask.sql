@@ -1,4 +1,4 @@
-{%- macro apply_data_mask(columns) -%}
+{%- macro apply_dynamic_data_mask(columns) -%}
 
     {%- set database = this.database -%}
     {%- set schema = this.schema -%}

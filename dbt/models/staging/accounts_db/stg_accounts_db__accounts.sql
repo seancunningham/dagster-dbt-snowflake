@@ -5,7 +5,7 @@
         materialized = "incremental",
         unique_key = "account_id",
         incremental_strategy="delete+insert",
-        post_hook = "{{ apply_data_mask(
+        post_hook = "{{ apply_dynamic_data_mask(
             columns = [
                 'account_first_name',
                 'account_last_name',
