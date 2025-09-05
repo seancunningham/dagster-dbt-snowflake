@@ -1,4 +1,4 @@
-from typing import override
+# from typing import override
 
 from dagster import AssetSelection, AutomationCondition
 from dagster._core.definitions.declarative_automation.operators import (
@@ -38,7 +38,7 @@ class CustomAutomationCondition(AutomationCondition):
             & ~AutomationCondition.in_progress()
         ).with_label("missing_or_changed")
 
-    @override
+    # @override
     @staticmethod
     def eager() -> AndAutomationCondition:
         """Returns an AutomationCondition which will cause a target to be executed if
@@ -120,7 +120,7 @@ class CustomAutomationCondition(AutomationCondition):
         ).with_label(f"lazy_on_cron({cron_schedule}, {cron_timezone})")
 
     @staticmethod
-    @override
+    # @override
     def on_cron(
         cron_schedule: str,
         cron_timezone: str = "UTC",

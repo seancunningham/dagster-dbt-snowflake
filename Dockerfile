@@ -1,4 +1,4 @@
-FROM python:3.12-slim-bullseye AS builder
+FROM python:3.10-slim-bullseye AS builder
 
     ENV UV_LINK_MODE=copy
     ENV UV_PROJECT_ENVIRONMENT=/usr/local/
@@ -22,8 +22,7 @@ FROM python:3.12-slim-bullseye AS builder
         curl -fsSL https://public.cdn.getdbt.com/fs/install/install.sh | sh -s -- --update && \
         mv root/.local/bin/dbt usr/local/bin/dbt
 
-FROM python:3.12-slim-bullseye AS data_platform
-
+FROM python:3.10-slim-bullseye AS data_platform
 
     ENV DAGSTER_HOME=/opt/dagster/dagster_home
 
@@ -31,7 +30,7 @@ FROM python:3.12-slim-bullseye AS data_platform
     COPY --from=builder /usr/local/ /usr/local/
 
     COPY pyproject.toml /data_platform/pyproject.toml
-    COPY .env /data_platform/.env
+    COPY .env.prod /data_platform/.env
     COPY data_platform /data_platform/data_platform
     COPY dbt /data_platform/dbt
     

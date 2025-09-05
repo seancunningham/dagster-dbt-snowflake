@@ -1,12 +1,23 @@
-from collections.abc import Callable
+import os
+from collections.abc import Callable, Mapping
 from datetime import datetime
 from inspect import signature
-from typing import Any, Mapping
+from typing import Any
 
 import dagster as dg
 
 from .automation_conditions import CustomAutomationCondition
 
+def get_schema_name(schema: str) -> str:
+    postfix = os.getenv("DESTINATION__USER", "")
+    if os.getenv("TARGET") == "dev":
+        schema = f"{schema}__{postfix}"
+    return schema
+
+def get_database_name(database: str) -> str:
+    if os.getenv("TARGET") == "dev":
+        database = f"_dev_{database}"
+    return database
 
 def get_automation_condition_from_meta(
     meta: dict[str, Any],
@@ -37,11 +48,11 @@ def get_automation_condition_from_meta(
     try:
         return condition(**condition_config)
     except Exception as e:
-        e.add_note(
-            "'condition_config' is missing required keys"
-            f"for condition '{condition_name}'"
-        )
-        raise
+        # e.message(
+        #     "'condition_config' is missing required keys"
+        #     f"for condition '{condition_name}'"
+        # )
+        raise e
 
 
 def get_partitions_def_from_meta(

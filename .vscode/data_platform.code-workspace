@@ -13,7 +13,12 @@
 			"path": "../data_platform/defs/sling/sling"
 		},
 		{
+			"name": "dltHub",
 			"path": "../data_platform/defs/dlthub/dlthub"
+		},
+		{
+			"name": "Snowpark",
+			"path": "../data_platform/defs/snowpark/snowpark"
 		}
 	],
 	"settings": {
@@ -76,7 +81,7 @@
 			{
 				"label": "dbt parse",
 				"type": "shell",
-				"command": "uv run --env-file .env  dbt parse --target dev",
+				"command": "uv run --env-file .env.dev  dbt parse --target dev",
 				"icon": {"id":"server"},
 			},
 			{
@@ -126,7 +131,7 @@
 			{
 				"label": "dagster dev",
 				"type": "shell",
-				"command": "uv run --env-file .dev.env  dagster dev",
+				"command": "uv run --env-file .env.dev  dagster dev",
 				"icon": {"id":"server"},
 				"presentation": {
 					"echo": true,

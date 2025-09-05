@@ -1,6 +1,6 @@
 import re
 from collections.abc import Mapping
-from typing import Any, override
+from typing import Any  #, override
 
 import dagster as dg
 from dagster_dbt import DagsterDbtTranslator
@@ -22,7 +22,7 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
 
     See parent class for details on the purpose of each override"""
 
-    @override
+    # @override
     def get_asset_key(self, dbt_resource_props: Mapping[str, Any]) -> dg.AssetKey:
         meta = dbt_resource_props.get("config", {}).get(
             "meta", {}
@@ -51,7 +51,7 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
 
         return super().get_asset_key(dbt_resource_props)
 
-    @override
+    # @override
     def get_group_name(self, dbt_resource_props: Mapping[str, Any]) -> str | None:
         prop_key = "name"
         if dbt_resource_props.get("version"):
@@ -63,14 +63,14 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
 
         return super().get_group_name(dbt_resource_props)
 
-    @override
+    # @override
     def get_partitions_def(
         self, dbt_resource_props: Mapping[str, Any]
     ) -> dg.PartitionsDefinition | None:
         if meta := get_nested(dbt_resource_props, ["config", "meta", "dagster"]):
             return get_partitions_def_from_meta(meta)
 
-    @override
+    # @override
     def get_automation_condition(
         self, dbt_resource_props: Mapping[str, Any]
     ) -> dg.AutomationCondition | None:
@@ -90,7 +90,7 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
         else:
             return CustomAutomationCondition.lazy()
 
-    @override
+    # @override
     def get_tags(self, dbt_resource_props: Mapping[str, Any]) -> Mapping[str, str]:
         tags = super().get_tags(dbt_resource_props)
         return tags
