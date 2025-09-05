@@ -6,7 +6,7 @@
 **/conda.yml
 **/logs/
 .*
-!.env
+!.env.prod
 !.gitignore
 values.yaml
 Dockerfile

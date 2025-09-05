@@ -1,5 +1,5 @@
 from collections.abc import Iterable, Mapping
-from typing import Any, override
+from typing import Any  #, override
 
 import dagster as dg
 from dagster._utils.tags import is_valid_tag_key
@@ -23,7 +23,7 @@ class CustomDagsterDltTranslator(DagsterDltTranslator):
     See parent class for details on the purpose of each override
     """
 
-    @override
+    # @override
     def get_asset_spec(self, data: DltResourceTranslatorData) -> dg.AssetSpec:
         return dg.AssetSpec(
             key=self._resolve_back_compat_method(
@@ -58,7 +58,7 @@ class CustomDagsterDltTranslator(DagsterDltTranslator):
             partitions_def=self.get_partitions_def(data.resource),
         )
 
-    @override
+    # @override
     def get_deps_asset_keys(self, resource: DltResource) -> Iterable[dg.AssetKey]:
         name: str | None = None
         if resource.is_transformer:
@@ -74,13 +74,13 @@ class CustomDagsterDltTranslator(DagsterDltTranslator):
             return [dg.AssetKey(asset_key)]
         return super().get_deps_asset_keys(resource)
 
-    @override
+    # @override
     def get_asset_key(self, resource: DltResource) -> dg.AssetKey:
         schema, table = resource.name.split(".")
         asset_key = [schema, "raw", table]
         return dg.AssetKey(asset_key)
 
-    @override
+    # @override
     def get_group_name(self, resource: DltResource) -> str:
         group = resource.name.split(".")[0]
         return group
@@ -95,7 +95,7 @@ class CustomDagsterDltTranslator(DagsterDltTranslator):
             ...
         return None
 
-    @override
+    # @override
     def get_automation_condition(
         self, resource: DltResource
     ) -> dg.AutomationCondition[Any] | None:
@@ -108,7 +108,7 @@ class CustomDagsterDltTranslator(DagsterDltTranslator):
             ...
         return super().get_automation_condition(resource)
 
-    @override
+    # @override
     def get_tags(self, resource: DltResource) -> Mapping[str, Any]:
         try:
             tags = resource.tags  # type: ignore

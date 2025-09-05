@@ -2,11 +2,12 @@ Write-Host("`BUILDING DBT")
 
 $dbt_path = ".\dbt"
 # echo "cleaning target"
-# $log = uv run --env-file .env dbt clean --project-dir $dbt_path --no-clean-project-files-only
+# $log = uv run --env-file .env.prod dbt clean --project-dir $dbt_path --no-clean-project-files-only
 # echo "installing dependancies"
-# $log = uv run --env-file .env dbt deps --project-dir $dbt_path
+# $log = uv run --env-file .env.prod dbt deps --project-dir $dbt_path
 echo "parsing manifest"
-$log = uv run --env-file .env dbt parse --project-dir $dbt_path --profiles-dir $dbt_path --target prod
+$log = uv run --env-file .env.prod dbt parse --project-dir $dbt_path --profiles-dir $dbt_path --target prod
+$log = uv run --env-file .env.prod dbt compile --project-dir $dbt_path --profiles-dir $dbt_path --target prod
 
 foreach($line in $log){
     if ($line.Contains("Error") -eq $true) {
@@ -19,7 +20,7 @@ foreach($line in $log){
 Write-Host("`nBUILDING DOCKER IMAGE")
 $branch_id = (-join ((97..122) | Get-Random -Count 15 | ForEach-Object {[char]$_}))
 $new_image = "dagster/data-platform:"+$branch_id
-uv run --env-file .env docker build . --target data_platform -t $new_image
+uv run --env-file .env.prod docker build . --target data_platform -t $new_image
 
 Write-Host("`nDEPLOYING BUILD")
 $values = Get-Content -Path .\.scripts\helm_template.yaml
@@ -65,4 +66,4 @@ Copy-Item -Path $dbt_path"\target\manifest.json" -Destination $defer_path -Force
 echo "CREATING PROJECT DOCS"
 uv run mkdocs build
 echo "CREATING DBT DOCS"
-uv run --env-file .env dbt docs generate --project-dir $dbt_path --target prod
+uv run --env-file .env.prod dbt docs generate --project-dir $dbt_path --target prod

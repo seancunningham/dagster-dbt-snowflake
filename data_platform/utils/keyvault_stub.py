@@ -21,7 +21,7 @@ class SecretClient:
         secrets = {"SOURCE": {}, "DESTINATION": {}}
 
         env = os.getenv("TARGET", "dev")
-        env_file = ".dev.env"
+        env_file = ".env.dev"
         if env == "prod":
             env_file = ".env"
         

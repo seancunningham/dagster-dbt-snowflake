@@ -2,30 +2,40 @@
 name = "data_platform"
 version = "0.1.0"
 description = "Data platform demonstration that integrates dagster, dbt, sling, and dlt."
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.10, <3.11"
 dependencies = [
-    "dagster-cloud>=1.11.7",
-    "dagster-dbt>=0.27.7",
-    "dagster-dlt>=0.27.7",
-    "dagster-k8s>=0.27.7",
-    "dagster-postgres>=0.27.7",
-    "dagster-sling>=0.27.7",
-    "dagster-snowflake>=0.27.7",
-    "faker>=37.6.0",
-    "psutil>=7.0.0",
-    "snowflake>=1.7.0",
-    "snowflake-snowpark-python>=1.37.0",
+    "dagster-cloud",
+    "dagster-dbt",
+    "dagster-dlt",
+    "dagster-k8s",
+    "dagster-postgres",
+    "dagster-sling",
+    "dagster-snowflake",
+    "faker",
+    "psutil",
+    "snowflake",
 ]
 
 [dependency-groups]
 dev = [
-    "dagster-dg-cli>=1.11.7",
-    "dagster-webserver>=1.11.7",
-    "jupyter>=1.1.1",
-    "mkdocs>=1.6.1",
-    "mkdocstrings>=0.30.0",
-    "sphinx>=8.2.3",
-    "sqlfluff>=3.4.2",
+    "snowflake-ml-python==1.11.0",
+    "dagster-dg-cli",
+    "dagster-webserver",
+    "jupyter",
+    "mkdocs",
+    "mkdocs-gen-files",
+    "mkdocs-material",
+    "mkdocs-mermaid2-plugin",
+    "mkdocstrings",
+    "mkdocstrings-python",
+    "sphinx",
+    "sqlfluff",
+    "seaborn>=0.13.2",
+    "itables>=2.4.5",
+    "faker==37.3.0",
+    "pandas==2.3.1",
+    "numpy==2.2.5",
+    "snowflake-snowpark-python==1.36.0",
 ]
 
 [build-system]

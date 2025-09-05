@@ -2,7 +2,9 @@
     config(
         schema = "common",
         alias = "fct_transactions",
-        materialized = "view",
+        materialized = "dynamic_table",
+        target_lag = "24 hour",
+        snowflake_warehouse = "compute_wh"
     )
 -}}
 
