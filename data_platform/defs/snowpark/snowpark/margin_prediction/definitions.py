@@ -116,52 +116,42 @@ def train_model(df, context: dg.AssetExecutionContext) -> BaseTransformer:
     train = df
     test = df
 
-    preprocessor = (
-            ("onehot", OneHotEncoder(
-                categories="auto",
-                input_cols=["SALES_CHANNEL"],
-                output_cols=["SALES_CHANNEL"],
-                drop_input_cols=True
-            )),
-            ("scale", StandardScaler(
-                input_cols=["TRANSACTION_REVENUE"],
-                output_cols=["TRANSACTION_REVENUE"]
-            ))
-    )
-
     # toy model, proper model selection would be done here with a grid search
     # this would also typically use the container service so it could be distributed
     # across a cluster as an async job, rather than on the warehouse sequentially
     # just for demonstration
-    context.log.info("training xgboost model")
-    xgb_regression_model = Pipeline(steps=[
-                ("prep", preprocessor),
-                ("reg", XGBRegressor(
+    selected_model = None
+    selected_type = None
+    top_score = 0
+
+    for name, transformer in (("xgboost", XGBRegressor), ("linear", LinearRegression)):
+        context.log.info(f"training {name} regression model")
+        model = Pipeline(steps=[
+                ("onehot", OneHotEncoder(
+                    categories="auto",
+                    input_cols=["SALES_CHANNEL"],
+                    output_cols=["SALES_CHANNEL"],
+                    drop_input_cols=True
+                )),
+                ("scale", StandardScaler(
+                    input_cols=["TRANSACTION_REVENUE"],
+                    output_cols=["TRANSACTION_REVENUE"]
+                )),
+                ("reg", transformer(
                     label_cols=["TRANSACTION_MARGIN"],
                     output_cols=["TRANSACTION_MARGIN_PRED"],
                     drop_input_cols=True
                 ))
-    ]).fit(train)
+        ]).fit(train)
+        score = int(model.score(test)) # type: ignore
+        if score > top_score:
+            selected_model = model
+            selected_type = name
+            top_score = score
 
-    context.log.info("training linear regression model")
-    linear_regression_model = Pipeline(steps=[
-                ("prep", preprocessor),
-                ("reg", LinearRegression(
-                    label_cols=["TRANSACTION_MARGIN"],
-                    output_cols=["TRANSACTION_MARGIN_PRED"],
-                    drop_input_cols=True
-                ))
-    ]).fit(train)
 
-    xgb_regression_score = int(xgb_regression_model.score(test)) # type: ignore
-    linear_regression_score = int(linear_regression_model.score(test))  # type: ignore
-
-    if xgb_regression_score >= linear_regression_score:
-        context.log.info("xgboost model selected")
-        return xgb_regression_model
-    else:
-        context.log.info("linear regression model selected")
-        return linear_regression_model
+    context.log.info(f"{selected_type} model selected")
+    return selected_model # type: ignore
 
 def get_train_data(session: Session) -> DataFrame:
     return (
