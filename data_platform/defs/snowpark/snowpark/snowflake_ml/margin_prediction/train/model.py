@@ -1,3 +1,5 @@
+from typing import Any
+
 import dagster as dg
 from snowflake.ml.modeling.framework.base import BaseTransformer
 from snowflake.ml.modeling.linear_model.linear_regression import LinearRegression
@@ -10,31 +12,31 @@ from snowflake.snowpark import functions as F
 from snowflake.snowpark.dataframe import DataFrame
 from snowflake.snowpark.session import Session
 
-from .....utils.automation_conditions import CustomAutomationCondition
-from ...resources import SnowparkResource
 
-MODEL_NAME = "margin_prediction"
-RETRAIN_THRESHOLD = 0.7
-DESCRIPTION = """Toy model used to predict the margin of transactions."""
-
-@dg.asset(
-        key=["ml", "model", "margin_prediction"],
-        deps=[["transaction_db", "stg", "transactions"]],
-        kinds={"snowpark", "xgboost"},
-        group_name="data_science",
-        description=DESCRIPTION,
-        automation_condition=CustomAutomationCondition.on_cron("@daily")
-)
 def margin_prediction(
         context: dg.AssetExecutionContext,
-        snowpark: SnowparkResource) -> dg.MaterializeResult:
+        session: Session,
+        retrain_threshold: float
+        ) -> dict[str, Any]:
+    """Model retrain pipeline:
+    1. get current version of model from registry
+    2. score against validation data set
+    3. log metrics
+    4. if score above threshold skip retraining
+    5. else train new models using training dataset
+    6. select top scoring model
+    7. score against validation data set
+    8. if score below previous model score do not register model
+    9. else register and promote model as default version
+    10. if score is still below threshold, asset check will alert an issue in dagster
+    """
 
-    session = snowpark.get_session(schema="transaction_db")
-
-    val = get_validation_data(session)
+    
+    model_name = "margin_prediction"
+    val = _get_validation_data(session)
     registry = Registry(session)
     try:
-        model_ref = registry.get_model(MODEL_NAME).default
+        model_ref = registry.get_model(model_name).default
         
     except Exception:
         model_ref = None
@@ -45,73 +47,43 @@ def margin_prediction(
         old_version_name = model_ref.version_name
         old_score = model.score(val)
         model_ref.set_metric("score", old_score)
-        if old_score >= RETRAIN_THRESHOLD:
+        if old_score >= retrain_threshold:
             context.log.info("Score above threshold, skipping retrain.")
-            return dg.MaterializeResult(
-                metadata={
-                    "version": dg.TextMetadataValue(model_ref.version_name),
-                    "score": dg.FloatMetadataValue(old_score)
-                }
-            )
+            return {"version": model_ref.version_name, "score": old_score}
         else:
             context.log.info("Score below threshold, starting retrain.")
 
     else:
+        context.log.info("No previous model version found.")
         old_score = 0
         old_version_name = "not_registered"
 
     context.log.info("Training model.")
-    df = get_train_data(session)
-    model = train_model(df, context)
+    df = _get_train_data(session)
+    model = _train_model(df, context)
     new_score = float(model.score(val)) # type: ignore
 
     if new_score > old_score:
         context.log.info("Registering new model version.")
         model_ref = registry.log_model(
             model,
-            model_name=MODEL_NAME,
-            comment=DESCRIPTION,
+            model_name=model_name,
+            comment="Toy model used to predict the margin of transactions.",
             sample_input_data=df.drop("TRANSACTION_MARGIN"),
             metrics={"score": new_score},
         )
         version_name = model_ref.version_name
-        model = registry.get_model(MODEL_NAME)
+        model = registry.get_model(model_name)
         model.default = version_name
     
-        return dg.MaterializeResult(
-            metadata={
-                "version": dg.TextMetadataValue(version_name),
-                "score": dg.FloatMetadataValue(new_score)
-            }
-        )
+        return {"version": version_name, "score": new_score}
     
     else:
         context.log.info("New model performance worse than previous version, "
                          "retaining previous version.")
-        return dg.MaterializeResult(
-            metadata={
-                "version": dg.TextMetadataValue(old_version_name),
-                "score": dg.FloatMetadataValue(old_score)
-            }
-        )
-        
+        return {"version": old_version_name, "score": old_score}
 
-
-@dg.asset_check(
-        asset=["ml", "model", "margin_prediction"],
-        description=("Check that default version of model scores above"
-                     "threshold for retraining")
-)
-def score_above_threshold(snowpark: SnowparkResource) -> dg.AssetCheckResult:
-    session = snowpark.get_session(schema="transaction_db")
-    registry = Registry(session)
-    model = registry.get_model(MODEL_NAME).default
-    score = model.get_metric("score")
-    return dg.AssetCheckResult(
-        passed=bool(score > RETRAIN_THRESHOLD)
-    )
-
-def train_model(df, context: dg.AssetExecutionContext) -> BaseTransformer:
+def _train_model(df, context: dg.AssetExecutionContext) -> BaseTransformer:
     # toy dataset, propper train test split would be done here
     train = df
     test = df
@@ -153,7 +125,7 @@ def train_model(df, context: dg.AssetExecutionContext) -> BaseTransformer:
     context.log.info(f"{selected_type} model selected")
     return selected_model # type: ignore
 
-def get_train_data(session: Session) -> DataFrame:
+def _get_train_data(session: Session) -> DataFrame:
     return (
         session.table("transactions")
         .select(
@@ -163,8 +135,12 @@ def get_train_data(session: Session) -> DataFrame:
         )
     )
 
-def get_test_data(session: Session) -> DataFrame:
-    return get_train_data(session)
-
-def get_validation_data(session) -> DataFrame:
-    return get_train_data(session)
+def _get_validation_data(session: Session) -> DataFrame:
+    return (
+        session.table("transactions")
+        .select(
+            "sales_channel",
+            F.col("transaction_revenue").cast("double").alias("transaction_revenue"),
+            F.col("transaction_margin").cast("double").alias("transaction_margin"),
+        )
+    )

@@ -20,6 +20,10 @@ def defs() -> Definitions:
     project_dir = Path(__file__).joinpath(*[".."] * 4, "dbt/").resolve()
     state_path = "state/"
 
+
+    # .\.venv\Lib\site-packages\dagster_dbt\asset_utils.py
+    # commented out 762 as this broke with dbt fusion update preview 9 when child map is
+    # not working as dagster expets.
     def dbt() -> DbtProject:
         project = DbtProject(
             project_dir=project_dir,

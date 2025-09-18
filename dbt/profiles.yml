@@ -4,7 +4,7 @@ dbt:
       database: analytics
       schema: prod
       account: luakcgq-ix74734
-      role: service_account
+      role: service_principle
       user: data_platform
       password: "{{ env_var('DESTINATION__PASSWORD', '') }}"
       threads: 8

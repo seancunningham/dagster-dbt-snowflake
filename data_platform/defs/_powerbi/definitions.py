@@ -11,7 +11,7 @@ factory.
 
 @dg.asset(
     key=["bi", "sm", "core_semantic_model"],
-    deps=[["common", "fct", "fct_transaction"], ["common", "dim", "dim_customer"]],
+    deps=[["common", "fct", "fct_transactions"], ["common", "dim", "dim_customers"]],
     owners=["analytics@email.com"],
     kinds={"powerbi"},
     group_name="bi",
