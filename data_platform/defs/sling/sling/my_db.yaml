@@ -1,0 +1,35 @@
+connections:
+  - name: my_db
+    type: oracle
+    database: {SOURCE__MY_DB__DATABASE: show}
+    host: {SOURCE__MY_DB__HOST: show}
+    port: {SOURCE__MY_DB__PORT: mask}
+    user: {SOURCE__MY_DB__USER: mask}
+    password: {SOURCE__MY_DB__PASSWORD: mask}
+
+replications:
+    - name: my_db->snowflake
+      env: {SLING_LOADED_AT_COLUMN: timestamp}
+      source: my_db
+      target: snowflake
+      defaults:
+        mode: incremental
+        object: '{stream_schema_upper}.{stream_table_upper}'
+        primary_key: [id]
+        update_key: updated_at
+        target_options:
+          column_casing: snake
+          add_new_columns: true
+          adjust_column_type: true
+        meta:
+            dagster:
+              automation_condition: "on_schedule"
+              automation_condition_config: {"cron_schedule":"@daily", "cron_timezone":"utc"}
+              freshness_check: {"lower_bound_delta_seconds": 129600}
+      streams:
+        my_db.table1:
+            primary_key: [pk]
+        my_db.table2:
+        my_db.table3:
+        my_db.table4:
+        my_db.table5:

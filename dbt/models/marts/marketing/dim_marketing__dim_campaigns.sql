@@ -5,6 +5,7 @@
         materialized="incremental",
         unique_key="campaign_sid",
         incremental_strategy="delete+insert",
+        grants={"select":["marketing"]},
         meta = {
             "dagster": {
                 "automation_condition": "on_cron",

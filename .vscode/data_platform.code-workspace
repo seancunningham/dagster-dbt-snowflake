@@ -5,10 +5,6 @@
 			"path": ".."
 		},
 		{
-			"name": "dbt",
-			"path": "../dbt"
-		},
-		{
 			"name": "Sling",
 			"path": "../data_platform/defs/sling/sling"
 		},
@@ -17,15 +13,18 @@
 			"path": "../data_platform/defs/dlthub/dlthub"
 		},
 		{
+			"name": "dbt",
+			"path": "../dbt"
+		},
+		{
 			"name": "Snowpark",
 			"path": "../data_platform/defs/snowpark/snowpark"
 		}
 	],
 	"settings": {
 		"dbt.environmentVariables": {
-			"DBT_STATE": "C:/Users/Andrew/Code/data_platform/dbt/state",
-			"DBT_DEFER": "1",
-			"PROJECT_DIR": "./dbt"
+			"PROJECT_DIR": "./dbt",
+			"DBT_DEFER_STATE": "C:\\Users\\Andrew\\Code\\data_platform\\dbt\\state"
 		},
 		"sqlfluff.dbtInterface.enabled": false,
 		"sqlfluff.dialect": "",
