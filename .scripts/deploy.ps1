@@ -1,28 +1,13 @@
-Write-Host("`BUILDING DBT")
-
 $dbt_path = ".\dbt"
-# echo "cleaning target"
-# $log = uv run --env-file .env.prod dbt clean --project-dir $dbt_path --no-clean-project-files-only
-# echo "installing dependancies"
-# $log = uv run --env-file .env.prod dbt deps --project-dir $dbt_path
-echo "parsing manifest"
-$log = uv run --env-file .env.prod dbt parse --project-dir $dbt_path --profiles-dir $dbt_path --target prod
-$log = uv run --env-file .env.prod dbt compile --project-dir $dbt_path --profiles-dir $dbt_path --target prod
-
-foreach($line in $log){
-    if ($line.Contains("Error") -eq $true) {
-        echo "DBT BUILD FAILED:"
-        return $log
-    }
-}
-
+$branch_id = (-join ((97..122) | Get-Random -Count 15 | ForEach-Object {[char]$_}))
 
 Write-Host("`nBUILDING DOCKER IMAGE")
-$branch_id = (-join ((97..122) | Get-Random -Count 15 | ForEach-Object {[char]$_}))
 $new_image = "dagster/data-platform:"+$branch_id
-uv run --env-file .env.prod docker build . --target data_platform -t $new_image
+$destination__password = ((Get-Content .env.prod) -match 'DESTINATION__PASSWORD=(.*)').split("=")[1].trim()
+docker build . --target data_platform -t $new_image --build-arg DESTINATION__PASSWORD=$destination__password
 
 Write-Host("`nDEPLOYING BUILD")
+helm repo update
 $values = Get-Content -Path .\.scripts\helm_template.yaml
 $values = $values -replace "{{ branch_id }}", $branch_id
 $values | Out-File -FilePath .\.scripts\helm_values.yaml
@@ -56,14 +41,15 @@ docker image prune -a --force
 Write-Host("`nDEPLOYMENT COMPLETE")
 Write-Host("Branch ID: " + $branch_id + "`n")
 
-echo "creating dbt state manifest"
+Write-Host("`BUILDING DBT Deferal Target")
 $defer_path = $dbt_path+"\state\"
 if (!(Test-Path -Path $defer_path -PathType Container)) {
     New-Item -Path $defer_path -ItemType Directory
 }
 Copy-Item -Path $dbt_path"\target\manifest.json" -Destination $defer_path -Force
 
-echo "CREATING PROJECT DOCS"
+uv run --env-file .env.prod dbt parse --project-dir $dbt_path --profiles-dir $dbt_path --target prod
+
+Write-Host("`CREATING PROJECT DOCS")
 uv run mkdocs build
-echo "CREATING DBT DOCS"
-uv run --env-file .env.prod dbt docs generate --project-dir $dbt_path --target prod
+# uv run --env-file .env.prod dbt docs generate --project-dir $dbt_path --target prod

@@ -76,7 +76,7 @@ class DagsterDltFactory:
         dataset_name = schema
         if os.getenv("TARGET") == "dev":
             dataset_name = (
-                schema + "__" + os.getenv("DEV__DESTINATION__USER", "DEFAULT").upper()
+                schema + "__" + os.getenv("DESTINATION__USER", "DEFAULT").upper()
             )
 
         @dlt.source()

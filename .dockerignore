@@ -11,6 +11,7 @@
 values.yaml
 Dockerfile
 **/target/*
+**/state/*
 !**/*manifest.json
 *.ps1
 Dockerfile
