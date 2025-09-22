@@ -3,20 +3,20 @@ dbt:
     prod:
       database: analytics
       schema: prod
-      account: luakcgq-ix74734
+      account: cbzrqfv-ok21331
       role: service_principle
       user: data_platform
-      password: "{{ env_var('DESTINATION__PASSWORD', '') }}"
+      password: "{{ env_var('DESTINATION__PASSWORD') }}"
       threads: 8
       type: snowflake
       warehouse: compute_wh
     dev:
       database: _dev_analytics
       schema: astaus
-      account: luakcgq-ix74734
+      account: cbzrqfv-ok21331
       role: data_engineer
       user: astaus
-      password: "{{ env_var('DESTINATION__PASSWORD', '') }}"
+      password: "{{ env_var('DESTINATION__PASSWORD') }}"
       warehouse: compute_wh
       threads: 1
       type: snowflake

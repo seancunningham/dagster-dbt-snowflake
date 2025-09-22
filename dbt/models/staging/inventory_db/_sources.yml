@@ -2,7 +2,7 @@ version: 2
 
 sources:
 - name: inventory_db
-  database: raw
-  schema: inventory_db
+  database: "{{ generate_database_name('raw') }}"
+  schema: "{{ generate_schema_name('inventory_db') }}"
   tables:
   - name: products

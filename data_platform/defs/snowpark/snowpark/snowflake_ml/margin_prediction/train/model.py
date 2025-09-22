@@ -13,7 +13,7 @@ from snowflake.snowpark.dataframe import DataFrame
 from snowflake.snowpark.session import Session
 
 
-def margin_prediction(
+def materialze(
         context: dg.AssetExecutionContext,
         session: Session,
         retrain_threshold: float
@@ -63,7 +63,7 @@ def margin_prediction(
     model = _train_model(df, context)
     new_score = float(model.score(val)) # type: ignore
 
-    if new_score > old_score:
+    if new_score >= old_score:
         context.log.info("Registering new model version.")
         model_ref = registry.log_model(
             model,

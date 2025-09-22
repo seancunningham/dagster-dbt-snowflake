@@ -22,8 +22,10 @@ def defs() -> Definitions:
 
 
     # .\.venv\Lib\site-packages\dagster_dbt\asset_utils.py
-    # commented out 762 as this broke with dbt fusion update preview 9 when child map is
-    # not working as dagster expets.
+    # added: if unique_id in child_map.keys():
+    # on line 816.  As of dbt fusion 2.09 the child map
+    # does not poulate keys for assets if the asset has no children
+    # resulting in key error when loading definitions.
     def dbt() -> DbtProject:
         project = DbtProject(
             project_dir=project_dir,
@@ -31,8 +33,8 @@ def defs() -> Definitions:
             state_path=state_path,
             profile="dbt",
         )
-        if os.getenv("TARGET") == "dev":
-            project.prepare_if_dev()
+        # if os.getenv("TARGET") == "dev":
+        project.prepare_if_dev()
         return project
 
     return DagsterDbtFactory.build_definitions(dbt)

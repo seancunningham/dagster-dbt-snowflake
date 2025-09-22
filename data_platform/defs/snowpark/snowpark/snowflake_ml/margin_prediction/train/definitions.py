@@ -1,9 +1,8 @@
 import dagster as dg
-from snowflake.ml.registry.registry import Registry
 
 from .......utils.automation_conditions import CustomAutomationCondition
 from .....resources import SnowparkResource
-from .model import margin_prediction
+from .model import materialze
 
 
 class MarginPredictionConfig(dg.Config):
@@ -25,7 +24,7 @@ def asset(
         config: MarginPredictionConfig) -> dg.MaterializeResult:
 
     session = snowpark.get_session(schema="transaction_db")
-    metadata = margin_prediction(context, session, config.retrain_treshold)
+    metadata = materialze(context, session, config.retrain_treshold)
 
     return dg.MaterializeResult(metadata=metadata)
 
@@ -37,6 +36,8 @@ def asset(
 def score_above_threshold_check(
         snowpark: SnowparkResource,
         config: MarginPredictionConfig) -> dg.AssetCheckResult:
+    
+    from snowflake.ml.registry.registry import Registry
     session = snowpark.get_session(schema="transaction_db")
     registry = Registry(session)
     model = registry.get_model("margin_prediction").default
