@@ -1,18 +1,18 @@
+"""Resource definitions for dltHub integrations."""
+
 from dagster import Definitions
 from dagster.components import definitions
 
 
 @definitions
 def defs() -> Definitions:
-    """Returns set of definitions explicitly available and loadable by Dagster tools.
-    Will be automatically dectectd and loaded by the load_defs function in the root
-    definitions file.
+    """Instantiate the dltHub resources required by the Dagster definitions.
 
-    Assets and asset checks for dltHub are defined in the dlthub subfolder in the
-    definitions.py file for each resource.
-
-    @definitions decorator will provides lazy loading so that the assets are only
-    instantiated when needed.
+    Returns:
+        dagster.Definitions: Definitions exposing the ``dlt`` resource configured with
+        credentials sourced from the local key vault stub. The helper ensures
+        environment variables expected by dlt are populated before constructing the
+        resource.
     """
     import os
 
@@ -21,6 +21,8 @@ def defs() -> Definitions:
 
     from ...utils.keyvault_stub import SecretClient
 
+    # Use the stubbed key vault client to hydrate the environment variables expected by
+    # the downstream dlt resources.
     kv = SecretClient(
         vault_url=os.getenv("AZURE_KEYVAULT_URL"),
         credential=os.getenv("AZURE_KEYVAULT_CREDENTIAL"),

@@ -1,3 +1,10 @@
+"""Dagster definition entry point for orchestrating the example dbt project.
+
+This module wires the dbt project metadata into the :class:`DagsterDbtFactory`
+so that the resulting :class:`dagster.Definitions` object exposes assets, sensors,
+and resources consistent with a real deployment.
+"""
+
 import os
 from pathlib import Path
 
@@ -10,12 +17,12 @@ from .factory import DagsterDbtFactory
 
 @definitions
 def defs() -> Definitions:
-    """Returns set of definitions explicitly available and loadable by Dagster tools.
-    Will be automatically dectectd and loaded by the load_defs function in the root
-    definitions file.
+    """Construct Dagster definitions for the configured dbt project.
 
-    @definitions decorator will provides lazy loading so that the assets are only
-    instantiated when needed.
+    Returns:
+        dagster.Definitions: A factory-produced ``Definitions`` object containing the
+        dbt asset groups, shared resources, and freshness monitoring sensors derived
+        from the on-disk dbt project.
     """
     project_dir = Path(__file__).joinpath(*[".."] * 4, "dbt/").resolve()
     state_path = "state/"
@@ -27,6 +34,14 @@ def defs() -> Definitions:
     # does not poulate keys for assets if the asset has no children
     # resulting in key error when loading definitions.
     def dbt() -> DbtProject:
+        """Instantiate a :class:`DbtProject` with environment-aware configuration.
+
+        Returns:
+            dagster_dbt.DbtProject: The fully configured dbt project instance that
+            Dagster will interact with when executing assets. The helper runs
+            ``prepare_if_dev`` to ensure the project is ready for local execution when
+            targeting a development profile.
+        """
         project = DbtProject(
             project_dir=project_dir,
             target=os.getenv("TARGET", "dev"),

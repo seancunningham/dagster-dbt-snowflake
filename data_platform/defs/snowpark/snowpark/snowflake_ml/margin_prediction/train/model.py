@@ -1,3 +1,5 @@
+"""Training utilities for the sample Snowflake ML margin prediction model."""
+
 from typing import Any
 
 import dagster as dg
@@ -14,21 +16,29 @@ from snowflake.snowpark.session import Session
 
 
 def materialze(
-        context: dg.AssetExecutionContext,
-        session: Session,
-        retrain_threshold: float
-        ) -> dict[str, Any]:
-    """Model retrain pipeline:
-    1. get current version of model from registry
-    2. score against validation data set
-    3. log metrics
-    4. if score above threshold skip retraining
-    5. else train new models using training dataset
-    6. select top scoring model
-    7. score against validation data set
-    8. if score below previous model score do not register model
-    9. else register and promote model as default version
-    10. if score is still below threshold, asset check will alert an issue in dagster
+    context: dg.AssetExecutionContext,
+    session: Session,
+    retrain_threshold: float,
+) -> dict[str, Any]:
+    """Execute the margin prediction model retraining pipeline.
+
+    Args:
+        context: Dagster execution context for logging decisions and metrics.
+        session: Active Snowpark session used to query training data and the registry.
+        retrain_threshold: Minimum acceptable validation score before retraining.
+
+    Returns:
+        dict[str, Any]: Metadata describing the selected model version and validation
+        score after running the retraining logic.
+
+    The pipeline performs the following steps:
+
+    1. Retrieve the currently registered model version and score it on validation data.
+    2. Skip retraining when the score exceeds ``retrain_threshold``.
+    3. Otherwise train candidate models, evaluate each, and select the top performer.
+    4. Register the improved model, promoting it to the default version when its score
+       meets or exceeds the previous score.
+    5. Surface the resulting version and score for downstream observability.
     """
 
     
@@ -84,6 +94,16 @@ def materialze(
         return {"version": old_version_name, "score": old_score}
 
 def _train_model(df, context: dg.AssetExecutionContext) -> BaseTransformer:
+    """Perform a lightweight model selection loop over candidate regressors.
+
+    Args:
+        df: Training dataset prepared from Snowflake tables.
+        context: Dagster execution context used for logging model selection progress.
+
+    Returns:
+        snowflake.ml.modeling.framework.base.BaseTransformer: The highest scoring model
+        pipeline fit on the provided training data.
+    """
     # toy dataset, propper train test split would be done here
     train = df
     test = df
@@ -126,6 +146,15 @@ def _train_model(df, context: dg.AssetExecutionContext) -> BaseTransformer:
     return selected_model # type: ignore
 
 def _get_train_data(session: Session) -> DataFrame:
+    """Fetch and type cast the training dataset from Snowflake.
+
+    Args:
+        session: Active Snowpark session used to query Snowflake tables.
+
+    Returns:
+        snowflake.snowpark.dataframe.DataFrame: Training dataset with numeric columns
+        cast to ``double`` for compatibility with the ML pipeline.
+    """
     return (
         session.table("transactions")
         .select(
@@ -136,6 +165,15 @@ def _get_train_data(session: Session) -> DataFrame:
     )
 
 def _get_validation_data(session: Session) -> DataFrame:
+    """Fetch and type cast the validation dataset from Snowflake.
+
+    Args:
+        session: Active Snowpark session used to query Snowflake tables.
+
+    Returns:
+        snowflake.snowpark.dataframe.DataFrame: Validation dataset mirroring the
+        training schema for evaluation purposes.
+    """
     return (
         session.table("transactions")
         .select(

@@ -1,3 +1,5 @@
+"""Minimal stub that emulates the subset of Azure Key Vault functionality used."""
+
 import os
 from pathlib import Path
 
@@ -8,7 +10,14 @@ class SecretClient:
     """
 
     def get_secret(self, secret_name: str) -> str:
-        """returns a secret from the keyvault"""
+        """Return a secret by name from the in-memory store.
+
+        Args:
+            secret_name: Compound key following ``LOCATION__ATTRIBUTE`` naming.
+
+        Returns:
+            str: The stored secret value or an empty string when the secret is missing.
+        """
         secrets = self.__secrets
         location, _, attribute = secret_name.split("__")
         secret = secrets.get(location, {}).get(attribute)
