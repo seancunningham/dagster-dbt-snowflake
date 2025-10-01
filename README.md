@@ -1,3 +1,87 @@
-# Documentation
-Documentation can be found on the gitHub pages site:
-#### https://andrewstaus.github.io/data-platform/
+# Dagster + dbt + Snowflake Data Platform
+
+This repository contains a reference implementation of a modern data platform
+that combines [Dagster](https://dagster.io/) orchestration, [dbt](https://www.getdbt.com/)
+transformation pipelines, and Snowflake data warehousing. It is intentionally
+organized so that data engineers, analytics engineers, and platform engineers
+can collaborate with clear ownership boundaries.
+
+## Repository Layout
+
+| Path | Owner Focus | Description |
+| --- | --- | --- |
+| `data_platform/` | Platform | Dagster definitions, resource configuration, and integration glue code. Includes Sling source connection YAML that controls raw data ingestion. |
+| `dbt/` | Data & Analytics | dbt project containing models, seeds, snapshots, and tests. YAML files document sources, staging models, and marts. |
+| `analyses/` | Data | Exploratory dbt analyses and notebooks. |
+| `docs/` | Cross-functional | Markdown sources for the MkDocs site published via GitHub Pages. |
+| `Dockerfile`, `pyproject.toml`, `uv.lock` | Platform | Runtime dependencies for orchestrator workers and local development. |
+| `.github/workflows/` | Platform | CI/CD automation (publishing docs, running checks). |
+| `dagster.yaml` | Platform | Shared Dagster instance settings such as telemetry defaults. |
+| `mkdocs.yml` | Cross-functional | Documentation site build configuration. |
+
+## Dagster (Platform Engineer View)
+
+Dagster assets and schedules live under `data_platform/defs/`. Key concepts:
+
+- `sling/` contains source replication specifications used to bootstrap raw
+  layers in Snowflake. These YAML files now include inline comments describing
+  connection secrets, replication cadence, and how Dagster automation metadata
+  is applied.
+- Dagster uses the `dagster.yaml` file in the repository root for instance
+  settings shared across developers and CI, such as disabling telemetry.
+- Helm deployment scaffolding is stored in `.scripts/helm_template.yaml` to
+  help platform engineers customize Kubernetes deployments while preserving
+  upstream defaults.
+
+## dbt (Data & Analytics Engineer View)
+
+The dbt project is in the `dbt/` directory and is structured as follows:
+
+- `dbt_project.yml` and `profiles.yml` capture project-wide behavior and
+  environment-specific Snowflake credentials. Comments highlight the
+  relationship between Dagster, dbt, and warehouse settings.
+- `models/` holds staging layers grouped by source system as well as mart
+  models such as `marts/common/fct_common__fct_transactions.sql`. Each model has
+  an accompanying YAML file that documents columns, tests, and freshness checks.
+- `snapshots/` preserves historical slowly-changing dimensions and facts. Inline
+  comments describe retention and privacy handling for sensitive domains.
+- `seeds/` contains CSV-backed reference data with YAML documentation.
+- `groups/` assigns ownership metadata so alerts and governance roll to the
+  appropriate teams.
+- `packages.yml` lists third-party macro packages used across the project.
+
+## Documentation Site
+
+- `mkdocs.yml` defines the MkDocs/Material configuration used to render the
+  docs stored under `docs/`.
+- The GitHub Actions workflow in `.github/workflows/static.yml` publishes the
+  static site to GitHub Pages whenever changes land on `main`.
+- Documentation can be found on the gitHub pages site:
+  #### https://andrewstaus.github.io/data-platform/
+
+## Local Development
+
+1. Install dependencies with `uv sync` or `pip install -e .` depending on your
+   Python packaging preference.
+2. Copy `.env.example` (if available) to `.env` and set Snowflake credentials.
+3. Run `dagster dev` to start the Dagster UI with local assets.
+4. Use `dbt deps` and `dbt build` from the `dbt/` directory to compile and test
+   models.
+5. `uv run mkdocs serve` (or `mkdocs serve`) will preview the documentation site
+   locally.
+
+## Contribution Guidelines
+
+- Keep YAML comments up to date—they explain how orchestration, ingestion, and
+  modeling pieces fit together for the next engineer who reads the config.
+- When adding a new source system, define the Sling connection in
+  `data_platform/defs/sling/sling/` and create matching dbt source definitions
+  under `dbt/models/staging/<system>/`.
+- All production-facing changes should include tests (`dbt test`) and, when
+  relevant, updates to the documentation site.
+
+## Further Reading
+
+- Dagster docs: <https://docs.dagster.io/>
+- dbt docs: <https://docs.getdbt.com/>
+- Snowflake docs: <https://docs.snowflake.com/>

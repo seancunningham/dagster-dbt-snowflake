@@ -6,6 +6,7 @@ secrets.toml
 **/*$py.class
 logs/
 *.egg-info
+*.patch
 
 key_vault/
 

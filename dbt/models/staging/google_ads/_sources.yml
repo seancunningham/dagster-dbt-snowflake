@@ -1,3 +1,4 @@
+# Source definition for Google Ads data replicated via Sling.
 version: 2
 
 sources:

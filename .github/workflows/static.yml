@@ -1,4 +1,7 @@
-# Simple workflow for deploying static content to GitHub Pages
+# Simple workflow for deploying static content to GitHub Pages.
+# Platform engineers can treat this as the reference pipeline for publishing the
+# docs site, while data engineers mainly need to ensure that generated artifacts
+# land in the repository before the workflow runs.
 name: Deploy static content to Pages
 
 on:
