@@ -1,3 +1,11 @@
+"""Helper utilities for creating Snowpark sessions during local exploration.
+
+This module loads credentials from the project's ``.env.dev`` file and exposes a
+single convenience function, :func:`get_snowpark_session`, that eagerly closes any
+existing Snowpark session before returning a fresh connection configured for the
+development database.
+"""
+
 import os
 from pathlib import Path
 
@@ -6,6 +14,14 @@ from snowflake.snowpark import Session
 
 
 def get_snowpark_session() -> Session:
+    """Create and return a development-scoped Snowpark session.
+
+    Returns:
+        Session: A newly created Snowpark session authenticated with credentials
+        sourced from ``.env.dev``. Any previously active session is closed before
+        the new session is established so callers always interact with a single
+        live connection.
+    """
     path = Path(__file__).joinpath("../../../../.env.dev").resolve()
     load_dotenv(path)
 
@@ -13,7 +29,18 @@ def get_snowpark_session() -> Session:
     if session:
         session.close()
 
-    def _var(key) -> str:
+    def _var(key: str) -> str:
+        """Fetch an environment variable used to parameterize the session.
+
+        Args:
+            key: The exact environment variable name to read from the current
+                process.
+
+        Returns:
+            str: The resolved value or an empty string when the variable is not
+            set. Returning an empty string matches Snowpark's expectation that
+            optional fields exist but may be blank in local development.
+        """
         return os.getenv(key) or ""
 
     session = (

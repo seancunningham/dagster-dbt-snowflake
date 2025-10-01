@@ -1,3 +1,5 @@
+"""Convenience wrappers for retrieving secrets via the stubbed key vault client."""
+
 import os
 
 import dagster as dg
@@ -11,10 +13,14 @@ keyvault = SecretClient(
 
 
 def get_secret(env_var_name: str) -> dg.EnvVar:
-    """A wrapper for a keyvault to integrate with the Dagster EnvVar class.
+    """Retrieve a secret and expose it as a Dagster ``EnvVar`` reference.
 
-    Returns a secret from the keyvault and set it to an environment variable that can be
-    used securly with dagsters EnvVar class.
+    Args:
+        env_var_name: Key identifying the secret in the key vault stub.
+
+    Returns:
+        dagster.EnvVar: Environment variable wrapper that defers access to the stored
+        secret, ensuring downstream code can request the value securely.
     """
     if secret := keyvault.get_secret(env_var_name):
         os.environ[env_var_name] = secret

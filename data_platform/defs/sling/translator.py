@@ -1,4 +1,11 @@
+"""Custom translator hooks that convert Sling configs into Dagster metadata.
+
+The translator inspects Sling replication definitions and maps configuration metadata
+to Dagster constructs such as asset keys, groups, and automation conditions.
+"""
+
 from collections.abc import Iterable, Mapping
+
 from typing import Any  #, override
 
 import dagster as dg
@@ -12,16 +19,19 @@ from ...utils.helpers import (
 
 
 class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
-    """Overrides methods of the standard translator.
-
-    Holds a set of methods that derive Dagster asset definition metadata given a
-    representation of Sling resource (connections, replications). Methods are overriden
-    to customize the implementation.
-
-    See parent class for details on the purpose of each override"""
+    """Translate Sling replication definitions into Dagster asset metadata."""
 
     # @override
     def get_asset_spec(self, stream_definition: Mapping[str, Any]) -> dg.AssetSpec:
+        """Build an :class:`~dagster.AssetSpec` using Sling replication metadata.
+
+        Args:
+            stream_definition: Dictionary describing a Sling replication stream.
+
+        Returns:
+            dagster.AssetSpec: Asset specification enriched with automation conditions,
+            partitions, tags, and group information derived from the stream metadata.
+        """
         return dg.AssetSpec(
             automation_condition=self.get_automation_condition(stream_definition),
             partitions_def=self.get_partitions_def(stream_definition),
@@ -60,6 +70,16 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
 
     # @override
     def get_asset_key(self, stream_definition: Mapping[str, Any]) -> dg.AssetKey:
+        """Derive the Dagster asset key for a Sling replication stream.
+
+        Args:
+            stream_definition: Sling stream dictionary potentially containing an
+                explicit asset key override.
+
+        Returns:
+            dagster.AssetKey: Asset key determined either from explicit metadata or the
+            sanitized stream name.
+        """
         config = stream_definition.get("config") or {}
         meta = config.get("meta") or {}
         dagster = meta.get("dagster") or {}
@@ -83,6 +103,15 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
     def get_deps_asset_key(
         self, stream_definition: Mapping[str, Any]
     ) -> Iterable[dg.AssetKey]:
+        """Return upstream dependencies declared in the Sling configuration.
+
+        Args:
+            stream_definition: Sling stream configuration that may reference upstream
+                asset keys under ``meta.dagster.deps``.
+
+        Returns:
+            Iterable[dagster.AssetKey]: Asset keys representing upstream sources.
+        """
         config = stream_definition.get("config", {}) or {}
         meta = config.get("meta", {}) or {}
         deps = meta.get("dagster", {}).get("deps")
@@ -107,6 +136,15 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
 
     # @override
     def get_group_name(self, stream_definition: Mapping[str, Any]) -> str:
+        """Resolve the asset group name from the stream metadata or schema.
+
+        Args:
+            stream_definition: Sling stream dictionary used to derive a group name.
+
+        Returns:
+            str: Group name supplied in metadata or the schema extracted from the stream
+            name when no override exists.
+        """
         try:
             group = stream_definition["config"]["meta"]["dagster"]["group"]
             if group:
@@ -120,6 +158,15 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
 
     # @override
     def get_tags(self, stream_definition: Mapping[str, Any]) -> Mapping[str, Any]:
+        """Convert Sling "tags" metadata into Dagster tag key/value pairs.
+
+        Args:
+            stream_definition: Sling stream dictionary that may define a ``tags`` list.
+
+        Returns:
+            Mapping[str, Any]: Dictionary of sanitized tags safe for Dagster asset
+            metadata.
+        """
         try:
             tags = stream_definition["config"]["meta"]["dagster"]["tags"]
             return {tag: "" for tag in tags if is_valid_tag_key(tag)}
@@ -130,6 +177,16 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
     def get_automation_condition(
         self, stream_definition: Mapping[str, Any]
     ) -> None | dg.AutomationCondition:
+        """Interpret the automation condition configuration for a stream, if present.
+
+        Args:
+            stream_definition: Stream configuration containing optional automation
+                directives under ``meta.dagster``.
+
+        Returns:
+            dagster.AutomationCondition | None: Automation condition built from the
+            metadata or ``None`` when unspecified.
+        """
         try:
             meta = stream_definition["config"]["meta"]["dagster"]
             automation_condition = get_automation_condition_from_meta(meta)
@@ -141,6 +198,15 @@ class CustomDagsterSlingTranslator(dg_sling.DagsterSlingTranslator):
     def get_partitions_def(
         self, stream_definition: Mapping[str, Any]
     ) -> None | dg.PartitionsDefinition:
+        """Interpret partition configuration and translate it into Dagster definitions.
+
+        Args:
+            stream_definition: Sling stream dictionary with optional partition metadata.
+
+        Returns:
+            dagster.PartitionsDefinition | None: Partition definition derived from
+            metadata or ``None`` if the stream is unpartitioned.
+        """
         try:
             meta = stream_definition["config"]["meta"]["dagster"]
             automation_condition = get_partitions_def_from_meta(meta)
