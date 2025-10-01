@@ -1,7 +1,5 @@
-"""Factory that maps dltHub resources into Dagster assets and checks."""
 """Factory helpers that translate dlt resources into Dagster definitions."""
 
-import os
 from collections.abc import Generator, Sequence
 from datetime import timedelta
 from functools import cache
@@ -13,7 +11,7 @@ from dagster_dlt import DagsterDltResource, dlt_assets
 from dagster_dlt.dlt_event_iterator import DltEventType
 from dlt.extract.resource import DltResource
 
-from ...utils.helpers import get_nested
+from ...utils.helpers import get_dataset_name, get_nested
 from .translator import CustomDagsterDltTranslator
 
 
@@ -108,11 +106,7 @@ class DagsterDltFactory:
             upstream source data.
         """
         schema, table = resource.name.split(".")
-        dataset_name = schema
-        if os.getenv("TARGET") == "dev":
-            dataset_name = (
-                schema + "__" + os.getenv("DESTINATION__USER", "DEFAULT").upper()
-            )
+        dataset_name = get_dataset_name(schema)
 
         @dlt.source()
         def source() -> Generator[DltResource, Any, None]:

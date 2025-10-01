@@ -1,5 +1,3 @@
-"""Static datasets that approximate Facebook Ads API responses for demonstration."""
-
 """Static dataset helpers that emulate Facebook Ads API responses.
 
 The mock data supports dlt resource examples and allows Dagster assets to run without

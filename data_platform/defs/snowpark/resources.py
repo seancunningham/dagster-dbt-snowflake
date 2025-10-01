@@ -1,4 +1,3 @@
-"""Resources that encapsulate Snowpark session management for Dagster."""
 """Snowpark resource definitions that manage sessions for Dagster assets."""
 
 import os

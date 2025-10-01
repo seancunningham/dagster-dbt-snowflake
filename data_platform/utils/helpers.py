@@ -1,5 +1,3 @@
-"""Shared helper utilities used across Dagster definition factories."""
-
 """Shared helper utilities used across Dagster definition factories and resources."""
 
 import os
@@ -10,6 +8,7 @@ from typing import Any
 
 import dagster as dg
 
+from ..config import get_current_environment
 from .automation_conditions import CustomAutomationCondition
 
 
@@ -23,10 +22,9 @@ def get_schema_name(schema: str) -> str:
         str: Schema name suffixed with the destination user when targeting ``dev`` to
         ensure isolation between developers.
     """
-    postfix = os.getenv("DESTINATION__USER", "")
-    if os.getenv("TARGET") == "dev":
-        schema = f"{schema}__{postfix}"
-    return schema
+    env = get_current_environment()
+    user = os.getenv("DESTINATION__USER", "")
+    return env.schema_name(schema, user=user or None)
 
 def get_database_name(database: str) -> str:
     """Return the database name adjusted for the current environment.
@@ -38,9 +36,18 @@ def get_database_name(database: str) -> str:
         str: Database name optionally prefixed with ``_dev_`` in development
         environments.
     """
-    if os.getenv("TARGET") == "dev":
-        database = f"_dev_{database}"
-    return database
+    env = get_current_environment()
+    return env.database_name(database)
+
+
+def get_dataset_name(name: str, user: str | None = None) -> str:
+    """Return the dataset name adjusted for the current environment."""
+
+    env = get_current_environment()
+    resolved_user = user if user is not None else os.getenv("DESTINATION__USER", "")
+    if resolved_user:
+        resolved_user = resolved_user.upper()
+    return env.dataset_name(name, user=resolved_user or None)
 
 def get_automation_condition_from_meta(
     meta: dict[str, Any],
@@ -130,7 +137,8 @@ def sanitize_input_signature(func: Callable, kwargs: dict) -> dict:
         kwargs: Proposed keyword arguments to sanitize.
 
     Returns:
-        dict: Filtered keyword arguments containing only parameters accepted by ``func``.
+        dict: Filtered keyword arguments containing only parameters accepted by
+        ``func``.
     """
     sig = signature(func)
     key_words = list(kwargs.keys())

@@ -1,7 +1,8 @@
 """Minimal stub that emulates the subset of Azure Key Vault functionality used."""
 
-import os
 from pathlib import Path
+
+from ..config import get_current_environment
 
 
 class SecretClient:
@@ -29,20 +30,23 @@ class SecretClient:
     ) -> None:
         secrets = {"SOURCE": {}, "DESTINATION": {}}
 
-        env = os.getenv("TARGET", "dev")
-        env_file = ".env.dev"
-        if env == "prod":
-            env_file = ".env"
-        
+        env = get_current_environment()
+        env_file = env.keyvault_env_file or ".env"
+
         env_path = Path(__file__).joinpath(*[".."] * 3, env_file).resolve()
-        with open(env_path) as env:
-            for line in env:
-                line = line.strip()
-                if line:
-                    key, value = line.split("=")
-                    keys = key.split("__")
-                    if len(keys) == 2:
-                        location, attribute = keys
-                        secrets[location][attribute] = value
+        try:
+            lines = env_path.read_text().splitlines()
+        except FileNotFoundError:
+            self.__secrets = secrets
+            return
+
+        for line in lines:
+            line = line.strip()
+            if line:
+                key, value = line.split("=")
+                keys = key.split("__")
+                if len(keys) == 2:
+                    location, attribute = keys
+                    secrets.setdefault(location, {})[attribute] = value
 
         self.__secrets = secrets

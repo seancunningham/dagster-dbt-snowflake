@@ -5,7 +5,6 @@ to Dagster constructs such as asset keys, groups, and automation conditions.
 """
 
 from collections.abc import Iterable, Mapping
-
 from typing import Any  #, override
 
 import dagster as dg

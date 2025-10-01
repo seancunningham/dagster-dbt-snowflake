@@ -15,9 +15,9 @@ DAGSTER_WEBSERVER_HOST = "http://127.0.0.1:3000"
 # Representative asset key for ad-hoc experimentation with a single endpoint.
 ASSET_KEY = "exchange_rate / src / usd".replace(" ", "")
 
-# Curated sample of external asset keys that are useful when exercising webhook based
-# event reporting locally.  The strings are normalized later to match Dagster's asset key
-# expectations.
+# Curated sample of external asset keys that are useful when exercising
+# webhook-based event reporting locally. The strings are normalized later to
+# match Dagster's asset key expectations.
 external_asset_keys = [
     "accounts_db / src / accounts",
     "adobe_experience / src / app_hits",

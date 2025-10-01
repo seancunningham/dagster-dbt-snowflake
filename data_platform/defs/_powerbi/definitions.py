@@ -1,5 +1,3 @@
-"""Example Power BI assets used to demonstrate Dagster orchestration patterns."""
-
 """Sample Dagster assets that mirror a Power BI deployment structure.
 
 These definitions intentionally remain lightweight: the semantic model asset simulates

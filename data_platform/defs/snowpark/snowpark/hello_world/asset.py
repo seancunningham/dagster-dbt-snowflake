@@ -22,6 +22,6 @@ def materialize(
     """
 
     context.log.info("hello world")
-    df = session.table("transactions")
+    session.table("transactions")
 
     return {}

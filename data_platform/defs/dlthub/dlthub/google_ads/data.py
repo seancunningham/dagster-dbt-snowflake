@@ -4,7 +4,9 @@ from collections.abc import Callable, Generator
 from typing import Any
 
 
-def google_ads(endpoint: str) -> Callable[[], Generator[list[dict[str, Any]], Any, None]]:
+def google_ads(
+    endpoint: str,
+) -> Callable[[], Generator[list[dict[str, Any]], Any, None]]:
     """Return a generator that yields sample payloads for the requested endpoint.
 
     Args:

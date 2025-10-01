@@ -12,6 +12,7 @@ import yaml
 from dagster_sling import SlingConnectionResource, SlingResource, sling_assets
 from dagster_sling.sling_event_iterator import SlingEventType
 
+from ...config import get_current_environment
 from ...utils.helpers import get_nested, sanitize_input_signature
 from ...utils.secrets import get_secret
 from .translator import CustomDagsterSlingTranslator
@@ -224,30 +225,40 @@ class DagsterSlingFactory:
 
     @staticmethod
     def _set_dev_schema(replication_config: dict) -> dict:
-        """Override destination schemas with developer-specific variants in dev.
+        """Override destination schemas with user-specific suffixes when configured.
 
         Args:
-            replication_config: Replication configuration that may contain schema
-                references.
+            replication_config: Raw replication dictionary that may specify destination
+                objects and per-stream overrides.
 
         Returns:
-            dict: Updated replication configuration whose schema references include the
-            developer-specific suffix required for isolated development.
+            dict: Updated replication configuration incorporating the rendered schema
+            suffix when the active environment requests user-level isolation.
         """
-        user = os.environ["DESTINATION__SNOWFLAKE__CREDENTIALS__USERNAME"].upper()
-        if default_object := replication_config["defaults"]["object"]:
-            schema, table = default_object.split(".")
-            replication_config["defaults"]["object"] = f"{schema}__{user}.{table}"
 
-        for stream, stream_config in list(
-            replication_config.get("streams", {}).items()
-        ):
+        env = get_current_environment()
+        template = env.schema_suffix_template
+        if not template:
+            return replication_config
+
+        user = os.getenv("DESTINATION__SNOWFLAKE__CREDENTIALS__USERNAME", "").upper()
+        if not user:
+            return replication_config
+
+        suffix = template.format(user=user)
+
+        defaults = replication_config.setdefault("defaults", {})
+        if default_object := defaults.get("object"):
+            schema, table = default_object.split(".")
+            defaults["object"] = f"{schema}{suffix}.{table}"
+
+        streams = replication_config.get("streams", {})
+        for stream, stream_config in list(streams.items()):
             stream_config = stream_config or {}
             if stream_object := stream_config.get("object"):
                 schema, table = stream_object.split(".")
-                replication_config["streams"][stream]["object"] = (
-                    f"{schema}__{user}.{table}"
-                )
+                stream_config["object"] = f"{schema}{suffix}.{table}"
+                streams[stream] = stream_config
 
         return replication_config
 

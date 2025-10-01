@@ -1,4 +1,3 @@
-"""dltHub configuration for simulated Facebook Ads ingestion pipelines."""
 """dltHub resources that simulate Facebook Ads ingestion for Dagster demos."""
 
 import dlt

@@ -7,7 +7,6 @@ values to make customizations easier.
 """
 
 import json
-import os
 from collections.abc import Callable, Generator
 from functools import cache
 from typing import Any
@@ -23,10 +22,11 @@ from dagster_dbt import (
 from dagster_dbt.asset_utils import DBT_DEFAULT_SELECT
 from dagster_dbt.core.dbt_event_iterator import DbtEventIterator
 
+from ...config import get_current_environment
 from .constants import TIME_PARTITION_SELECTOR
 from .translator import CustomDagsterDbtTranslator
 
-defer_to_prod = os.getenv("TARGET", "").lower() != "prod"
+defer_to_prod = get_current_environment().name != "prod"
 
 
 class DbtConfig(dg.Config):
@@ -158,8 +158,8 @@ class DagsterDbtFactory:
                     args.append("--favor-state")
 
             if partitioned:
-                # Partitioned assets inject the selected time window into dbt vars so the
-                # models can filter appropriately.
+                # Partitioned assets inject the selected time window into dbt vars so
+                # the models can filter appropriately.
                 time_window = context.partition_time_window
                 format = "%Y-%m-%d %H:%M:%S"
                 dbt_vars = {

@@ -5,13 +5,13 @@ so that the resulting :class:`dagster.Definitions` object exposes assets, sensor
 and resources consistent with a real deployment.
 """
 
-import os
 from pathlib import Path
 
 from dagster import Definitions
 from dagster.components import definitions
 from dagster_dbt import DbtProject
 
+from ...config import get_current_environment
 from .factory import DagsterDbtFactory
 
 
@@ -25,7 +25,8 @@ def defs() -> Definitions:
         from the on-disk dbt project.
     """
     project_dir = Path(__file__).joinpath(*[".."] * 4, "dbt/").resolve()
-    state_path = "state/"
+    env = get_current_environment()
+    state_path = env.state_path("state/")
 
 
     # .\.venv\Lib\site-packages\dagster_dbt\asset_utils.py
@@ -44,7 +45,7 @@ def defs() -> Definitions:
         """
         project = DbtProject(
             project_dir=project_dir,
-            target=os.getenv("TARGET", "dev"),
+            target=env.dbt_target,
             state_path=state_path,
             profile="dbt",
         )
