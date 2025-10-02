@@ -65,10 +65,26 @@ The dbt project is in the `dbt/` directory and is structured as follows:
    Python packaging preference.
 2. Copy `.env.example` (if available) to `.env` and set Snowflake credentials.
 3. Run `dagster dev` to start the Dagster UI with local assets.
-4. Use `dbt deps` and `dbt build` from the `dbt/` directory to compile and test
+4. Orchestrator containers can be started with `docker compose up`. The
+   code-server exposes a health check so the webserver waits until assets are
+   ready before it boots.
+5. Use `dbt deps` and `dbt build` from the `dbt/` directory to compile and test
    models.
-5. `uv run mkdocs serve` (or `mkdocs serve`) will preview the documentation site
+6. `uv run mkdocs serve` (or `mkdocs serve`) will preview the documentation site
    locally.
+
+### Secrets and configuration
+
+- Environment-specific secrets are loaded from `.env.<environment>` files (for
+  example `.env.dev`). Sling connections will be skipped—but the rest of the
+  Dagster code location will still load—when the required secrets are missing,
+  and a warning is emitted in the code-server logs to help track down the
+  missing value. Populate the secret and restart the containers to activate the
+  connection.
+- If your network proxies TLS, export `DBT_ALLOW_INSECURE_SSL=1` before running
+  `docker compose` or `dagster dev`. The code temporarily disables certificate
+  verification while dbt downloads packages and restores the settings
+  afterwards.
 
 ## Contribution Guidelines
 

@@ -79,6 +79,10 @@ class DagsterDbtFactory:
             ),
         ]
 
+        # If the dbt manifest cannot be built (for example while macros have syntax
+        # errors) ``metadata_by_key`` will be empty and ``build_freshness_checks``
+        # raises ``StopIteration``. Swallow that so the rest of the code location can
+        # still load; operators can re-enable checks once dbt compiles again.
         try:
             freshness_checks = build_freshness_checks_from_dbt_assets(dbt_assets=assets)
         except StopIteration:

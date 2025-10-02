@@ -18,6 +18,9 @@ from ...utils.helpers import get_nested, sanitize_input_signature
 from ...utils.secrets import get_secret
 from .translator import CustomDagsterSlingTranslator
 
+# Log configuration gaps (e.g., missing secrets) so operators understand why a
+# connection or replication might not appear, but keep loading the rest of the
+# code location so Dagster can still function.
 logger = logging.getLogger(__name__)
 
 
