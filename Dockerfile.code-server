@@ -3,7 +3,7 @@ FROM python:3.10-slim-bullseye AS builder
 RUN mkdir -p /etc/pip && \
     printf "[global]\ntrusted-host = pypi.org\n               files.pythonhosted.org\n" > /etc/pip/pip.conf
 
-# install sling binary for corresponding python module, and compress binary
+# install sling binary for coresponding python module, and compress binary
 RUN python -m pip install \
     --trusted-host pypi.org \
     --trusted-host files.pythonhosted.org \
@@ -14,7 +14,6 @@ RUN --mount=type=cache,target=/root/.cache \
     cd /root/.sling/bin/sling/ && cd $(ls -d */|head -n 1) && \
     apt-get update && apt-get -y install binutils upx && \
     strip sling && upx sling
-
 
 RUN python -m pip install \
     --trusted-host pypi.org \
@@ -42,7 +41,7 @@ RUN pip install --no-cache-dir \
     snowflake-ml-python==1.11.0 \
     snowflake-snowpark-python==1.36.0
 
-FROM python:3.10-slim-bullseye AS dagster_server
+FROM python:3.10-slim-bullseye AS dagster_code_server
 
 ENV DAGSTER_HOME=/opt/dagster/dagster_home
 
@@ -51,12 +50,19 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     update-ca-certificates
 
+COPY --from=builder /root/.sling/ /root/.sling/
 COPY --from=builder /usr/local/ /usr/local/
+
+WORKDIR /opt/dagster/code_location
+
 COPY dagster.yaml $DAGSTER_HOME/dagster.yaml
-COPY workspace.yaml $DAGSTER_HOME/workspace.yaml
+COPY pyproject.toml pyproject.toml
+COPY data_platform data_platform
+COPY dbt dbt
 
-WORKDIR /opt/dagster/app
+ENV TARGET=dev
 
-EXPOSE 3000
 
-CMD ["dagster-webserver", "-h", "0.0.0.0", "-p", "3000", "-w", "/opt/dagster/dagster_home/workspace.yaml"]
+EXPOSE 4000
+
+CMD ["dagster", "code-server", "start", "--host", "0.0.0.0", "--port", "4000", "--module-name", "data_platform.definitions", "--attribute", "dbt", "--location-name", "data_platform"]

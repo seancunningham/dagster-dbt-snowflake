@@ -1,0 +1,8 @@
+load_from:
+  - grpc_server:
+      host:
+        env: DAGSTER_CODE_SERVER_HOST
+      port:
+        env: DAGSTER_CODE_SERVER_PORT
+      location_name: data_platform
+      ssl: false

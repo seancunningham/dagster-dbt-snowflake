@@ -5,6 +5,9 @@ so that the resulting :class:`dagster.Definitions` object exposes assets, sensor
 and resources consistent with a real deployment.
 """
 
+import os
+import warnings
+from contextlib import contextmanager
 from pathlib import Path
 
 from dagster import Definitions
@@ -49,8 +52,48 @@ def defs() -> Definitions:
             state_path=state_path,
             profile="dbt",
         )
-        # if os.getenv("TARGET") == "dev":
-        project.prepare_if_dev()
+        with _maybe_disable_ssl_verification():
+            project.prepare_if_dev()
         return project
 
     return DagsterDbtFactory.build_definitions(dbt)
+
+
+@contextmanager
+def _maybe_disable_ssl_verification() -> None:
+    """Temporarily relax SSL verification when the environment requires it.
+
+    Some corporate networks inject custom certificate authorities that are not present
+    in the base container image. When ``DBT_ALLOW_INSECURE_SSL=1`` is set, we disable
+    certificate verification while ``dbt deps`` runs so the packages can be fetched.
+    The original environment is restored afterwards to avoid surprising side effects.
+    """
+
+    if os.getenv("DBT_ALLOW_INSECURE_SSL") != "1":
+        yield
+        return
+
+    warnings.warn(
+        "DBT_ALLOW_INSECURE_SSL=1 detected; SSL certificate verification is disabled "
+        "for dbt registry traffic. Only enable this flag on trusted networks.",
+        RuntimeWarning,
+        stacklevel=2,
+    )
+
+    overrides = {
+        "PYTHONHTTPSVERIFY": "0",
+        "REQUESTS_CA_BUNDLE": "",
+        "CURL_CA_BUNDLE": "",
+    }
+
+    previous = {key: os.environ.get(key) for key in overrides}
+
+    try:
+        os.environ.update(overrides)
+        yield
+    finally:
+        for key, value in previous.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value

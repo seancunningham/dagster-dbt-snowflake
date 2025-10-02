@@ -1,5 +1,6 @@
 """Factory helpers for translating Sling YAML configs into Dagster definitions."""
 
+import logging
 import os
 from collections.abc import Generator
 from datetime import timedelta
@@ -16,6 +17,9 @@ from ...config import get_current_environment
 from ...utils.helpers import get_nested, sanitize_input_signature
 from ...utils.secrets import get_secret
 from .translator import CustomDagsterSlingTranslator
+
+
+logger = logging.getLogger(__name__)
 
 
 class DagsterSlingFactory:
@@ -113,11 +117,20 @@ class DagsterSlingFactory:
             if isinstance(v, dict):
                 secret_name = list(v.keys())[0]
                 display_type = list(v.values())[0]
+                try:
+                    secret = get_secret(secret_name)
+                except ValueError as error:
+                    logger.warning(
+                        "Skipping Sling connection '%s': %s",
+                        connection_config.get("name", "unknown"),
+                        error,
+                    )
+                    return None
 
                 if display_type == "show":
-                    connection_config[k] = get_secret(secret_name).get_value()
+                    connection_config[k] = secret.get_value()
                 else:
-                    connection_config[k] = get_secret(secret_name)
+                    connection_config[k] = secret
 
         connection = SlingConnectionResource(**connection_config)
         return connection

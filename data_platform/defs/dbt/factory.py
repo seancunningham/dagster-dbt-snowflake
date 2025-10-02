@@ -79,16 +79,27 @@ class DagsterDbtFactory:
             ),
         ]
 
-        freshness_checks = build_freshness_checks_from_dbt_assets(dbt_assets=assets)
-        freshness_sensor = dg.build_sensor_for_freshness_checks(
-            freshness_checks=freshness_checks, name="dbt_freshness_checks_sensor"
-        )
+        try:
+            freshness_checks = build_freshness_checks_from_dbt_assets(dbt_assets=assets)
+        except StopIteration:
+            # If the dbt manifest could not be parsed, metadata_by_key will be empty.
+            # Skip wiring freshness checks so the rest of the definitions can load.
+            freshness_checks = []
+
+        sensors: list[dg.SensorDefinition] = []
+        if freshness_checks:
+            sensors.append(
+                dg.build_sensor_for_freshness_checks(
+                    freshness_checks=freshness_checks,
+                    name="dbt_freshness_checks_sensor",
+                )
+            )
 
         return dg.Definitions(
             resources={"dbt": DbtCliResource(project_dir=dbt())},
             assets=assets,
             asset_checks=freshness_checks,
-            sensors=[freshness_sensor],
+            sensors=sensors,
         )
 
     @cache

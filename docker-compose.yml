@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  dagster-code-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.code-server
+    container_name: dagster-code-server
+    environment:
+      DAGSTER_HOME: /opt/dagster/dagster_home
+      TARGET: dev
+      DBT_ALLOW_INSECURE_SSL: ${DBT_ALLOW_INSECURE_SSL:-0}
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./dagster.yaml:/opt/dagster/dagster_home/dagster.yaml:ro
+      - ./data_platform:/opt/dagster/code_location/data_platform
+      - ./dbt:/opt/dagster/code_location/dbt
+    healthcheck:
+      test: ["CMD", "dagster", "api", "grpc-health-check", "--host", "127.0.0.1", "--port", "4000"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 45s
+
+  dagster-webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dagster-webserver
+    environment:
+      DAGSTER_HOME: /opt/dagster/dagster_home
+      DAGSTER_CODE_SERVER_HOST: dagster-code-server
+      DAGSTER_CODE_SERVER_PORT: 4000
+      DBT_ALLOW_INSECURE_SSL: ${DBT_ALLOW_INSECURE_SSL:-0}
+    ports:
+      - "3000:3000"
+    depends_on:
+      dagster-code-server:
+        condition: service_healthy
+    volumes:
+      - ./dagster.yaml:/opt/dagster/dagster_home/dagster.yaml:ro
+      - ./workspace.yaml:/opt/dagster/dagster_home/workspace.yaml:ro
