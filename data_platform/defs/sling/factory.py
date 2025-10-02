@@ -18,7 +18,6 @@ from ...utils.helpers import get_nested, sanitize_input_signature
 from ...utils.secrets import get_secret
 from .translator import CustomDagsterSlingTranslator
 
-
 logger = logging.getLogger(__name__)
 
 
